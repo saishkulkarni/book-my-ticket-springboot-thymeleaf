@@ -17,3 +17,6 @@ spring:
   data:
     redis:
       url: redis://localhost:6379
+admin:
+  email: admin@gmail.com
+  password: admin1234
