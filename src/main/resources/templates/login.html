@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Book My Ticket - Login</title>
+</head>
+<body>
+	<div align="center">
+		<div th:if="${pass!=null || fail!=null}" class="message">
+			<h3 style="color: green" th:text="${pass}"></h3>
+			<h3 style="color: red" th:text="${fail}"></h3>
+		</div>
+		<form action="/login" method="post">
+			Email: <input type="email" name="email"><br> Password: <input
+				type="password" name="password"><br>
+			<button>Login</button>
+		</form>
+	</div>
+</body>
+</html>

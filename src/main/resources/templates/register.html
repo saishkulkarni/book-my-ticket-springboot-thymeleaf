@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Book My Ticket - Register</title>
+</head>
+<body>
+	<div align="center">
+		<h1>Register</h1>
+<div th:if="${pass!=null || fail!=null}" class="message">
+		<h3 style="color: green" th:text="${pass}"></h3>
+		<h3 style="color: red" th:text="${fail}"></h3>
+	</div>
+		<form action="/register" method="post" th:object="${userDto}">
+			Name: <input type="text" th:field="*{name}"> <span
+				th:errors="*{name}"></span> <br> Email: <input type="text"
+				th:field="*{email}"><span th:errors="*{email}"></span> <br>
+			Mobile: <input type="number" th:field="*{mobile}"><span
+				th:errors="*{mobile}"></span> <br> Password: <input type="text"
+				th:field="*{password}"><span th:errors="*{password}"></span>
+			<br> Confirm Password: <input type="text"
+				th:field="*{confirmPassword}"><span
+				th:errors="*{confirmPassword}"></span> <br> <input
+				type="checkbox" th:field="*{terms}">I accept the terms<span
+				th:errors="*{terms}"></span><br>
+			<button>Register</button>
+		</form>
+	</div>
+</body>
+</html>

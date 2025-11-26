@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <meta charset="UTF-8">
 <title>Book My Ticket</title>
 </head>
+
 <body>
-<h1>Book My Ticket</h1>
+	<a href="/"><h1>Book My Ticket</h1></a>
+
+	<div th:if="${pass!=null || fail!=null}" class="message">
+		<h3 style="color: green" th:text="${pass}"></h3>
+		<h3 style="color: red" th:text="${fail}"></h3>
+	</div>
+
+	<div th:if="${session.user==null}">
+		<a href="/login"><button>Login</button></a> <a href="/register"><button>Register</button></a>
+	</div>
+	
+	<div th:if="${session.user}">
+		<a href="/logout"><button>Logout</button></a>
+	</div>
 </body>
+
 </html>
