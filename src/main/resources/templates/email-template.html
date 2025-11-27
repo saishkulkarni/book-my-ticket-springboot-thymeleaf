@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>OTP Verification</title>
+
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+	rel="stylesheet">
+
+<style>
+/* Reset */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+	background: linear-gradient(135deg, #6a11cb, #2575fc);
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+}
+
+.otp-card {
+	background: rgba(255, 255, 255, 0.1);
+	padding: 40px 50px;
+	border-radius: 15px;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+	text-align: center;
+	backdrop-filter: blur(10px);
+}
+
+h1 {
+	font-size: 1.8rem;
+	margin-bottom: 20px;
+	font-weight: 700;
+}
+
+.highlight {
+	color: #ffd700;
+	font-weight: bold;
+}
+
+@media ( max-width : 500px) {
+	.otp-card {
+		padding: 25px 20px;
+	}
+	h1 {
+		font-size: 1.5rem;
+	}
+}
+</style>
+</head>
+<body>
+
+	<div class="otp-card">
+		<h1>
+			Hello <span class="highlight" th:text="${name}"></span>, <br>
+			Your OTP is <span class="highlight" th:text="${otp}"></span>
+		</h1>
+	</div>
+
+</body>
+</html>

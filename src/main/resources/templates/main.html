@@ -1,26 +1,194 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Book My Ticket</title>
+
+<!-- Bootstrap -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<style>
+body {
+	background: #f5f6fa;
+}
+
+.navbar-brand {
+	font-weight: bold;
+	font-size: 1.6rem;
+}
+
+.hero {
+	background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+		url('/images/hero-bg.jpg') center/cover no-repeat;
+	padding: 130px 0;
+	color: #fff;
+	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.movie-card img {
+	height: 260px;
+	object-fit: cover;
+	border-radius: 5px 5px 0 0;
+}
+
+footer {
+	background: #111;
+	color: #aaa;
+	padding: 15px 0;
+	margin-top: 60px;
+}
+</style>
 </head>
 
 <body>
-	<a href="/"><h1>Book My Ticket</h1></a>
 
-	<div th:if="${pass!=null || fail!=null}" class="message">
-		<h3 style="color: green" th:text="${pass}"></h3>
-		<h3 style="color: red" th:text="${fail}"></h3>
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-4">
+		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
+
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navMenu">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
+
+			<!-- NOT LOGGED IN -->
+			<div th:if="${session.user == null}">
+				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
+					href="/register" class="btn btn-warning">Register</a>
+			</div>
+
+			<!-- LOGGED IN -->
+			<div th:if="${session.user != null}"
+				class="d-flex align-items-center">
+				<span class="text-white me-3"
+					th:text="'Hello, ' + ${session.user.name}"></span> <a
+					href="/logout" class="btn btn-danger">Logout</a>
+			</div>
+
+		</div>
+	</nav>
+
+
+	<!-- TOASTS (INCLUDED DIRECTLY — NO FRAGMENTS) -->
+	<div aria-live="polite" aria-atomic="true" class="position-relative">
+		<div class="toast-container position-fixed top-0 end-0 p-3">
+
+			<!-- SUCCESS -->
+			<div th:if="${pass}" class="toast text-white bg-success border-0">
+				<div class="toast-header bg-success text-white">
+					<strong class="me-auto">Success</strong>
+					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+				</div>
+				<div class="toast-body" th:text="${pass}"></div>
+			</div>
+
+			<!-- ERROR -->
+			<div th:if="${fail}" class="toast text-white bg-danger border-0">
+				<div class="toast-header bg-danger text-white">
+					<strong class="me-auto">Error</strong>
+					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+				</div>
+				<div class="toast-body" th:text="${fail}"></div>
+			</div>
+
+		</div>
 	</div>
 
-	<div th:if="${session.user==null}">
-		<a href="/login"><button>Login</button></a> <a href="/register"><button>Register</button></a>
-	</div>
-	
-	<div th:if="${session.user}">
-		<a href="/logout"><button>Logout</button></a>
-	</div>
+
+	<!-- HERO SECTION -->
+	<section class="hero text-center">
+		<div class="container">
+			<h1 class="display-4 fw-bold">Your Favorite Movies Are Here</h1>
+			<p class="lead mt-3">Book tickets instantly — Fast • Secure •
+				Simple</p>
+			<a href="#movies" class="btn btn-warning btn-lg mt-3 px-4">Browse
+				Movies</a>
+		</div>
+	</section>
+
+
+	<!-- MOVIES SECTION -->
+	<section class="container py-5" id="movies">
+		<h2 class="text-center fw-bold mb-4">Now Showing</h2>
+
+		<div class="row g-4">
+
+			<!-- MOVIE 1 -->
+			<div class="col-md-3 col-sm-6">
+				<div class="card movie-card shadow border-0">
+					<img src="https://via.placeholder.com/300x260?text=Movie+1"
+						class="card-img-top">
+					<div class="card-body">
+						<h5 class="card-title">Avengers: Endgame</h5>
+						<p class="text-muted small">Action • 3h 1m</p>
+						<a href="#" class="btn btn-primary w-100">Book Now</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- MOVIE 2 -->
+			<div class="col-md-3 col-sm-6">
+				<div class="card movie-card shadow border-0">
+					<img src="https://via.placeholder.com/300x260?text=Movie+2"
+						class="card-img-top">
+					<div class="card-body">
+						<h5 class="card-title">Interstellar</h5>
+						<p class="text-muted small">Sci-Fi • 2h 49m</p>
+						<a href="#" class="btn btn-primary w-100">Book Now</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- MOVIE 3 -->
+			<div class="col-md-3 col-sm-6">
+				<div class="card movie-card shadow border-0">
+					<img src="https://via.placeholder.com/300x260?text=Movie+3"
+						class="card-img-top">
+					<div class="card-body">
+						<h5 class="card-title">Inception</h5>
+						<p class="text-muted small">Thriller • 2h 28m</p>
+						<a href="#" class="btn btn-primary w-100">Book Now</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- MOVIE 4 -->
+			<div class="col-md-3 col-sm-6">
+				<div class="card movie-card shadow border-0">
+					<img src="https://via.placeholder.com/300x260?text=Movie+4"
+						class="card-img-top">
+					<div class="card-body">
+						<h5 class="card-title">Joker</h5>
+						<p class="text-muted small">Drama • 2h 2m</p>
+						<a href="#" class="btn btn-primary w-100">Book Now</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+
+	<!-- FOOTER -->
+	<footer class="text-center">
+		<p class="mb-0">© 2025 BookMyTicket — All Rights Reserved</p>
+	</footer>
+
+
+	<!-- Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Auto-show toasts -->
+	<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll('.toast').forEach(t => new bootstrap.Toast(t).show());
+    });
+</script>
+
 </body>
-
 </html>

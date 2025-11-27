@@ -1,30 +1,168 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>Book My Ticket - Register</title>
+
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<style>
+body {
+	background: #f4f6f9;
+}
+
+.navbar-brand {
+	font-weight: bold;
+	font-size: 1.5rem;
+}
+
+.register-box {
+	max-width: 500px;
+	margin-top: 50px;
+	background: #fff;
+	padding: 35px;
+	border-radius: 12px;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.error-text {
+	font-size: 0.85rem;
+	color: red;
+}
+</style>
 </head>
+
 <body>
-	<div align="center">
-		<h1>Register</h1>
-<div th:if="${pass!=null || fail!=null}" class="message">
-		<h3 style="color: green" th:text="${pass}"></h3>
-		<h3 style="color: red" th:text="${fail}"></h3>
+
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 shadow-sm">
+		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
+
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navMenu">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
+			<div th:if="${session.user == null}">
+				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
+					href="/register" class="btn btn-warning">Register</a>
+			</div>
+
+			<div th:if="${session.user != null}"
+				class="d-flex align-items-center">
+				<span class="text-white me-3"
+					th:text="'Hello, ' + ${session.user.name}"></span> <a
+					href="/logout" class="btn btn-danger">Logout</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- TOASTS -->
+	<div aria-live="polite" aria-atomic="true" class="position-relative">
+		<div class="toast-container position-fixed top-0 end-0 p-3">
+
+			<!-- SUCCESS -->
+			<div th:if="${pass}" class="toast bg-success text-white border-0">
+				<div class="toast-header bg-success text-white">
+					<strong class="me-auto">Success</strong>
+					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+				</div>
+				<div class="toast-body" th:text="${pass}"></div>
+			</div>
+
+			<!-- ERROR -->
+			<div th:if="${fail}" class="toast bg-danger text-white border-0">
+				<div class="toast-header bg-danger text-white">
+					<strong class="me-auto">Error</strong>
+					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+				</div>
+				<div class="toast-body" th:text="${fail}"></div>
+			</div>
+
+		</div>
 	</div>
-		<form action="/register" method="post" th:object="${userDto}">
-			Name: <input type="text" th:field="*{name}"> <span
-				th:errors="*{name}"></span> <br> Email: <input type="text"
-				th:field="*{email}"><span th:errors="*{email}"></span> <br>
-			Mobile: <input type="number" th:field="*{mobile}"><span
-				th:errors="*{mobile}"></span> <br> Password: <input type="text"
-				th:field="*{password}"><span th:errors="*{password}"></span>
-			<br> Confirm Password: <input type="text"
-				th:field="*{confirmPassword}"><span
-				th:errors="*{confirmPassword}"></span> <br> <input
-				type="checkbox" th:field="*{terms}">I accept the terms<span
-				th:errors="*{terms}"></span><br>
-			<button>Register</button>
-		</form>
+
+
+	<!-- REGISTER FORM -->
+	<div class="container d-flex justify-content-center">
+		<div class="register-box">
+
+			<h3 class="text-center mb-4 fw-bold">Create Account</h3>
+
+			<form action="/register" method="post" th:object="${userDto}">
+
+				<!-- NAME -->
+				<div class="mb-3">
+					<label class="form-label">Name</label> <input type="text"
+						class="form-control" th:field="*{name}" required> <span
+						class="error-text" th:errors="*{name}"></span>
+				</div>
+
+				<!-- EMAIL -->
+				<div class="mb-3">
+					<label class="form-label">Email</label> <input type="email"
+						class="form-control" th:field="*{email}" required> <span
+						class="error-text" th:errors="*{email}"></span>
+				</div>
+
+				<!-- MOBILE -->
+				<div class="mb-3">
+					<label class="form-label">Mobile</label> <input type="number"
+						class="form-control" th:field="*{mobile}" required> <span
+						class="error-text" th:errors="*{mobile}"></span>
+				</div>
+
+				<!-- PASSWORD -->
+				<div class="mb-3">
+					<label class="form-label">Password</label> <input type="password"
+						class="form-control" th:field="*{password}" required> <span
+						class="error-text" th:errors="*{password}"></span>
+				</div>
+
+				<!-- CONFIRM PASSWORD -->
+				<div class="mb-3">
+					<label class="form-label">Confirm Password</label> <input
+						type="password" class="form-control" th:field="*{confirmPassword}"
+						required> <span class="error-text"
+						th:errors="*{confirmPassword}"></span>
+				</div>
+
+				<!-- TERMS -->
+				<div class="form-check mb-3">
+					<input class="form-check-input" type="checkbox" th:field="*{terms}">
+					<label class="form-check-label"> I accept the terms &
+						conditions </label> <br> <span class="error-text"
+						th:errors="*{terms}"></span>
+				</div>
+
+				<button class="btn btn-primary w-100 py-2">Register</button>
+
+				<div class="text-center mt-3">
+					<small> Already have an account? <a href="/login"
+						class="text-primary">Login</a>
+					</small>
+				</div>
+
+			</form>
+
+		</div>
 	</div>
+
+
+	<!-- Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll('.toast').forEach(t => new bootstrap.Toast(t).show());
+    });
+</script>
+
 </body>
 </html>
