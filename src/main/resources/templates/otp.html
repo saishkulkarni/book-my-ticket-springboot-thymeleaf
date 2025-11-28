@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Otp</title>
+</head>
+<body>
+<div aria-live="polite" aria-atomic="true" class="position-relative">
+		<div class="toast-container position-fixed top-0 end-0 p-3">
+
+			<!-- SUCCESS TOAST -->
+			<div th:if="${pass}" class="toast bg-success text-white border-0">
+				<div class="toast-header bg-success text-white">
+					<strong class="me-auto">Success</strong>
+					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+				</div>
+				<div class="toast-body" th:text="${pass}"></div>
+			</div>
+
+			<!-- ERROR TOAST -->
+			<div th:if="${fail}" class="toast bg-danger text-white border-0">
+				<div class="toast-header bg-danger text-white">
+					<strong class="me-auto">Error</strong>
+					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+				</div>
+				<div class="toast-body" th:text="${fail}"></div>
+			</div>
+
+		</div>
+	</div>
+	
+	<form action="/otp" method="post">
+		<input type="hidden" name="email" th:value="${email}"> 
+		<input type="number" name="otp" placeholder="Enter Otp">
+		<button>Submit</button>
+	</form>
+</body>
+</html>
