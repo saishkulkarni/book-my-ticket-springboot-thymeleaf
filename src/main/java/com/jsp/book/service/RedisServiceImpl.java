@@ -17,12 +17,12 @@ public class RedisServiceImpl implements RedisService {
 
 	@Override
 	public void saveUserDto(String email, UserDto userDto) {
-		redisTemplate.opsForValue().set("dto-" + email, userDto, Duration.ofMinutes(2));
+		redisTemplate.opsForValue().set("dto-" + email, userDto, Duration.ofMinutes(15));
 	}
 
 	@Override
 	public void saveOtp(String email, int otp) {
-		redisTemplate.opsForValue().set("otp-" + email, otp, Duration.ofSeconds(30));
+		redisTemplate.opsForValue().set("otp-" + email, otp, Duration.ofMinutes(2));
 	}
 
 	@Override

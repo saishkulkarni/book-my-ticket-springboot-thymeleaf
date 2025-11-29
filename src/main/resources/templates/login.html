@@ -2,38 +2,183 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Book My Ticket - Login</title>
+<title>Login - BookMyTicket</title>
 
 <!-- Bootstrap CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+	rel="stylesheet">
+
 <style>
 body {
-	background: #f4f6f9;
+	font-family: "Poppins", sans-serif;
+	background:
+		url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1500&q=80')
+		center/cover no-repeat fixed;
+}
+
+/* Dark overlay */
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.65);
+	z-index: -1;
+}
+
+/* NAVBAR */
+.navbar {
+	background: rgba(0, 0, 0, 0.85) !important;
+	backdrop-filter: blur(6px);
 }
 
 .navbar-brand {
-	font-weight: bold;
-	font-size: 1.5rem;
+	font-weight: 600;
+	font-size: 1.6rem;
 }
 
+/* LOGIN BOX */
 .login-box {
+	width: 100%;
 	max-width: 420px;
 	margin-top: 80px;
-	background: #fff;
-	padding: 35px;
-	border-radius: 12px;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+	padding: 38px;
+	background: rgba(255, 255, 255, 0.12);
+	border-radius: 15px;
+	backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+	color: #fff;
+}
+
+.login-box h3 {
+	color: #fff;
+	font-weight: 600;
+}
+
+/* INPUTS */
+.form-control {
+	background: rgba(255, 255, 255, 0.18);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	color: #fff;
+}
+
+.form-control::placeholder {
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.form-control:focus {
+	background: rgba(255, 255, 255, 0.25);
+	border-color: #ff884d;
+	box-shadow: 0 0 0 0.15rem rgba(255, 136, 77, 0.35);
+	color: #fff;
+}
+
+/* BUTTON */
+.btn-primary {
+	background: linear-gradient(45deg, #ff4d4d, #ff884d);
+	border: none;
+}
+
+.btn-primary:hover {
+	background: linear-gradient(45deg, #ff3333, #ff6600);
+}
+
+/* LINKS */
+a {
+	color: #ff884d;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #ff4d4d;
+}
+
+/* Toastify style */
+.toastify-container {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	z-index: 99999;
+}
+
+.toastify {
+	min-width: 280px;
+	border-radius: 8px;
+	padding: 14px 18px;
+	color: white;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+	opacity: 0;
+	transform: translateX(120%);
+	animation: slideIn 0.4s forwards, fadeOut 0.4s 3s forwards;
+	position: relative;
+	overflow: hidden;
+}
+
+.toastify.success {
+	background: #2ecc71;
+}
+
+.toastify.error {
+	background: #e74c3c;
+}
+
+@keyframes slideIn {to { opacity:1;
+	transform: translateX(0);
+}
+
+}
+@keyframes fadeOut {to { opacity:0;
+	transform: translateX(120%);
+}
+
+}
+.toastify::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 4px;
+	background: rgba(255, 255, 255, 0.7);
+	animation: progressBar 3s linear forwards;
+}
+
+@keyframes progressBar {from { width:100%;
+	
+}
+
+to {
+	width: 0%;
+}
 }
 </style>
 </head>
 
 <body>
 
+	<!-- TOASTIFY TOASTS -->
+	<div class="toastify-container">
+		<div th:if="${pass}" class="toastify success">
+			<span th:text="${pass}"></span>
+		</div>
+
+		<div th:if="${fail}" class="toastify error">
+			<span th:text="${fail}"></span>
+		</div>
+	</div>
+
+
 	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 shadow-sm">
+	<nav class="navbar navbar-expand-lg navbar-dark px-4 shadow-sm">
 		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
 
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -43,13 +188,11 @@ body {
 
 		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
 
-			<!-- NOT LOGGED IN -->
 			<div th:if="${session.user == null}">
 				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
 					href="/register" class="btn btn-warning">Register</a>
 			</div>
 
-			<!-- LOGGED IN -->
 			<div th:if="${session.user != null}"
 				class="d-flex align-items-center">
 				<span class="text-white me-3"
@@ -61,56 +204,32 @@ body {
 	</nav>
 
 
-	<!-- TOASTS -->
-	<div aria-live="polite" aria-atomic="true" class="position-relative">
-		<div class="toast-container position-fixed top-0 end-0 p-3">
-
-			<!-- SUCCESS TOAST -->
-			<div th:if="${pass}" class="toast bg-success text-white border-0">
-				<div class="toast-header bg-success text-white">
-					<strong class="me-auto">Success</strong>
-					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-				</div>
-				<div class="toast-body" th:text="${pass}"></div>
-			</div>
-
-			<!-- ERROR TOAST -->
-			<div th:if="${fail}" class="toast bg-danger text-white border-0">
-				<div class="toast-header bg-danger text-white">
-					<strong class="me-auto">Error</strong>
-					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-				</div>
-				<div class="toast-body" th:text="${fail}"></div>
-			</div>
-
-		</div>
-	</div>
-
-
-	<!-- LOGIN BOX -->
+	<!-- LOGIN FORM BOX -->
 	<div class="container d-flex justify-content-center">
 		<div class="login-box">
 
-			<h3 class="text-center mb-4 fw-bold">Login</h3>
+			<h3 class="text-center mb-4 fw-bold">Welcome Back</h3>
 
 			<form action="/login" method="post">
 
 				<div class="mb-3 text-start">
 					<label class="form-label">Email</label> <input type="email"
-						name="email" class="form-control" required>
+						name="email" class="form-control" placeholder="Enter email"
+						required>
 				</div>
 
 				<div class="mb-3 text-start">
 					<label class="form-label">Password</label> <input type="password"
-						name="password" class="form-control" required>
+						name="password" class="form-control" placeholder="Enter password"
+						required>
 				</div>
 
-				<button class="btn btn-primary w-100 mt-2">Login</button>
+				<button class="btn btn-primary w-100 py-2 mt-2">Login</button>
 
 				<div class="text-center mt-3">
-					<small> Don't have an account? <a href="/register"
-						class="text-primary">Register</a>
-					</small>
+					<small>Don't have an account? <a href="/register">Register</a>
+					</small> <br> <a href="/forgot-password" class="mt-2 d-inline-block">Forgot
+						Password?</a>
 				</div>
 
 			</form>
@@ -123,11 +242,12 @@ body {
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-	<!-- Auto-show toast -->
 	<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll('.toast').forEach(t => new bootstrap.Toast(t).show());
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.toastify').forEach(t => {
+        setTimeout(() => t.remove(), 3500);
     });
+});
 </script>
 
 </body>

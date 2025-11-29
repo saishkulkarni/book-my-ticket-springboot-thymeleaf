@@ -3,10 +3,12 @@ package com.jsp.book.service;
 import java.security.SecureRandom;
 
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jsp.book.dto.LoginDto;
+import com.jsp.book.dto.PasswordDto;
 import com.jsp.book.dto.UserDto;
 import com.jsp.book.entity.User;
 import com.jsp.book.repository.UserRepository;
@@ -100,6 +102,70 @@ public class UserServiceImpl implements UserService {
 					return "redirect:/otp";
 				}
 			}
+		}
+	}
+
+	@Override
+	public String resendOtp(String email, RedirectAttributes attributes) {
+		UserDto dto = redisService.getDtoByEmail(email);
+		if (dto == null) {
+			attributes.addFlashAttribute("fail", "Timeout Try Again Creating a New Account");
+			return "redirect:/register";
+		} else {
+			int otp = random.nextInt(100000, 1000000);
+			emailHelper.sendOtp(otp, dto.getName(), dto.getEmail());
+			redisService.saveOtp(dto.getEmail(), otp);
+			attributes.addFlashAttribute("pass", "Otp Re-Sent Success");
+			attributes.addFlashAttribute("email", dto.getEmail());
+			return "redirect:/otp";
+		}
+	}
+
+	@Override
+	public String forgotPassword(String email, RedirectAttributes attributes) {
+		User user = userRepository.findByEmail(email);
+		if (user == null) {
+			attributes.addFlashAttribute("fail", "Invalid Email");
+			return "redirect:/forgot-password";
+		} else {
+			int otp = random.nextInt(100000, 1000000);
+			emailHelper.sendOtp(otp, user.getName(), email);
+			redisService.saveOtp(email, otp);
+			attributes.addFlashAttribute("pass", "Sent Success");
+			attributes.addFlashAttribute("email", email);
+			return "redirect:/reset-password";
+		}
+	}
+
+	@Override
+	public String resetPassword(PasswordDto passwordDto, BindingResult result, RedirectAttributes attributes,ModelMap map) {
+		if (result.hasErrors()) {
+			map.put("email", passwordDto.getEmail());
+			return "reset-password.html";
+		}User user = userRepository.findByEmail(passwordDto.getEmail());
+		if (user == null) {
+			attributes.addFlashAttribute("fail", "Invalid Email");
+			return "redirect:/forgot-password";
+		} else {
+			int exOtp = redisService.getOtpByEmail(passwordDto.getEmail());
+			if (exOtp == 0) {
+				attributes.addFlashAttribute("fail", "OTP Expired, Resend Otp and Try Again");
+				attributes.addFlashAttribute("email", passwordDto.getEmail());
+				return "redirect:/reset-password";
+			} else {
+				if (passwordDto.getOtp() == exOtp) {
+					user.setPassword(AES.encrypt(passwordDto.getPassword()));
+					userRepository.save(user);
+					attributes.addFlashAttribute("pass", "Password Reset Success");
+					return "redirect:/main";
+
+				} else {
+					attributes.addFlashAttribute("fail", "Invalid OTP Try Again");
+					attributes.addFlashAttribute("email", passwordDto.getEmail());
+					return "redirect:/reset-password";
+				}
+			}
+
 		}
 	}
 

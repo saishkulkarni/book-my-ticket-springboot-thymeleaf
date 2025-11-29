@@ -9,36 +9,180 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+	rel="stylesheet">
+
 <style>
 body {
-	background: #f4f6f9;
+	font-family: 'Poppins', sans-serif;
+	background:
+		url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1500&q=80')
+		center/cover no-repeat fixed;
+	backdrop-filter: blur(5px);
+}
+
+/* Dark overlay */
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+	z-index: -1;
+}
+
+/* NAVBAR */
+.navbar {
+	background: rgba(0, 0, 0, 0.85) !important;
+	backdrop-filter: blur(6px);
 }
 
 .navbar-brand {
-	font-weight: bold;
-	font-size: 1.5rem;
+	font-weight: 600;
+	font-size: 1.6rem;
 }
 
+/* REGISTER BOX */
 .register-box {
-	max-width: 500px;
-	margin-top: 50px;
-	background: #fff;
-	padding: 35px;
-	border-radius: 12px;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+	width: 100%;
+	max-width: 480px;
+	margin-top: 60px;
+	padding: 38px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 15px;
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
+	color: #fff;
 }
 
+.register-box h3 {
+	color: #fff;
+}
+
+/* INPUTS */
+.form-control {
+	background: rgba(255, 255, 255, 0.18);
+	border: 1px solid rgba(255, 255, 255, 0.35);
+	color: #fff;
+	padding: 10px 14px;
+}
+
+.form-control:focus {
+	background: rgba(255, 255, 255, 0.25);
+	border-color: #ff884d;
+	box-shadow: 0 0 0 0.15rem rgba(255, 136, 77, 0.35);
+	color: #fff;
+}
+
+/* LABELS */
+.form-label {
+	color: #eaeaea;
+	font-weight: 500;
+}
+
+/* ERROR TEXT */
 .error-text {
 	font-size: 0.85rem;
-	color: red;
+	color: #ffadad;
+}
+
+/* BUTTON */
+.btn-primary {
+	background: linear-gradient(45deg, #ff4d4d, #ff884d);
+	border: none;
+}
+
+.btn-primary:hover {
+	background: linear-gradient(45deg, #ff3333, #ff6600);
+}
+
+/* TERMS CHECKBOX */
+.form-check-label {
+	color: #e4e4e4;
+}
+
+/* Toastify-style Toasts */
+.toastify-container {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	z-index: 99999;
+}
+
+.toastify {
+	min-width: 280px;
+	border-radius: 8px;
+	padding: 14px 18px;
+	color: white;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+	opacity: 0;
+	transform: translateX(120%);
+	animation: slideIn 0.4s forwards, fadeOut 0.4s 3s forwards;
+	position: relative;
+	overflow: hidden;
+}
+
+.toastify.success {
+	background: #2ecc71;
+}
+
+.toastify.error {
+	background: #e74c3c;
+}
+
+@keyframes slideIn {to { opacity:1;
+	transform: translateX(0);
+}
+
+}
+@keyframes fadeOut {to { opacity:0;
+	transform: translateX(120%);
+}
+
+}
+.toastify::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 4px;
+	background: rgba(255, 255, 255, 0.7);
+	animation: progressBar 3s linear forwards;
+}
+
+@keyframes progressBar {from { width:100%;
+	
+}
+
+to {
+	width: 0%;
+}
+
+}
+
+/* Links */
+a {
+	color: #ff884d;
+}
+
+a:hover {
+	color: #ff4d4d;
 }
 </style>
+
 </head>
 
 <body>
 
 	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 shadow-sm">
+	<nav class="navbar navbar-expand-lg navbar-dark shadow-sm px-4">
 		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
 
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -47,44 +191,38 @@ body {
 		</button>
 
 		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
+
+			<!-- NOT LOGGED IN -->
 			<div th:if="${session.user == null}">
 				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
 					href="/register" class="btn btn-warning">Register</a>
 			</div>
 
+			<!-- LOGGED IN -->
 			<div th:if="${session.user != null}"
 				class="d-flex align-items-center">
 				<span class="text-white me-3"
 					th:text="'Hello, ' + ${session.user.name}"></span> <a
 					href="/logout" class="btn btn-danger">Logout</a>
 			</div>
+
 		</div>
 	</nav>
 
 
-	<!-- TOASTS -->
-	<div aria-live="polite" aria-atomic="true" class="position-relative">
-		<div class="toast-container position-fixed top-0 end-0 p-3">
+	<!-- TOASTIFY TOASTS -->
+	<div class="toastify-container">
 
-			<!-- SUCCESS -->
-			<div th:if="${pass}" class="toast bg-success text-white border-0">
-				<div class="toast-header bg-success text-white">
-					<strong class="me-auto">Success</strong>
-					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-				</div>
-				<div class="toast-body" th:text="${pass}"></div>
-			</div>
-
-			<!-- ERROR -->
-			<div th:if="${fail}" class="toast bg-danger text-white border-0">
-				<div class="toast-header bg-danger text-white">
-					<strong class="me-auto">Error</strong>
-					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-				</div>
-				<div class="toast-body" th:text="${fail}"></div>
-			</div>
-
+		<!-- SUCCESS -->
+		<div th:if="${pass}" class="toastify success">
+			<span th:text="${pass}"></span>
 		</div>
+
+		<!-- ERROR -->
+		<div th:if="${fail}" class="toastify error">
+			<span th:text="${fail}"></span>
+		</div>
+
 	</div>
 
 
@@ -99,37 +237,36 @@ body {
 				<!-- NAME -->
 				<div class="mb-3">
 					<label class="form-label">Name</label> <input type="text"
-						class="form-control" th:field="*{name}" required> <span
+						class="form-control" th:field="*{name}"> <span
 						class="error-text" th:errors="*{name}"></span>
 				</div>
 
 				<!-- EMAIL -->
 				<div class="mb-3">
 					<label class="form-label">Email</label> <input type="email"
-						class="form-control" th:field="*{email}" required> <span
+						class="form-control" th:field="*{email}"> <span
 						class="error-text" th:errors="*{email}"></span>
 				</div>
 
 				<!-- MOBILE -->
 				<div class="mb-3">
 					<label class="form-label">Mobile</label> <input type="number"
-						class="form-control" th:field="*{mobile}" required> <span
+						class="form-control" th:field="*{mobile}" > <span
 						class="error-text" th:errors="*{mobile}"></span>
 				</div>
 
 				<!-- PASSWORD -->
 				<div class="mb-3">
 					<label class="form-label">Password</label> <input type="password"
-						class="form-control" th:field="*{password}" required> <span
+						class="form-control" th:field="*{password}"> <span
 						class="error-text" th:errors="*{password}"></span>
 				</div>
 
 				<!-- CONFIRM PASSWORD -->
 				<div class="mb-3">
 					<label class="form-label">Confirm Password</label> <input
-						type="password" class="form-control" th:field="*{confirmPassword}"
-						required> <span class="error-text"
-						th:errors="*{confirmPassword}"></span>
+						type="password" class="form-control" th:field="*{confirmPassword}">
+					<span class="error-text" th:errors="*{confirmPassword}"></span>
 				</div>
 
 				<!-- TERMS -->
@@ -144,7 +281,7 @@ body {
 
 				<div class="text-center mt-3">
 					<small> Already have an account? <a href="/login"
-						class="text-primary">Login</a>
+						class="text-decoration-none">Login</a>
 					</small>
 				</div>
 
@@ -159,9 +296,11 @@ body {
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll('.toast').forEach(t => new bootstrap.Toast(t).show());
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.toastify').forEach(toast => {
+        setTimeout(() => toast.remove(), 3500);
     });
+});
 </script>
 
 </body>

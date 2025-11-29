@@ -9,43 +9,211 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 
+<!-- Google Fonts -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
+
 <style>
+/* GLOBAL */
 body {
-	background: #f5f6fa;
-}
-
-.navbar-brand {
-	font-weight: bold;
-	font-size: 1.6rem;
-}
-
-.hero {
-	background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
-		url('/images/hero-bg.jpg') center/cover no-repeat;
-	padding: 130px 0;
+	font-family: 'Poppins', sans-serif;
+	background: #0d0d0d;
 	color: #fff;
-	text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+	overflow-x: hidden;
+}
+
+/* NAVBAR */
+.navbar {
+	background: rgba(0, 0, 0, 0.85) !important;
+	backdrop-filter: blur(8px);
+	padding: 1rem 2rem;
+}
+
+/* NAV BRAND */
+.navbar-brand {
+	font-weight: 600;
+	font-size: 1.7rem;
+	letter-spacing: 0.5px;
+}
+
+/* HERO */
+.hero {
+	background:
+		url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1600&q=80')
+		center/cover no-repeat;
+	padding: 180px 0;
+	position: relative;
+	text-align: center;
+	color: #fff;
+	border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+}
+
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.60);
+}
+
+.hero .content {
+	position: relative;
+	z-index: 2;
+	animation: fadeInUp 1s ease;
+}
+
+.hero h1 {
+	font-size: 3.5rem;
+	font-weight: 700;
+}
+
+.hero p {
+	font-size: 1.25rem;
+	opacity: 0.9;
+}
+
+/* MOVIE SECTION */
+#movies {
+	padding-top: 70px;
+}
+
+.movie-card {
+	border-radius: 18px;
+	overflow: hidden;
+	background: rgba(30, 30, 30, 0.8);
+	backdrop-filter: blur(6px);
+	transition: all 0.35s ease;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.movie-card:hover {
+	transform: translateY(-10px) scale(1.02);
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
 }
 
 .movie-card img {
-	height: 260px;
+	height: 330px;
 	object-fit: cover;
-	border-radius: 5px 5px 0 0;
+	transition: all 0.4s ease;
 }
 
+.movie-card:hover img {
+	transform: scale(1.08);
+}
+
+/* BUTTON */
+.btn-primary {
+	background: linear-gradient(45deg, #ff3c3c, #ff7b3c);
+	border: none;
+	transition: 0.3s;
+}
+
+.btn-primary:hover {
+	background: linear-gradient(45deg, #ff2a2a, #ff631f);
+}
+
+/* FOOTER */
 footer {
-	background: #111;
+	background: #000;
+	padding: 22px 0;
 	color: #aaa;
-	padding: 15px 0;
-	margin-top: 60px;
+	text-align: center;
+	border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ANIMATIONS */
+@
+keyframes fadeInUp { 0% {
+	opacity: 0;
+	transform: translateY(20px);
+}
+
+100
+%
+{
+opacity
+:
+1;
+transform
+:
+translateY(
+0
+);
+}
+}
+
+/* TOASTIFY STYLE */
+.toastify-container {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	z-index: 99999;
+}
+
+.toastify {
+	min-width: 280px;
+	border-radius: 8px;
+	padding: 14px 18px;
+	color: white;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+	opacity: 0;
+	transform: translateX(120%);
+	animation: slideIn 0.4s forwards, fadeOut 0.4s 3s forwards;
+	position: relative;
+}
+
+.toastify.success {
+	background: #2ecc71;
+}
+
+.toastify.error {
+	background: #e74c3c;
+}
+
+@
+keyframes slideIn {to { opacity:1;
+	transform: translateX(0);
+}
+
+}
+@
+keyframes fadeOut {to { opacity:0;
+	transform: translateX(120%);
+}
+
+}
+.toastify::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 4px;
+	background: rgba(255, 255, 255, 0.7);
+	animation: progressBar 3s linear forwards;
+}
+
+@
+keyframes progressBar {from { width:100%;
+	
+}
+
+to {
+	width: 0%;
+}
 }
 </style>
+
 </head>
 
 <body>
 
 	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-4">
+	<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
 		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
 
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -55,116 +223,108 @@ footer {
 
 		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
 
-			<!-- NOT LOGGED IN -->
 			<div th:if="${session.user == null}">
 				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
 					href="/register" class="btn btn-warning">Register</a>
 			</div>
 
-			<!-- LOGGED IN -->
 			<div th:if="${session.user != null}"
 				class="d-flex align-items-center">
-				<span class="text-white me-3"
+				<span class="text-white me-3 fw-semibold"
 					th:text="'Hello, ' + ${session.user.name}"></span> <a
-					href="/logout" class="btn btn-danger">Logout</a>
+					th:if="${session.user.role==USER}" href="/bookings"
+					class="btn btn-outline-light me-2">My Bookings</a> <a
+					th:if="${session.user.role==USER}" href="/movies"
+					class="btn btn-outline-light me-2">Movies</a> <a
+					th:if="${session.user.role==ADMIN}" href="/manage-movies"
+					class="btn btn-danger me-2">Manage Movies</a> <a
+					th:if="${session.user.role==ADMIN}" href="/manage-screens"
+					class="btn btn-danger me-2">Manage Screens</a> <a
+					th:if="${session.user.role==ADMIN}" href="/manage-users"
+					class="btn btn-danger me-2">Manage Users</a> <a href="/logout"
+					class="btn btn-primary">Logout</a>
 			</div>
 
 		</div>
 	</nav>
 
 
-	<!-- TOASTS (INCLUDED DIRECTLY — NO FRAGMENTS) -->
-	<div aria-live="polite" aria-atomic="true" class="position-relative">
-		<div class="toast-container position-fixed top-0 end-0 p-3">
-
-			<!-- SUCCESS -->
-			<div th:if="${pass}" class="toast text-white bg-success border-0">
-				<div class="toast-header bg-success text-white">
-					<strong class="me-auto">Success</strong>
-					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-				</div>
-				<div class="toast-body" th:text="${pass}"></div>
-			</div>
-
-			<!-- ERROR -->
-			<div th:if="${fail}" class="toast text-white bg-danger border-0">
-				<div class="toast-header bg-danger text-white">
-					<strong class="me-auto">Error</strong>
-					<button class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
-				</div>
-				<div class="toast-body" th:text="${fail}"></div>
-			</div>
-
+	<!-- TOASTIFY -->
+	<div class="toastify-container">
+		<div th:if="${pass}" class="toastify success">
+			<span th:text="${pass}"></span>
+		</div>
+		<div th:if="${fail}" class="toastify error">
+			<span th:text="${fail}"></span>
 		</div>
 	</div>
 
 
-	<!-- HERO SECTION -->
-	<section class="hero text-center">
-		<div class="container">
-			<h1 class="display-4 fw-bold">Your Favorite Movies Are Here</h1>
-			<p class="lead mt-3">Book tickets instantly — Fast • Secure •
-				Simple</p>
-			<a href="#movies" class="btn btn-warning btn-lg mt-3 px-4">Browse
+	<!-- HERO -->
+	<section class="hero">
+		<div class="content">
+			<h1>Book Your Favorite Movies</h1>
+			<p>Instant • Simple • Secure</p>
+			<a href="#movies" class="btn btn-warning btn-lg px-4 mt-3">Browse
 				Movies</a>
 		</div>
 	</section>
 
 
-	<!-- MOVIES SECTION -->
-	<section class="container py-5" id="movies">
-		<h2 class="text-center fw-bold mb-4">Now Showing</h2>
+	<!-- MOVIES -->
+	<section class="container" id="movies">
+		<h2 class="text-center fw-bold mb-5">Now Showing</h2>
 
 		<div class="row g-4">
 
-			<!-- MOVIE 1 -->
-			<div class="col-md-3 col-sm-6">
-				<div class="card movie-card shadow border-0">
-					<img src="https://via.placeholder.com/300x260?text=Movie+1"
-						class="card-img-top">
+			<!-- Avengers -->
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<div class="movie-card">
+					<img
+						src="https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg">
 					<div class="card-body">
-						<h5 class="card-title">Avengers: Endgame</h5>
+						<h5 class="fw-semibold">Avengers: Endgame</h5>
 						<p class="text-muted small">Action • 3h 1m</p>
-						<a href="#" class="btn btn-primary w-100">Book Now</a>
+						<a href="/movie/1" class="btn btn-primary w-100">Book Now</a>
 					</div>
 				</div>
 			</div>
 
-			<!-- MOVIE 2 -->
-			<div class="col-md-3 col-sm-6">
-				<div class="card movie-card shadow border-0">
-					<img src="https://via.placeholder.com/300x260?text=Movie+2"
-						class="card-img-top">
+			<!-- Interstellar -->
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<div class="movie-card">
+					<img
+						src="https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg">
 					<div class="card-body">
-						<h5 class="card-title">Interstellar</h5>
+						<h5 class="fw-semibold">Interstellar</h5>
 						<p class="text-muted small">Sci-Fi • 2h 49m</p>
-						<a href="#" class="btn btn-primary w-100">Book Now</a>
+						<a href="/movie/2" class="btn btn-primary w-100">Book Now</a>
 					</div>
 				</div>
 			</div>
 
-			<!-- MOVIE 3 -->
-			<div class="col-md-3 col-sm-6">
-				<div class="card movie-card shadow border-0">
-					<img src="https://via.placeholder.com/300x260?text=Movie+3"
-						class="card-img-top">
+			<!-- Inception -->
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<div class="movie-card">
+					<img
+						src="https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg">
 					<div class="card-body">
-						<h5 class="card-title">Inception</h5>
+						<h5 class="fw-semibold">Inception</h5>
 						<p class="text-muted small">Thriller • 2h 28m</p>
-						<a href="#" class="btn btn-primary w-100">Book Now</a>
+						<a href="/movie/3" class="btn btn-primary w-100">Book Now</a>
 					</div>
 				</div>
 			</div>
 
-			<!-- MOVIE 4 -->
-			<div class="col-md-3 col-sm-6">
-				<div class="card movie-card shadow border-0">
-					<img src="https://via.placeholder.com/300x260?text=Movie+4"
-						class="card-img-top">
+			<!-- Joker -->
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<div class="movie-card">
+					<img
+						src="https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg">
 					<div class="card-body">
-						<h5 class="card-title">Joker</h5>
+						<h5 class="fw-semibold">Joker</h5>
 						<p class="text-muted small">Drama • 2h 2m</p>
-						<a href="#" class="btn btn-primary w-100">Book Now</a>
+						<a href="/movie/4" class="btn btn-primary w-100">Book Now</a>
 					</div>
 				</div>
 			</div>
@@ -174,8 +334,8 @@ footer {
 
 
 	<!-- FOOTER -->
-	<footer class="text-center">
-		<p class="mb-0">© 2025 BookMyTicket — All Rights Reserved</p>
+	<footer>
+		<p>© 2025 BookMyTicket — All Rights Reserved</p>
 	</footer>
 
 
@@ -183,11 +343,12 @@ footer {
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-	<!-- Auto-show toasts -->
 	<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        document.querySelectorAll('.toast').forEach(t => new bootstrap.Toast(t).show());
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.toastify').forEach(t => {
+        setTimeout(() => t.remove(), 3500);
     });
+});
 </script>
 
 </body>
