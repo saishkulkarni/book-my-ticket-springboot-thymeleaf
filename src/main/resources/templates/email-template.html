@@ -5,64 +5,117 @@
 <title>OTP Verification</title>
 
 <style>
-/* EMAIL-FRIENDLY RESET */
-body, table, td, div, p {
-	margin: 0;
-	padding: 0;
-	font-family: Arial, sans-serif;
-}
+	/* EMAIL-FRIENDLY RESET */
+	body, table, td, div, p {
+		margin: 0;
+		padding: 0;
+		font-family: 'Poppins', Arial, sans-serif;
+	}
 
-body {
-	background: #f5f6fa;
-	padding: 20px;
-}
+	body {
+		background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
+		padding: 20px;
+	}
 
-/* CARD */
-.email-card {
-	max-width: 480px;
-	margin: 20px auto;
-	background: #ffffff;
-	border-radius: 12px;
-	border: 1px solid #e5e5e5;
-	padding: 30px 35px;
-	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-}
+	/* CARD */
+	.email-card {
+		max-width: 480px;
+		margin: 20px auto;
+		background: #ffffff;
+		border-radius: 15px;
+		border: 1.5px solid rgba(100, 150, 255, 0.2);
+		padding: 40px;
+		box-shadow: 0 12px 40px rgba(100, 150, 255, 0.15);
+	}
 
-/* TITLE */
-.title {
-	font-size: 22px;
-	font-weight: bold;
-	color: #333;
-	text-align: center;
-	margin-bottom: 15px;
-}
+	/* TITLE */
+	.title {
+		font-size: 22px;
+		font-weight: 700;
+		color: #1a2332;
+		text-align: center;
+		margin-bottom: 20px;
+	}
 
-/* OTP */
-.otp-code {
-	font-size: 32px;
-	font-weight: bold;
-	color: #ff4d4d;
-	text-align: center;
-	letter-spacing: 3px;
-	padding: 12px 0;
-}
+	/* OTP */
+	.otp-code {
+		font-size: 36px;
+		font-weight: 700;
+		background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-align: center;
+		letter-spacing: 4px;
+		padding: 20px 0;
+		margin: 25px 0;
+		font-family: 'Courier New', monospace;
+	}
 
-/* TEXT */
-.text {
-	font-size: 15px;
-	color: #555;
-	line-height: 1.6;
-	text-align: center;
-	margin-bottom: 15px;
-}
+	/* TEXT */
+	.text {
+		font-size: 15px;
+		color: #5a6b7d;
+		line-height: 1.6;
+		text-align: center;
+		margin-bottom: 15px;
+	}
 
-/* FOOTER */
-.footer {
-	margin-top: 20px;
-	font-size: 12px;
-	color: #777;
-	text-align: center;
-}
+	.text strong {
+		color: #1a2332;
+		font-weight: 600;
+	}
+
+	/* HIGHLIGHT BOX */
+	.highlight-box {
+		background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
+		border-left: 4px solid #6496ff;
+		padding: 15px;
+		margin: 20px 0;
+		border-radius: 8px;
+	}
+
+	.highlight-box .text {
+		margin-bottom: 0;
+		font-weight: 500;
+	}
+
+	/* FOOTER */
+	.footer {
+		margin-top: 30px;
+		padding-top: 20px;
+		border-top: 1px solid rgba(100, 150, 255, 0.15);
+		font-size: 12px;
+		color: #5a6b7d;
+		text-align: center;
+	}
+
+	.footer-text {
+		margin: 5px 0;
+	}
+
+	/* RESPONSIVE */
+	@media (max-width: 600px) {
+		.email-card {
+			padding: 25px 20px;
+			margin: 15px auto;
+		}
+
+		.title {
+			font-size: 20px;
+			margin-bottom: 15px;
+		}
+
+		.otp-code {
+			font-size: 32px;
+			padding: 15px 0;
+			letter-spacing: 3px;
+		}
+
+		.text {
+			font-size: 14px;
+		}
+	}
 </style>
 </head>
 
@@ -70,21 +123,25 @@ body {
 
 	<div class="email-card">
 
-		<div class="title">OTP Verification</div>
+		<div class="title">🎫 Email Verification - BookMyTicket</div>
 
 		<p class="text">
-			Hello <strong th:text="${name}"></strong>, <br>Your One-Time
-			Password for verification is:
+			Hello <strong th:text="${name}"></strong>, <br><br>
+			Your One-Time Password for verification is:
 		</p>
 
 		<div class="otp-code" th:text="${otp}"></div>
 
-		<p class="text">
-			This OTP is valid for the next 2 minutes.<br> Please do not
-			share it with anyone.
-		</p>
+		<div class="highlight-box">
+			<p class="text">
+				⏱️ This OTP is valid for the next <strong>2 minutes</strong>.<br>
+				🔒 Please do not share it with anyone.
+			</p>
+		</div>
 
-		<div class="footer">© BookMyTicket — Secure Verification System
+		<div class="footer">
+			<p class="footer-text">© 2024 BookMyTicket — Secure Verification System</p>
+			<p class="footer-text">Thank you for choosing BookMyTicket for your movie booking needs!</p>
 		</div>
 
 	</div>

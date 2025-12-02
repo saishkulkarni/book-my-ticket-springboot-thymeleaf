@@ -15,165 +15,432 @@
 	rel="stylesheet">
 
 <style>
+/* ========== GLOBAL STYLES ========== */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
 body {
 	font-family: 'Poppins', sans-serif;
-	background:
-		url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1500&q=80')
-		center/cover no-repeat fixed;
-	backdrop-filter: blur(5px);
+	background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
+	color: #1a2332;
+	overflow-x: hidden;
+	min-height: 100vh;
 }
 
-/* Dark overlay */
-body::before {
-	content: "";
-	position: fixed;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.55);
-	z-index: -1;
-}
-
-/* NAVBAR */
+/* ========== NAVBAR ========== */
 .navbar {
-	background: rgba(0, 0, 0, 0.85) !important;
-	backdrop-filter: blur(6px);
+	background: rgba(255, 255, 255, 0.96) !important;
+	backdrop-filter: blur(20px);
+	padding: 0.8rem 2rem;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	border-bottom: 1px solid rgba(100, 150, 255, 0.15);
+	position: sticky;
+	top: 0;
+	z-index: 1000;
 }
 
 .navbar-brand {
-	font-weight: 600;
+	font-weight: 900;
 	font-size: 1.6rem;
+	letter-spacing: 1px;
+	background: linear-gradient(135deg, #6496ff 0%, #ff4081 50%, #00bcd4 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	font-style: italic;
 }
 
-/* REGISTER BOX */
+.navbar-toggler {
+	border-color: rgba(100, 150, 255, 0.5) !important;
+}
+
+.navbar-toggler-icon {
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28100, 150, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* ========== REGISTER SECTION ========== */
+.register-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: calc(100vh - 80px);
+	padding: 20px;
+	animation: fadeInUp 0.8s ease;
+}
+
 .register-box {
 	width: 100%;
 	max-width: 480px;
-	margin-top: 60px;
-	padding: 38px;
-	background: rgba(255, 255, 255, 0.1);
-	border-radius: 15px;
-	backdrop-filter: blur(12px);
-	-webkit-backdrop-filter: blur(12px);
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
-	color: #fff;
+	padding: 40px;
+	background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
+	backdrop-filter: blur(10px);
+	border-radius: 16px;
+	border: 1px solid rgba(100, 150, 255, 0.2);
+	box-shadow: 0 12px 40px rgba(100, 150, 255, 0.15);
+	color: #1a2332;
+	position: relative;
+}
+
+.register-box::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, transparent 100%);
+	border-radius: 16px;
+	pointer-events: none;
 }
 
 .register-box h3 {
-	color: #fff;
+	color: #2d5bff;
+	font-weight: 900;
+	margin-bottom: 1.5rem;
+	font-size: 1.8rem;
+	letter-spacing: 0.5px;
 }
 
-/* INPUTS */
+/* ========== FORM INPUTS ========== */
+.form-label {
+	color: #1a2332;
+	font-weight: 700;
+	margin-bottom: 0.7rem;
+	font-size: 0.95rem;
+	letter-spacing: 0.3px;
+}
+
 .form-control {
-	background: rgba(255, 255, 255, 0.18);
-	border: 1px solid rgba(255, 255, 255, 0.35);
-	color: #fff;
-	padding: 10px 14px;
+	background: rgba(255, 255, 255, 0.7);
+	border: 1.5px solid rgba(100, 150, 255, 0.2);
+	color: #1a2332;
+	border-radius: 10px;
+	padding: 0.8rem 1.2rem;
+	font-weight: 500;
+	transition: all 0.3s ease;
+}
+
+.form-control::placeholder {
+	color: rgba(26, 35, 50, 0.5);
 }
 
 .form-control:focus {
-	background: rgba(255, 255, 255, 0.25);
-	border-color: #ff884d;
-	box-shadow: 0 0 0 0.15rem rgba(255, 136, 77, 0.35);
-	color: #fff;
+	background: rgba(255, 255, 255, 0.9);
+	border-color: #6496ff;
+	box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.15);
+	color: #1a2332;
 }
 
-/* LABELS */
-.form-label {
-	color: #eaeaea;
-	font-weight: 500;
-}
-
-/* ERROR TEXT */
+/* ========== ERROR TEXT ========== */
 .error-text {
 	font-size: 0.85rem;
-	color: #ffadad;
+	color: #ff4081;
+	font-weight: 600;
+	margin-top: 0.3rem;
+	display: block;
 }
 
-/* BUTTON */
-.btn-primary {
-	background: linear-gradient(45deg, #ff4d4d, #ff884d);
-	border: none;
-}
-
-.btn-primary:hover {
-	background: linear-gradient(45deg, #ff3333, #ff6600);
-}
-
-/* TERMS CHECKBOX */
+/* ========== CHECKBOX ========== */
 .form-check-label {
-	color: #e4e4e4;
+	color: #5a6b7d;
+	font-weight: 600;
+	margin-left: 0.5rem;
 }
 
-/* Toastify-style Toasts */
-.toastify-container {
-	position: fixed;
-	top: 1rem;
-	right: 1rem;
-	z-index: 99999;
+.form-check-input {
+	border-color: rgba(100, 150, 255, 0.3) !important;
+	background-color: rgba(255, 255, 255, 0.8);
 }
 
-.toastify {
-	min-width: 280px;
-	border-radius: 8px;
-	padding: 14px 18px;
-	color: white;
-	font-weight: 500;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-	opacity: 0;
-	transform: translateX(120%);
-	animation: slideIn 0.4s forwards, fadeOut 0.4s 3s forwards;
+.form-check-input:checked {
+	background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+	border-color: #6496ff !important;
+}
+
+.form-check-input:focus {
+	box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.15) !important;
+	border-color: #6496ff !important;
+}
+
+/* ========== BUTTON ========== */
+.btn {
+	font-weight: 700;
+	border-radius: 10px;
+	transition: all 0.3s ease;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-size: 0.9rem;
+	padding: 0.7rem 1.5rem;
 	position: relative;
 	overflow: hidden;
 }
 
-.toastify.success {
-	background: #2ecc71;
+.btn::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	z-index: 1;
 }
 
-.toastify.error {
-	background: #e74c3c;
+.btn:hover::after {
+	opacity: 1;
 }
 
-@keyframes slideIn {to { opacity:1;
-	transform: translateX(0);
+.btn-primary {
+	background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+	border: none;
+	color: #fff;
+	box-shadow: 0 4px 15px rgba(100, 150, 255, 0.3);
+	position: relative;
+	z-index: 0;
+	width: 100%;
+	padding: 0.8rem;
+	margin-top: 1.2rem;
 }
 
-}
-@keyframes fadeOut {to { opacity:0;
-	transform: translateX(120%);
+.btn-primary:hover {
+	box-shadow: 0 8px 25px rgba(100, 150, 255, 0.4);
+	transform: translateY(-2px);
+	color: #fff;
 }
 
+.btn-outline-light {
+	color: #2d5bff;
+	border: 2px solid rgba(100, 150, 255, 0.4);
+	background: rgba(255, 255, 255, 0.8);
+	font-weight: 700;
 }
+
+.btn-outline-light:hover {
+	background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+	border-color: #6496ff;
+	color: #fff;
+}
+
+.btn-warning {
+	background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+	border: none;
+	color: #1a2332;
+	font-weight: 700;
+	box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+/* ========== LINKS ========== */
+.register-box a {
+	color: #6496ff;
+	text-decoration: none;
+	font-weight: 600;
+	transition: all 0.3s ease;
+}
+
+.register-box a:hover {
+	color: #ff4081;
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ========== TOAST NOTIFICATIONS ========== */
+.toastify-container {
+	position: fixed;
+	top: 25px;
+	right: 25px;
+	z-index: 9999;
+	pointer-events: none;
+}
+
+.toastify {
+	min-width: 310px;
+	max-width: 420px;
+	border-radius: 12px;
+	padding: 14px 16px;
+	color: white;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	box-shadow: 0 8px 25px rgba(100, 150, 255, 0.25);
+	margin-bottom: 14px;
+	pointer-events: auto;
+	animation: toastSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+	position: relative;
+	overflow: visible;
+	backdrop-filter: blur(15px);
+	font-size: 0.95rem;
+	line-height: 1.4;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.toastify::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 4px;
+	background: inherit;
+	border-radius: 12px 0 0 12px;
+}
+
 .toastify::after {
 	content: "";
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	height: 4px;
-	background: rgba(255, 255, 255, 0.7);
-	animation: progressBar 3s linear forwards;
+	height: 2px;
+	background: rgba(255, 255, 255, 0.5);
+	animation: progressBar 3.5s linear forwards;
 }
 
-@keyframes progressBar {from { width:100%;
-	
+.toastify.success {
+	background: linear-gradient(135deg, #26c281 0%, #27ae60 100%);
 }
 
-to {
-	width: 0%;
+.toastify.success::before {
+	background: #1e8449;
+	box-shadow: 0 0 20px rgba(38, 194, 129, 0.4);
 }
 
+.toastify.error {
+	background: linear-gradient(135deg, #ff4081 0%, #ff6a6a 100%);
 }
 
-/* Links */
-a {
-	color: #ff884d;
+.toastify.error::before {
+	background: #d90047;
+	box-shadow: 0 0 20px rgba(255, 64, 129, 0.4);
 }
 
-a:hover {
-	color: #ff4d4d;
+.toastify span {
+	flex: 1;
+	z-index: 1;
+	position: relative;
+}
+
+.toastify-close {
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.2);
+	border: none;
+	color: white;
+	font-size: 1.2rem;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	flex-shrink: 0;
+	z-index: 2;
+}
+
+.toastify-close:hover {
+	background: rgba(255, 255, 255, 0.35);
+	transform: rotate(90deg);
+}
+
+@keyframes toastSlideIn {
+	from {
+		opacity: 0;
+		transform: translateX(450px) scale(0.8);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+}
+
+@keyframes toastSlideOut {
+	from {
+		opacity: 1;
+		transform: translateX(0) scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: translateX(450px) scale(0.8);
+	}
+}
+
+@keyframes progressBar {
+	from {
+		width: 100%;
+	}
+	to {
+		width: 0%;
+	}
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+	.navbar {
+		padding: 0.7rem 1.5rem;
+	}
+
+	.navbar-brand {
+		font-size: 1.4rem;
+	}
+
+	.register-box {
+		padding: 30px;
+		border-radius: 14px;
+	}
+
+	.register-box h3 {
+		font-size: 1.5rem;
+		margin-bottom: 1.2rem;
+	}
+
+	.btn {
+		font-size: 0.85rem;
+		padding: 0.6rem 1.3rem;
+	}
+
+	.btn-primary {
+		padding: 0.7rem;
+	}
+
+	.toastify {
+		min-width: 280px;
+		max-width: 90vw;
+		font-size: 0.9rem;
+		padding: 12px 14px;
+	}
+}
+
+@media (max-width: 480px) {
+	.register-box {
+		padding: 25px;
+	}
+
+	.register-box h3 {
+		font-size: 1.4rem;
+		margin-bottom: 1rem;
+	}
+
+	.form-control {
+		padding: 0.7rem 1rem;
+		font-size: 0.95rem;
+	}
+
+	.toastify {
+		min-width: 260px;
+		font-size: 0.85rem;
+	}
 }
 </style>
 
@@ -227,10 +494,10 @@ a:hover {
 
 
 	<!-- REGISTER FORM -->
-	<div class="container d-flex justify-content-center">
+	<div class="container register-container">
 		<div class="register-box">
 
-			<h3 class="text-center mb-4 fw-bold">Create Account</h3>
+			<h3 class="text-center">Create Account</h3>
 
 			<form action="/register" method="post" th:object="${userDto}">
 
@@ -297,11 +564,40 @@ a:hover {
 
 	<script>
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('.toastify').forEach(toast => {
-        setTimeout(() => toast.remove(), 3500);
+    const toasts = document.querySelectorAll('.toastify');
+    
+    toasts.forEach(toastElement => {
+        // Create close button
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'toastify-close';
+        closeBtn.innerHTML = '×';
+        closeBtn.type = 'button';
+        
+        // Insert close button before span
+        const spanElement = toastElement.querySelector('span');
+        if (spanElement) {
+            toastElement.insertBefore(closeBtn, spanElement.nextSibling);
+        }
+        
+        // Close button click handler
+        closeBtn.addEventListener('click', () => {
+            toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+            setTimeout(() => toastElement.remove(), 400);
+        });
+        
+        // Auto remove after 3.5 seconds
+        const timeout = setTimeout(() => {
+            if (document.body.contains(toastElement)) {
+                toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+                setTimeout(() => toastElement.remove(), 400);
+            }
+        }, 3500);
+        
+        // Clear timeout if closed manually
+        closeBtn.addEventListener('click', () => clearTimeout(timeout));
     });
 });
-</script>
+	</script>
 
 </body>
 </html>

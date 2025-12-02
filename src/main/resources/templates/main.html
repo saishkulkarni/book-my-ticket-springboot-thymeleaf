@@ -1,212 +1,620 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Book My Ticket</title>
+	<meta charset="UTF-8">
+	<title>Book My Ticket</title>
 
-<!-- Bootstrap -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- Google Fonts -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-	rel="stylesheet">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+		rel="stylesheet">
 
-<style>
-/* GLOBAL */
-body {
-	font-family: 'Poppins', sans-serif;
-	background: #0d0d0d;
-	color: #fff;
-	overflow-x: hidden;
-}
+	<style>
+		/* ========== GLOBAL STYLES ========== */
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-/* NAVBAR */
-.navbar {
-	background: rgba(0, 0, 0, 0.85) !important;
-	backdrop-filter: blur(8px);
-	padding: 1rem 2rem;
-}
+		html {
+			scroll-behavior: smooth;
+		}
 
-/* NAV BRAND */
-.navbar-brand {
-	font-weight: 600;
-	font-size: 1.7rem;
-	letter-spacing: 0.5px;
-}
+		body {
+			font-family: 'Poppins', sans-serif;
+			background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
+			color: #1a2332;
+			overflow-x: hidden;
+			min-height: 100vh;
+		}
 
-/* HERO */
-.hero {
-	background:
-		url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1600&q=80')
-		center/cover no-repeat;
-	padding: 180px 0;
-	position: relative;
-	text-align: center;
-	color: #fff;
-	border-bottom: 2px solid rgba(255, 255, 255, 0.05);
-}
+		/* ========== NAVBAR ========== */
+		.navbar {
+			background: rgba(255, 255, 255, 0.96) !important;
+			backdrop-filter: blur(20px);
+			padding: 0.8rem 2rem;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+			border-bottom: 1px solid rgba(100, 150, 255, 0.15);
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+		}
 
-.hero::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.60);
-}
+		.navbar-brand {
+			font-weight: 900;
+			font-size: 1.6rem;
+			letter-spacing: 1px;
+			background: linear-gradient(135deg, #6496ff 0%, #ff4081 50%, #00bcd4 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			font-style: italic;
+		}
 
-.hero .content {
-	position: relative;
-	z-index: 2;
-	animation: fadeInUp 1s ease;
-}
+		.navbar-toggler {
+			border-color: rgba(100, 150, 255, 0.5) !important;
+		}
 
-.hero h1 {
-	font-size: 3.5rem;
-	font-weight: 700;
-}
+		.navbar-toggler-icon {
+			background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28100, 150, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+		}
 
-.hero p {
-	font-size: 1.25rem;
-	opacity: 0.9;
-}
+		.nav-link,
+		.navbar-brand {
+			transition: all 0.3s ease;
+		}
 
-/* MOVIE SECTION */
-#movies {
-	padding-top: 70px;
-}
+		/* ========== HERO SECTION ========== */
+		.hero {
+			background: linear-gradient(135deg, #ffffff 0%, #f0f4f8 50%, #e8f0f7 100%);
+			padding: 100px 0;
+			position: relative;
+			text-align: center;
+			color: #1a2332;
+			border-bottom: 1px solid rgba(100, 150, 255, 0.15);
+			overflow: hidden;
+		}
 
-.movie-card {
-	border-radius: 18px;
-	overflow: hidden;
-	background: rgba(30, 30, 30, 0.8);
-	backdrop-filter: blur(6px);
-	transition: all 0.35s ease;
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
-}
+		.hero::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background:
+				radial-gradient(circle at 20% 50%, rgba(100, 150, 255, 0.15) 0%, transparent 50%),
+				radial-gradient(circle at 80% 80%, rgba(255, 64, 129, 0.1) 0%, transparent 50%);
+			animation: pulse-glow 6s ease-in-out infinite;
+		}
 
-.movie-card:hover {
-	transform: translateY(-10px) scale(1.02);
-	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
-}
+		@keyframes pulse-glow {
 
-.movie-card img {
-	height: 330px;
-	object-fit: cover;
-	transition: all 0.4s ease;
-}
+			0%,
+			100% {
+				opacity: 0.7;
+			}
 
-.movie-card:hover img {
-	transform: scale(1.08);
-}
+			50% {
+				opacity: 1;
+			}
+		}
 
-/* BUTTON */
-.btn-primary {
-	background: linear-gradient(45deg, #ff3c3c, #ff7b3c);
-	border: none;
-	transition: 0.3s;
-}
+		.hero .content {
+			position: relative;
+			z-index: 2;
+			animation: slideDown 0.8s ease;
+		}
 
-.btn-primary:hover {
-	background: linear-gradient(45deg, #ff2a2a, #ff631f);
-}
+		.hero h1 {
+			font-size: 2.8rem;
+			font-weight: 900;
+			background: linear-gradient(135deg, #6496ff 0%, #2d5bff 50%, #ff4081 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			margin-bottom: 0.8rem;
+			letter-spacing: 1px;
+		}
 
-/* FOOTER */
-footer {
-	background: #000;
-	padding: 22px 0;
-	color: #aaa;
-	text-align: center;
-	border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
+		.hero p {
+			font-size: 1.1rem;
+			color: #5a6b7d;
+			margin-bottom: 1.8rem;
+			font-weight: 500;
+		}
 
-/* ANIMATIONS */
-@
-keyframes fadeInUp { 0% {
-	opacity: 0;
-	transform: translateY(20px);
-}
+		.hero .btn {
+			margin: 0 0.5rem;
+		}
 
-100
-%
-{
-opacity
-:
-1;
-transform
-:
-translateY(
-0
-);
-}
-}
+		/* ========== MOVIES SECTION ========== */
+		#movies {
+			padding: 60px 0;
+			background: linear-gradient(to bottom, #ffffff 0%, #f8fafb 100%);
+			position: relative;
+		}
 
-/* TOASTIFY STYLE */
-.toastify-container {
-	position: fixed;
-	top: 1rem;
-	right: 1rem;
-	z-index: 99999;
-}
+		#movies h2 {
+			color: #1a2332;
+			margin-bottom: 2.5rem;
+			font-size: 2.2rem;
+			font-weight: 900;
+			position: relative;
+			display: inline-block;
+			width: 100%;
+			background: linear-gradient(135deg, #6496ff 0%, #2d5bff 50%, #ff4081 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			letter-spacing: 1px;
+		}
 
-.toastify {
-	min-width: 280px;
-	border-radius: 8px;
-	padding: 14px 18px;
-	color: white;
-	font-weight: 500;
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-	opacity: 0;
-	transform: translateX(120%);
-	animation: slideIn 0.4s forwards, fadeOut 0.4s 3s forwards;
-	position: relative;
-}
+		#movies h2::after {
+			content: "";
+			position: absolute;
+			bottom: -12px;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 80px;
+			height: 3px;
+			background: linear-gradient(90deg, #6496ff 0%, #ff4081 50%, #00bcd4 100%);
+			border-radius: 2px;
+			box-shadow: 0 0 15px rgba(100, 150, 255, 0.3);
+		}
 
-.toastify.success {
-	background: #2ecc71;
-}
+		/* ========== MOVIE CARDS ========== */
+		.movie-card {
+			border-radius: 14px;
+			overflow: hidden;
+			background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
+			backdrop-filter: blur(10px);
+			transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+			border: 1px solid rgba(100, 150, 255, 0.2);
+			box-shadow: 0 4px 20px rgba(100, 150, 255, 0.08);
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
 
-.toastify.error {
-	background: #e74c3c;
-}
+		.movie-card::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, transparent 100%);
+			z-index: 1;
+			pointer-events: none;
+		}
 
-@
-keyframes slideIn {to { opacity:1;
-	transform: translateX(0);
-}
+		.movie-card:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 12px 35px rgba(100, 150, 255, 0.2);
+			border-color: rgba(100, 150, 255, 0.4);
+			background: linear-gradient(135deg, rgba(100, 150, 255, 0.12) 0%, rgba(255, 64, 129, 0.08) 100%);
+		}
 
-}
-@
-keyframes fadeOut {to { opacity:0;
-	transform: translateX(120%);
-}
+		.movie-card img {
+			height: 280px;
+			object-fit: cover;
+			transition: all 0.5s ease;
+			position: relative;
+			z-index: 0;
+		}
 
-}
-.toastify::after {
-	content: "";
-	position: absolute;
-	left: 0;
-	bottom: 0;
-	height: 4px;
-	background: rgba(255, 255, 255, 0.7);
-	animation: progressBar 3s linear forwards;
-}
+		.movie-card:hover img {
+			transform: scale(1.1);
+			filter: brightness(0.95) contrast(1.05);
+		}
 
-@
-keyframes progressBar {from { width:100%;
-	
-}
+		.movie-card .card-body {
+			padding: 1.3rem;
+			background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 244, 248, 0.6) 100%);
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			z-index: 2;
+			border-top: 1px solid rgba(100, 150, 255, 0.15);
+		}
 
-to {
-	width: 0%;
-}
-}
-</style>
+		.movie-card h5 {
+			color: #2d5bff;
+			margin-bottom: 0.5rem;
+			font-weight: 700;
+			font-size: 1.05rem;
+			line-height: 1.3;
+		}
+
+		.movie-card .text-muted {
+			color: #7a8fa3 !important;
+			font-size: 0.85rem;
+			margin-bottom: 1rem;
+			font-weight: 500;
+		}
+
+		.movie-card .btn {
+			margin-top: auto;
+		}
+
+		/* ========== BUTTONS ========== */
+		.btn {
+			font-weight: 700;
+			border-radius: 10px;
+			transition: all 0.3s ease;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+			font-size: 0.9rem;
+			padding: 0.6rem 1.5rem;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.btn::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+			opacity: 0;
+			transition: opacity 0.3s ease;
+			z-index: 1;
+		}
+
+		.btn:hover::after {
+			opacity: 1;
+		}
+
+		.btn-primary {
+			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+			border: none;
+			color: #fff;
+			box-shadow: 0 4px 15px rgba(100, 150, 255, 0.3);
+			position: relative;
+			z-index: 0;
+		}
+
+		.btn-primary:hover {
+			box-shadow: 0 8px 25px rgba(100, 150, 255, 0.4);
+			transform: translateY(-2px);
+			color: #fff;
+		}
+
+		.btn-primary:active {
+			transform: translateY(0);
+		}
+
+		.btn-outline-light {
+			color: #2d5bff;
+			border: 2px solid rgba(100, 150, 255, 0.4);
+			background: rgba(255, 255, 255, 0.8);
+			font-weight: 700;
+		}
+
+		.btn-outline-light:hover {
+			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+			border-color: #6496ff;
+			color: #fff;
+			box-shadow: 0 4px 15px rgba(100, 150, 255, 0.3);
+		}
+
+		.btn-warning {
+			background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+			border: none;
+			color: #1a2332;
+			font-weight: 700;
+			box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+		}
+
+		.btn-warning:hover {
+			box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+			transform: translateY(-2px);
+			color: #1a2332;
+		}
+
+		.btn-danger {
+			background: linear-gradient(135deg, #ff4081 0%, #ff6a6a 100%);
+			border: none;
+			box-shadow: 0 4px 15px rgba(255, 64, 129, 0.3);
+			color: #fff;
+		}
+
+		.btn-danger:hover {
+			box-shadow: 0 8px 25px rgba(255, 64, 129, 0.4);
+			transform: translateY(-2px);
+		}
+
+		/* ========== FOOTER ========== */
+		footer {
+			background: linear-gradient(135deg, #e8f0f7 0%, #f0f4f8 100%);
+			padding: 2rem 0 1.2rem;
+			color: #5a6b7d;
+			text-align: center;
+			border-top: 1px solid rgba(100, 150, 255, 0.15);
+			margin-top: 3rem;
+			position: relative;
+		}
+
+		footer::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 1px;
+			background: linear-gradient(90deg, transparent, rgba(100, 150, 255, 0.2), transparent);
+		}
+
+		footer p {
+			margin: 0;
+			font-weight: 600;
+			position: relative;
+			z-index: 1;
+			font-size: 0.95rem;
+		}
+
+		/* ========== ANIMATIONS ========== */
+		@keyframes slideDown {
+			from {
+				opacity: 0;
+				transform: translateY(-20px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes fadeInUp {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+
+		/* ========== TOAST NOTIFICATIONS ========== */
+		.toastify-container {
+			position: fixed;
+			top: 25px;
+			right: 25px;
+			z-index: 9999;
+			pointer-events: none;
+		}
+
+		.toastify {
+			min-width: 310px;
+			max-width: 420px;
+			border-radius: 12px;
+			padding: 14px 16px;
+			color: white;
+			font-weight: 700;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			box-shadow: 0 8px 25px rgba(100, 150, 255, 0.25);
+			margin-bottom: 14px;
+			pointer-events: auto;
+			animation: toastSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+			position: relative;
+			overflow: visible;
+			backdrop-filter: blur(15px);
+			font-size: 0.95rem;
+			line-height: 1.4;
+			border: 1px solid rgba(255, 255, 255, 0.3);
+		}
+
+		.toastify::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			width: 4px;
+			background: inherit;
+			border-radius: 12px 0 0 12px;
+		}
+
+		.toastify::after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			height: 2px;
+			background: rgba(255, 255, 255, 0.5);
+			animation: progressBar 3.5s linear forwards;
+		}
+
+		.toastify.success {
+			background: linear-gradient(135deg, #26c281 0%, #27ae60 100%);
+		}
+
+		.toastify.success::before {
+			background: #1e8449;
+			box-shadow: 0 0 20px rgba(38, 194, 129, 0.4);
+		}
+
+		.toastify.error {
+			background: linear-gradient(135deg, #ff4081 0%, #ff6a6a 100%);
+		}
+
+		.toastify.error::before {
+			background: #d90047;
+			box-shadow: 0 0 20px rgba(255, 64, 129, 0.4);
+		}
+
+		.toastify span {
+			flex: 1;
+			z-index: 1;
+			position: relative;
+		}
+
+		.toastify-close {
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.2);
+			border: none;
+			color: white;
+			font-size: 1.2rem;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s ease;
+			flex-shrink: 0;
+			z-index: 2;
+		}
+
+		.toastify-close:hover {
+			background: rgba(255, 255, 255, 0.35);
+			transform: rotate(90deg);
+		}
+
+		@keyframes toastSlideIn {
+			from {
+				opacity: 0;
+				transform: translateX(450px) scale(0.8);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateX(0) scale(1);
+			}
+		}
+
+		@keyframes progressBar {
+			from {
+				width: 100%;
+			}
+
+			to {
+				width: 0%;
+			}
+		}
+
+		/* ========== RESPONSIVE DESIGN ========== */
+		@media (max-width: 992px) {
+			.hero h1 {
+				font-size: 2.2rem;
+			}
+
+			#movies h2 {
+				font-size: 1.9rem;
+			}
+
+			.movie-card img {
+				height: 250px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.navbar {
+				padding: 0.7rem 1.5rem;
+			}
+
+			.navbar-brand {
+				font-size: 1.4rem;
+			}
+
+			.hero {
+				padding: 60px 0;
+			}
+
+			.hero h1 {
+				font-size: 2rem;
+				margin-bottom: 0.6rem;
+			}
+
+			.hero p {
+				font-size: 1rem;
+				margin-bottom: 1.3rem;
+			}
+
+			#movies {
+				padding: 40px 0;
+			}
+
+			#movies h2 {
+				font-size: 1.7rem;
+				margin-bottom: 1.8rem;
+			}
+
+			.movie-card {
+				border-radius: 12px;
+			}
+
+			.movie-card img {
+				height: 220px;
+			}
+
+			.movie-card .card-body {
+				padding: 1.1rem;
+			}
+
+			.btn {
+				font-size: 0.85rem;
+				padding: 0.55rem 1.3rem;
+			}
+
+			.toastify {
+				min-width: 280px;
+				max-width: 90vw;
+				font-size: 0.9rem;
+				padding: 12px 14px;
+			}
+
+			footer {
+				padding: 1.5rem 0 1rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.hero {
+				padding: 50px 0;
+			}
+
+			.hero h1 {
+				font-size: 1.8rem;
+			}
+
+			.hero p {
+				font-size: 0.95rem;
+			}
+
+			#movies h2 {
+				font-size: 1.5rem;
+				margin-bottom: 1.5rem;
+			}
+
+			.movie-card img {
+				height: 200px;
+			}
+
+			.navbar-brand {
+				font-size: 1.2rem;
+			}
+
+			.row.g-4 {
+				gap: 1rem !important;
+			}
+		}
+	</style>
 
 </head>
 
@@ -216,33 +624,26 @@ to {
 	<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
 		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
 
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-			data-bs-target="#navMenu">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
 		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
 
 			<div th:if="${session.user == null}">
-				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
-					href="/register" class="btn btn-warning">Register</a>
+				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a href="/register"
+					class="btn btn-warning">Register</a>
 			</div>
 
-			<div th:if="${session.user != null}"
-				class="d-flex align-items-center">
-				<span class="text-white me-3 fw-semibold"
-					th:text="'Hello, ' + ${session.user.name}"></span> <a
-					th:if="${session.user.role==USER}" href="/bookings"
-					class="btn btn-outline-light me-2">My Bookings</a> <a
-					th:if="${session.user.role==USER}" href="/movies"
-					class="btn btn-outline-light me-2">Movies</a> <a
-					th:if="${session.user.role==ADMIN}" href="/manage-movies"
-					class="btn btn-danger me-2">Manage Movies</a> <a
-					th:if="${session.user.role==ADMIN}" href="/manage-screens"
-					class="btn btn-danger me-2">Manage Screens</a> <a
-					th:if="${session.user.role==ADMIN}" href="/manage-users"
-					class="btn btn-danger me-2">Manage Users</a> <a href="/logout"
-					class="btn btn-primary">Logout</a>
+			<div th:if="${session.user != null}" class="d-flex align-items-center">
+				<span class="text-white me-3 fw-semibold" th:text="'Hello, ' + ${session.user.name}"></span> <a
+					th:if="${session.user.role=='USER'}" href="/bookings" class="btn btn-outline-light me-2">My
+					Bookings</a> <a th:if="${session.user.role=='USER'}" href="/movies"
+					class="btn btn-outline-light me-2">Movies</a> <a th:if="${session.user.role=='ADMIN'}"
+					href="/manage-movies" class="btn btn-danger me-2">Manage Movies</a> <a
+					th:if="${session.user.role=='ADMIN'}" href="/manage-screens" class="btn btn-danger me-2">Manage
+					Screens</a> <a th:if="${session.user.role=='ADMIN'}" href="/manage-users"
+					class="btn btn-danger me-2">Manage Users</a> <a href="/logout" class="btn btn-primary">Logout</a>
 			</div>
 
 		</div>
@@ -280,8 +681,7 @@ to {
 			<!-- Avengers -->
 			<div class="col-lg-3 col-md-4 col-sm-6">
 				<div class="movie-card">
-					<img
-						src="https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg">
+					<img src="https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg">
 					<div class="card-body">
 						<h5 class="fw-semibold">Avengers: Endgame</h5>
 						<p class="text-muted small">Action • 3h 1m</p>
@@ -293,8 +693,7 @@ to {
 			<!-- Interstellar -->
 			<div class="col-lg-3 col-md-4 col-sm-6">
 				<div class="movie-card">
-					<img
-						src="https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg">
+					<img src="https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg">
 					<div class="card-body">
 						<h5 class="fw-semibold">Interstellar</h5>
 						<p class="text-muted small">Sci-Fi • 2h 49m</p>
@@ -306,8 +705,7 @@ to {
 			<!-- Inception -->
 			<div class="col-lg-3 col-md-4 col-sm-6">
 				<div class="movie-card">
-					<img
-						src="https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg">
+					<img src="https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg">
 					<div class="card-body">
 						<h5 class="fw-semibold">Inception</h5>
 						<p class="text-muted small">Thriller • 2h 28m</p>
@@ -319,8 +717,7 @@ to {
 			<!-- Joker -->
 			<div class="col-lg-3 col-md-4 col-sm-6">
 				<div class="movie-card">
-					<img
-						src="https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg">
+					<img src="https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg">
 					<div class="card-body">
 						<h5 class="fw-semibold">Joker</h5>
 						<p class="text-muted small">Drama • 2h 2m</p>
@@ -340,16 +737,45 @@ to {
 
 
 	<!-- Bootstrap JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script>
-document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('.toastify').forEach(t => {
-        setTimeout(() => t.remove(), 3500);
-    });
-});
-</script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const toasts = document.querySelectorAll('.toastify');
+
+			toasts.forEach(toastElement => {
+				// Create close button
+				const closeBtn = document.createElement('button');
+				closeBtn.className = 'toastify-close';
+				closeBtn.innerHTML = '×';
+				closeBtn.type = 'button';
+
+				// Insert close button before span
+				const spanElement = toastElement.querySelector('span');
+				if (spanElement) {
+					toastElement.insertBefore(closeBtn, spanElement.nextSibling);
+				}
+
+				// Close button click handler
+				closeBtn.addEventListener('click', () => {
+					toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+					setTimeout(() => toastElement.remove(), 400);
+				});
+
+				// Auto remove after 3.5 seconds
+				const timeout = setTimeout(() => {
+					if (document.body.contains(toastElement)) {
+						toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+						setTimeout(() => toastElement.remove(), 400);
+					}
+				}, 3500);
+
+				// Clear timeout if closed manually
+				closeBtn.addEventListener('click', () => clearTimeout(timeout));
+			});
+		});
+	</script>
 
 </body>
+
 </html>

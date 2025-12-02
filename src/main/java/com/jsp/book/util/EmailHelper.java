@@ -2,6 +2,7 @@ package com.jsp.book.util;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -16,6 +17,7 @@ public class EmailHelper {
 	private final JavaMailSender mailSender;
 	private final TemplateEngine templateEngine;
 
+	@Async
 	public void sendOtp(int otp, String name, String email) {
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);

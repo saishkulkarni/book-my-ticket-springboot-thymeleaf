@@ -88,4 +88,18 @@ public class UserController {
 	public String resetPassword(@Valid PasswordDto passwordDto,BindingResult result,ModelMap map, RedirectAttributes attributes) {
 		return userService.resetPassword(passwordDto,result, attributes,map);
 	}
+	
+	@GetMapping("/manage-users")
+	public String viewUsers(HttpSession session,RedirectAttributes attributes,ModelMap map) {
+		return userService.manageUsers(session,attributes,map);
+	}
+	
+	@GetMapping("/block/{id}")
+	public String block(@PathVariable Long id,HttpSession session,RedirectAttributes attributes) {
+		return userService.blockUser(id,session,attributes);
+	}
+	@GetMapping("/un-block/{id}")
+	public String unBlock(@PathVariable Long id,HttpSession session,RedirectAttributes attributes) {
+		return userService.unBlockUser(id,session,attributes);
+	}
 }

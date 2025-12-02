@@ -15,136 +15,346 @@
 	rel="stylesheet">
 
 <style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 body {
 	font-family: "Poppins", sans-serif;
-	background:
-		url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1400&q=80')
-		center/cover no-repeat fixed;
-	backdrop-filter: blur(5px);
+	background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-/* Overlay */
-body::before {
-	content: "";
-	position: fixed;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.65);
-	z-index: -1;
+/* Main Container */
+.otp-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	padding: 20px;
 }
 
-/* Main Box */
+/* OTP Box */
 .otp-box {
 	width: 100%;
 	max-width: 420px;
-	padding: 35px;
-	margin-top: 80px;
-	background: rgba(255, 255, 255, 0.12);
-	border-radius: 15px;
-	backdrop-filter: blur(12px);
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-	color: #fff;
+	padding: 50px;
+	background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
+	border-radius: 20px;
+	border: 1.5px solid rgba(100, 150, 255, 0.2);
+	box-shadow: 0 20px 50px rgba(100, 150, 255, 0.1);
+	backdrop-filter: blur(10px);
+	animation: fadeInUp 0.8s ease-out;
 }
 
 h3 {
 	text-align: center;
-	margin-bottom: 20px;
-	font-weight: 600;
+	margin-bottom: 15px;
+	font-weight: 700;
+	color: #1a2332;
+	font-size: 1.8rem;
 }
 
-/* INPUT */
+p {
+	text-align: center;
+	color: #5a6b7d;
+	font-size: 0.95rem;
+	margin-bottom: 35px;
+	line-height: 1.5;
+}
+
+/* Form Group */
+.mb-3 {
+	margin-bottom: 25px;
+}
+
+/* Form Control */
 .form-control {
-	background: rgba(255, 255, 255, 0.18);
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	color: #fff;
+	background: rgba(255, 255, 255, 0.7);
+	border: 1.5px solid rgba(100, 150, 255, 0.15);
+	border-radius: 10px;
+	padding: 12px 16px;
+	font-size: 0.95rem;
+	color: #1a2332;
+	font-weight: 500;
+	transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .form-control:focus {
-	background: rgba(255, 255, 255, 0.25);
-	box-shadow: 0 0 0 0.15rem rgba(255, 136, 77, 0.35);
-	color: #fff;
+	background: rgba(255, 255, 255, 0.85);
+	border-color: #6496ff;
+	box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.15);
+	color: #1a2332;
+	outline: none;
 }
 
-/* Button */
+.form-control::placeholder {
+	color: #5a6b7d;
+}
+
+/* Buttons */
 .btn-primary {
-	background: linear-gradient(45deg, #ff4d4d, #ff884d);
+	background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
 	border: none;
+	color: white;
+	font-weight: 600;
+	padding: 12px 24px;
+	border-radius: 10px;
+	transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+	box-shadow: 0 4px 15px rgba(100, 150, 255, 0.25);
+	width: 100%;
+	cursor: pointer;
+	font-size: 0.95rem;
 }
 
 .btn-primary:hover {
-	background: linear-gradient(45deg, #ff3333, #ff6600);
+	transform: translateY(-2px);
+	box-shadow: 0 8px 25px rgba(100, 150, 255, 0.35);
+	background: linear-gradient(135deg, #5280ff 0%, #ff2563 100%);
 }
 
-/* Resend */
+.btn-primary:active {
+	transform: translateY(0);
+	box-shadow: 0 2px 8px rgba(100, 150, 255, 0.2);
+}
+
+/* Resend Link */
+.resend-section {
+	text-align: center;
+	margin-top: 25px;
+}
+
 .resend-link {
-	color: #ff884d;
-	font-weight: 500;
+	color: #6496ff;
+	font-weight: 600;
 	text-decoration: none;
+	font-size: 0.9rem;
+	transition: all 0.3s ease;
+	position: relative;
+	display: inline-block;
+}
+
+.resend-link::after {
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background: linear-gradient(90deg, #6496ff, #ff4081);
+	transition: width 0.3s ease;
 }
 
 .resend-link:hover {
-	color: #ff4d4d;
+	color: #ff4081;
 }
 
-/* Toastify style */
+.resend-link:hover::after {
+	width: 100%;
+}
+
+/* Toast Container */
 .toastify-container {
 	position: fixed;
-	top: 1rem;
-	right: 1rem;
-	z-index: 99999;
+	top: 25px;
+	right: 25px;
+	z-index: 9999;
+	pointer-events: none;
 }
 
+/* Toast */
 .toastify {
-	min-width: 280px;
-	border-radius: 8px;
-	padding: 14px 18px;
+	position: relative;
+	min-width: 300px;
+	padding: 16px 20px;
+	margin-bottom: 12px;
+	border-radius: 12px;
 	color: white;
-	font-weight: 500;
+	font-weight: 600;
+	font-size: 0.95rem;
 	display: flex;
 	align-items: center;
-	gap: 12px;
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-	opacity: 0;
-	transform: translateX(120%);
-	animation: slideIn 0.4s forwards, fadeOut 0.4s 3s forwards;
-	position: relative;
+	gap: 10px;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+	animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+	pointer-events: auto;
+	overflow: hidden;
 }
 
 .toastify.success {
-	background: #2ecc71;
+	background: linear-gradient(135deg, #26c281 0%, #27ae60 100%);
 }
 
 .toastify.error {
-	background: #e74c3c;
+	background: linear-gradient(135deg, #ff4081 0%, #ff6a6a 100%);
 }
 
-@keyframes slideIn {to { opacity:1;
-	transform: translateX(0);
+/* Toast Close Button */
+.toastify-close {
+	position: absolute;
+	right: 8px;
+	top: 8px;
+	width: 28px;
+	height: 28px;
+	background: rgba(255, 255, 255, 0.2);
+	border: none;
+	color: white;
+	border-radius: 50%;
+	font-size: 1.3rem;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.3s ease;
+	line-height: 1;
+	padding: 0;
 }
 
-}
-@keyframes fadeOut {to { opacity:0;
-	transform: translateX(120%);
+.toastify-close:hover {
+	background: rgba(255, 255, 255, 0.35);
+	transform: rotate(90deg);
 }
 
-}
-.toastify::after {
-	content: "";
+/* Progress Bar */
+.toastify::before {
+	content: '';
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	height: 4px;
-	background: rgba(255, 255, 255, 0.7);
-	animation: progressBar 3s linear forwards;
+	height: 3px;
+	background: rgba(255, 255, 255, 0.4);
+	animation: progressBar 3.5s linear forwards;
 }
 
-@keyframes progressBar {from { width:100%;
-	
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
-to {
-	width: 0%;
+@keyframes toastSlideIn {
+	from {
+		opacity: 0;
+		transform: translateX(450px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
 }
+
+@keyframes toastSlideOut {
+	from {
+		opacity: 1;
+		transform: translateX(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateX(450px);
+	}
+}
+
+@keyframes progressBar {
+	from {
+		width: 100%;
+	}
+	to {
+		width: 0%;
+	}
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+	.otp-box {
+		padding: 40px;
+	}
+
+	h3 {
+		font-size: 1.6rem;
+	}
+}
+
+@media (max-width: 768px) {
+	.otp-container {
+		padding: 15px;
+	}
+
+	.otp-box {
+		padding: 30px;
+		max-width: 100%;
+	}
+
+	h3 {
+		font-size: 1.4rem;
+		margin-bottom: 12px;
+	}
+
+	p {
+		font-size: 0.9rem;
+		margin-bottom: 25px;
+	}
+
+	.btn-primary {
+		padding: 10px 18px;
+		font-size: 0.9rem;
+	}
+
+	.toastify {
+		min-width: 280px;
+		padding: 14px 16px;
+		font-size: 0.9rem;
+	}
+
+	.toastify-container {
+		top: 15px;
+		right: 15px;
+	}
+}
+
+@media (max-width: 480px) {
+	.otp-box {
+		padding: 25px;
+	}
+
+	h3 {
+		font-size: 1.3rem;
+		margin-bottom: 10px;
+	}
+
+	p {
+		font-size: 0.85rem;
+		margin-bottom: 20px;
+	}
+
+	.form-control {
+		padding: 10px 14px;
+		font-size: 0.9rem;
+	}
+
+	.btn-primary {
+		padding: 10px 16px;
+		font-size: 0.85rem;
+	}
+
+	.mb-3 {
+		margin-bottom: 18px;
+	}
+
+	.toastify {
+		min-width: 250px;
+		padding: 12px 14px;
+		font-size: 0.85rem;
+	}
 }
 </style>
 
@@ -165,13 +375,12 @@ to {
 
 
 	<!-- OTP BOX -->
-	<div class="container d-flex justify-content-center">
+	<div class="otp-container">
 		<div class="otp-box">
 
 			<h3>Verify OTP</h3>
 
-			<p class="text-center mb-4" style="opacity: 0.85;">Enter the
-				6-digit OTP sent to your email</p>
+			<p>Enter the 6-digit OTP sent to your email</p>
 
 			<form action="/otp" method="post">
 
@@ -184,11 +393,10 @@ to {
 						placeholder="Enter OTP" required>
 				</div>
 
-				<button class="btn btn-primary w-100 py-2 mb-2">Verify OTP</button>
+				<button type="submit" class="btn btn-primary">Verify OTP</button>
 
-				<div class="text-center mt-3">
-					<a th:href="'/resend-otp/'+${email}" class="resend-link">Resend
-						OTP</a>
+				<div class="resend-section">
+					<a th:href="'/resend-otp/'+${email}" class="resend-link">Resend OTP</a>
 				</div>
 
 			</form>
@@ -203,8 +411,29 @@ to {
 
 	<script>
 document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll('.toastify').forEach(t => {
-        setTimeout(() => t.remove(), 3500);
+    const toasts = document.querySelectorAll('.toastify');
+    toasts.forEach(toastElement => {
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'toastify-close';
+        closeBtn.innerHTML = '×';
+        closeBtn.type = 'button';
+        
+        const spanElement = toastElement.querySelector('span');
+        if (spanElement) {
+            toastElement.insertBefore(closeBtn, spanElement.nextSibling);
+        }
+        
+        closeBtn.addEventListener('click', () => {
+            toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            setTimeout(() => toastElement.remove(), 400);
+        });
+        
+        const timeout = setTimeout(() => {
+            toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            setTimeout(() => toastElement.remove(), 400);
+        }, 3500);
+        
+        closeBtn.addEventListener('click', () => clearTimeout(timeout));
     });
 });
 </script>
