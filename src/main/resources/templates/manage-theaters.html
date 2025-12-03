@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage Theater</title>
+</head>
+<body>
+<div align="center">
+<!-- TOASTIFY -->
+	<div class="toastify-container">
+		<div th:if="${pass}" class="toastify success">
+			<span th:text="${pass}"></span>
+		</div>
+		<div th:if="${fail}" class="toastify error">
+			<span th:text="${fail}"></span>
+		</div>
+	</div>
+	
+	<div th:if="${theaters.isEmpty()}">
+		<h1>No Theaters Present</h1>
+	</div>
+	<div th:if="${!theaters.isEmpty()}">
+		<table border="1">
+			<tr>
+				<th>Name</th>
+				<th>Image</th>
+				<th>Address</th>
+				<th>Address Link</th>
+				<th>Number of Screens</th>
+				<th>Action</th>
+			</tr>
+			
+			<tr th:each="theater:${theaters}">
+				<th th:text="${theater.name}"></th>
+				<th> <img alt="" height="100px" width="100px" th:src="${theater.imageLocation}"> </th>
+				<th th:text="${theater.address}"></th>
+				<th><a target="_blank" th:href="${theater.locationLink}"><button>Click</button></a></th>
+				<th>0</th>
+				<th>
+					<button>Edit</button>
+					<button>Delete</button>
+					<button>Manage Screens</button>
+				</th>
+			</tr>
+			
+		</table>
+	</div>
+	
+	<div>
+		<a href="/add-theater"><button>Add Theater</button></a>
+	</div>
+	
+</div>
+</body>
+</html>

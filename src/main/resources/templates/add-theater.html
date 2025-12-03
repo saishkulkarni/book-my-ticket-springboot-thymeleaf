@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add Theater</title>
+</head>
+<body>
+	<form action="/add-theater" method="post" enctype="multipart/form-data" th:object="${theaterDto}">
+		Name: <input type="text" th:field="*{name}"> <span
+			th:errors="*{name}"></span> <br> Address: <input type="text"
+			th:field="*{address}"> <span th:errors="*{address}"></span> <br>
+		LocationLink: <input type="text" th:field="*{locationLink}"> <span
+			th:errors="*{locationLink}"></span> <br> Image: <input
+			type="file" accept="image/*" th:field="*{image}"> <span
+			th:errors="*{image}"></span> <br>
+		<button>Add</button>
+	</form>
+</body>
+</html>
