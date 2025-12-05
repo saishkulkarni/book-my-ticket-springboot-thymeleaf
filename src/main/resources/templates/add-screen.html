@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add Screen</title>
+</head>
+<body>
+
+	<form action="/add-screen" method="post" th:object="${screenDto}">
+		<input type="hidden" th:field="*{theaterId}"> <span
+			th:errors="*{theaterId}"></span> Name: <input type="text"
+			th:field="*{name}"> <span th:errors="*{name}"></span> Type: <input
+			type="text" th:field="*{type}"> <span th:errors="*{type}"></span>
+		<button>Add Screen</button>
+	</form>
+</body>
+</html>

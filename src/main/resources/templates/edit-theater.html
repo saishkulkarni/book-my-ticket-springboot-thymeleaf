@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Update Theater</title>
+</head>
+<body>
+	<form action="/update-theater" method="post" enctype="multipart/form-data" th:object="${theaterDto}">
+		<input type="hidden" name="id" th:value="${id}"> 
+		Name: <input type="text" th:field="*{name}"> <span
+			th:errors="*{name}"></span> <br> Address: <input type="text"
+			th:field="*{address}"> <span th:errors="*{address}"></span> <br>
+		LocationLink: <input type="text" th:field="*{locationLink}"> <span
+			th:errors="*{locationLink}"></span> <br> Image: <input
+			type="file" accept="image/*" th:field="*{image}"> <span
+			th:errors="*{image}"></span> (Dont Want to change Dont Upload New)
+			<img alt="" height="100px" width="100px" th:src="${imageLink}">
+			<br>
+		<button>Update</button>
+	</form>
+</body>
+</html>

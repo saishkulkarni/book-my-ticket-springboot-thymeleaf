@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage Screen</title>
+</head>
+<body>
+<div align="center">
+<!-- TOASTIFY -->
+	<div class="toastify-container">
+		<div th:if="${pass}" class="toastify success">
+			<span th:text="${pass}"></span>
+		</div>
+		<div th:if="${fail}" class="toastify error">
+			<span th:text="${fail}"></span>
+		</div>
+	</div>
+	
+	<div th:if="${screens.isEmpty()}">
+		<h1>No Screens Present</h1>
+	</div>
+	<div th:if="${!screens.isEmpty()}">
+		<table border="1">
+			<tr>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Number of Seats</th>
+				<th>Action</th>
+			</tr>
+			
+			<tr th:each="screen:${screens}">
+				<th th:text="${screen.name}"></th>
+				<th th:text="${screen.type}"></th>
+				<th>0</th>
+				<th>
+					<button>Edit</button>
+					<button>Delete</button>
+					<button>Manage Shows</button>
+					<button>Manage Seat Layout</button>
+				</th>
+			</tr>
+			
+		</table>
+	</div>
+	
+	<div>
+		<a th:href="'/add-screen/'+${id}"><button>Add Screen</button></a>
+	</div>
+	
+</div>
+</body>
+</html>
