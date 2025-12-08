@@ -1,16 +1,201 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Manage Seats</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Manage Seats - BookMyTicket Admin</title>
+
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: "Poppins", sans-serif;
+			background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #1a2332;
+		}
+
+		/* Main Container */
+		.container-center {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+			padding: 20px;
+		}
+
+		/* Message Box */
+		.message-box {
+			width: 100%;
+			max-width: 480px;
+			padding: 60px 40px;
+			background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
+			border-radius: 20px;
+			border: 1.5px solid rgba(100, 150, 255, 0.2);
+			box-shadow: 0 20px 50px rgba(100, 150, 255, 0.1);
+			text-align: center;
+			animation: fadeInUp 0.8s ease-out;
+		}
+
+		.icon {
+			font-size: 3.5rem;
+			margin-bottom: 20px;
+		}
+
+		h2 {
+			font-weight: 700;
+			color: #1a2332;
+			font-size: 1.8rem;
+			margin-bottom: 15px;
+		}
+
+		p {
+			color: #5a6b7d;
+			font-size: 1rem;
+			margin-bottom: 30px;
+			line-height: 1.6;
+		}
+
+		/* Button */
+		.btn-action {
+			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+			color: white !important;
+			text-decoration: none;
+			padding: 12px 32px;
+			border-radius: 10px;
+			font-weight: 600;
+			font-size: 0.95rem;
+			transition: all 0.3s ease;
+			display: inline-block;
+			border: none;
+			cursor: pointer;
+		}
+
+		.btn-action:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 15px rgba(100, 150, 255, 0.25);
+			color: white;
+		}
+
+		/* Animations */
+		@keyframes fadeInUp {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		/* Responsive Design */
+		@media (max-width: 992px) {
+			.message-box {
+				padding: 50px 30px;
+			}
+
+			h2 {
+				font-size: 1.6rem;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.container-center {
+				padding: 15px;
+			}
+
+			.message-box {
+				padding: 40px 25px;
+			}
+
+			h2 {
+				font-size: 1.4rem;
+				margin-bottom: 12px;
+			}
+
+			p {
+				font-size: 0.95rem;
+				margin-bottom: 25px;
+			}
+
+			.icon {
+				font-size: 3rem;
+				margin-bottom: 15px;
+			}
+
+			.btn-action {
+				padding: 10px 24px;
+				font-size: 0.9rem;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.message-box {
+				padding: 35px 20px;
+			}
+
+			h2 {
+				font-size: 1.3rem;
+				margin-bottom: 10px;
+			}
+
+			p {
+				font-size: 0.9rem;
+				margin-bottom: 20px;
+			}
+
+			.icon {
+				font-size: 2.5rem;
+				margin-bottom: 12px;
+			}
+
+			.btn-action {
+				padding: 10px 20px;
+				font-size: 0.85rem;
+			}
+		}
+	</style>
 </head>
+
 <body>
-	<div th:if="${!seats.isEmpty()}">
-		<div>Seats</div>
-		<a><button>Edit Seat Layout</button></a>
+
+	<!-- CONTAINER -->
+	<div class="container-center">
+
+		<!-- IF SEATS EXISTS -->
+		<div th:if="${!seats.isEmpty()}" class="message-box">
+			<div class="icon">🪑</div>
+			<h2>Seat Layout Configured</h2>
+			<p>This screen already has a seat layout configured.</p>
+			<a href="/manage-theaters" class="btn-action">← Back to Theaters</a>
+		</div>
+
+		<!-- IF NO SEATS -->
+		<div th:if="${seats.isEmpty()}" class="message-box">
+			<div class="icon">✏️</div>
+			<h2>Create Seat Layout</h2>
+			<p>Define the seat arrangement for this screen. Add rows and seats to complete the layout.</p>
+			<a th:href="'/add-seats/'+${id}" class="btn-action">+ Create Seat Layout</a>
+		</div>
+
 	</div>
-	<div th:if="${seats.isEmpty()}">
-		<a th:href="'/add-seats/'+${id}"><button>Add Seat Layout</button></a>
-	</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

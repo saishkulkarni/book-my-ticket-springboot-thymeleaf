@@ -324,6 +324,11 @@ public class UserServiceImpl implements UserService {
 			attributes.addFlashAttribute("fail", "Invalid Session");
 			return "redirect:/login";
 		} else {
+			Theater theater = theaterRepository.findById(id).orElseThrow();
+			if (theater.getScreenCount() > 0) {
+				List<Screen> screens = screenRepository.findByTheater(theater);
+				screenRepository.deleteAll(screens);
+			}
 			theaterRepository.deleteById(id);
 			attributes.addFlashAttribute("pass", "Theater Removed Success");
 			return "redirect:/manage-theaters";

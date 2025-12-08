@@ -1,12 +1,525 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Manage Theater</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Manage Theaters - BookMyTicket Admin</title>
+
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: "Poppins", sans-serif;
+			background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
+			min-height: 100vh;
+			color: #1a2332;
+		}
+
+		/* Navbar */
+		.navbar {
+			background: rgba(255, 255, 255, 0.96);
+			box-shadow: 0 4px 20px rgba(100, 150, 255, 0.1);
+			padding: 15px 0;
+			backdrop-filter: blur(10px);
+		}
+
+		.navbar-brand {
+			font-weight: 900;
+			font-size: 1.5rem;
+			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
+
+		.nav-link {
+			color: #5a6b7d !important;
+			font-weight: 500;
+			margin-left: 20px;
+			transition: all 0.3s ease;
+		}
+
+		.nav-link:hover {
+			color: #6496ff !important;
+		}
+
+		/* Main Container */
+		.admin-container {
+			padding: 40px 20px;
+			max-width: 1400px;
+			margin: 0 auto;
+		}
+
+		/* Header */
+		.admin-header {
+			margin-bottom: 40px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 20px;
+		}
+
+		.admin-header h1 {
+			font-weight: 700;
+			color: #1a2332;
+			font-size: 2rem;
+		}
+
+		.add-btn {
+			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+			color: white !important;
+			text-decoration: none;
+			padding: 12px 28px;
+			border-radius: 10px;
+			font-weight: 600;
+			font-size: 0.95rem;
+			transition: all 0.3s ease;
+			display: inline-block;
+			border: none;
+			cursor: pointer;
+		}
+
+		.add-btn:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 15px rgba(100, 150, 255, 0.25);
+			color: white;
+		}
+
+		/* Cards Grid */
+		.theaters-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+			gap: 25px;
+			margin-bottom: 40px;
+		}
+
+		/* Theater Card */
+		.theater-card {
+			background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
+			border-radius: 15px;
+			border: 1.5px solid rgba(100, 150, 255, 0.2);
+			overflow: hidden;
+			box-shadow: 0 12px 40px rgba(100, 150, 255, 0.1);
+			transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+			animation: fadeInUp 0.8s ease-out;
+		}
+
+		.theater-card:hover {
+			transform: translateY(-8px);
+			box-shadow: 0 20px 50px rgba(100, 150, 255, 0.2);
+			border-color: rgba(100, 150, 255, 0.3);
+		}
+
+		.theater-image {
+			width: 100%;
+			height: 220px;
+			object-fit: cover;
+			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+		}
+
+		.theater-content {
+			padding: 25px;
+		}
+
+		.theater-name {
+			font-size: 1.3rem;
+			font-weight: 700;
+			color: #1a2332;
+			margin-bottom: 10px;
+		}
+
+		.theater-info {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			margin-bottom: 20px;
+		}
+
+		.info-item {
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			font-size: 0.9rem;
+			color: #5a6b7d;
+		}
+
+		.info-icon {
+			font-size: 1.1rem;
+			color: #6496ff;
+			min-width: 20px;
+		}
+
+		.info-text {
+			word-break: break-word;
+		}
+
+		.screen-count {
+			background: rgba(100, 150, 255, 0.15);
+			padding: 8px 12px;
+			border-radius: 8px;
+			font-weight: 600;
+			color: #6496ff;
+			font-size: 0.85rem;
+			display: inline-block;
+			margin-bottom: 15px;
+		}
+
+		/* Action Buttons */
+		.card-actions {
+			display: flex;
+			gap: 8px;
+			flex-wrap: wrap;
+		}
+
+		.btn-edit, .btn-delete, .btn-screens, .btn-location {
+			flex: 1;
+			min-width: 80px;
+			padding: 10px 12px;
+			border: none;
+			border-radius: 8px;
+			font-weight: 600;
+			font-size: 0.8rem;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			text-decoration: none;
+			text-align: center;
+			display: inline-block;
+		}
+
+		.btn-edit {
+			background: linear-gradient(135deg, #6496ff 0%, #4a78ff 100%);
+			color: white;
+		}
+
+		.btn-edit:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(100, 150, 255, 0.3);
+		}
+
+		.btn-screens {
+			background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+			color: white;
+		}
+
+		.btn-screens:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);
+		}
+
+		.btn-delete {
+			background: linear-gradient(135deg, #ff4081 0%, #ff6a6a 100%);
+			color: white;
+		}
+
+		.btn-delete:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(255, 64, 129, 0.3);
+		}
+
+		.btn-location {
+			background: linear-gradient(135deg, #26c281 0%, #27ae60 100%);
+			color: white;
+		}
+
+		.btn-location:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(38, 194, 129, 0.3);
+		}
+
+		/* Empty State */
+		.empty-state {
+			text-align: center;
+			padding: 80px 20px;
+			background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
+			border-radius: 15px;
+			border: 1.5px solid rgba(100, 150, 255, 0.2);
+		}
+
+		.empty-state-icon {
+			font-size: 4rem;
+			margin-bottom: 20px;
+		}
+
+		.empty-state-title {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: #1a2332;
+			margin-bottom: 15px;
+		}
+
+		.empty-state-text {
+			color: #5a6b7d;
+			font-size: 1rem;
+			margin-bottom: 30px;
+		}
+
+		/* Toast Container */
+		.toastify-container {
+			position: fixed;
+			top: 25px;
+			right: 25px;
+			z-index: 9999;
+			pointer-events: none;
+		}
+
+		.toastify {
+			position: relative;
+			min-width: 300px;
+			padding: 16px 20px;
+			margin-bottom: 12px;
+			border-radius: 12px;
+			color: white;
+			font-weight: 600;
+			font-size: 0.95rem;
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+			animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+			pointer-events: auto;
+			overflow: hidden;
+		}
+
+		.toastify.success {
+			background: linear-gradient(135deg, #26c281 0%, #27ae60 100%);
+		}
+
+		.toastify.error {
+			background: linear-gradient(135deg, #ff4081 0%, #ff6a6a 100%);
+		}
+
+		.toastify-close {
+			position: absolute;
+			right: 8px;
+			top: 8px;
+			width: 28px;
+			height: 28px;
+			background: rgba(255, 255, 255, 0.2);
+			border: none;
+			color: white;
+			border-radius: 50%;
+			font-size: 1.3rem;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.3s ease;
+			line-height: 1;
+			padding: 0;
+		}
+
+		.toastify-close:hover {
+			background: rgba(255, 255, 255, 0.35);
+			transform: rotate(90deg);
+		}
+
+		.toastify::before {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			height: 3px;
+			background: rgba(255, 255, 255, 0.4);
+			animation: progressBar 3.5s linear forwards;
+		}
+
+		/* Animations */
+		@keyframes fadeInUp {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes toastSlideIn {
+			from {
+				opacity: 0;
+				transform: translateX(450px);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
+
+		@keyframes toastSlideOut {
+			from {
+				opacity: 1;
+				transform: translateX(0);
+			}
+			to {
+				opacity: 0;
+				transform: translateX(450px);
+			}
+		}
+
+		@keyframes progressBar {
+			from {
+				width: 100%;
+			}
+			to {
+				width: 0%;
+			}
+		}
+
+		/* Responsive Design */
+		@media (max-width: 992px) {
+			.admin-header {
+				flex-direction: column;
+				align-items: flex-start;
+			}
+
+			.admin-header h1 {
+				font-size: 1.6rem;
+			}
+
+			.theaters-grid {
+				grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+				gap: 20px;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.admin-container {
+				padding: 25px 15px;
+			}
+
+			.admin-header {
+				margin-bottom: 30px;
+			}
+
+			.admin-header h1 {
+				font-size: 1.4rem;
+			}
+
+			.theaters-grid {
+				grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+				gap: 15px;
+			}
+
+			.theater-image {
+				height: 180px;
+			}
+
+			.theater-content {
+				padding: 20px;
+			}
+
+			.theater-name {
+				font-size: 1.1rem;
+			}
+
+			.info-item {
+				font-size: 0.85rem;
+			}
+
+			.card-actions {
+				gap: 6px;
+			}
+
+			.btn-edit, .btn-delete, .btn-screens, .btn-location {
+				min-width: 70px;
+				padding: 8px 10px;
+				font-size: 0.75rem;
+			}
+
+			.toastify {
+				min-width: 280px;
+				padding: 12px 16px;
+				font-size: 0.9rem;
+			}
+
+			.toastify-container {
+				top: 15px;
+				right: 15px;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.admin-container {
+				padding: 15px 10px;
+			}
+
+			.admin-header h1 {
+				font-size: 1.2rem;
+			}
+
+			.theaters-grid {
+				grid-template-columns: 1fr;
+				gap: 15px;
+			}
+
+			.theater-image {
+				height: 200px;
+			}
+
+			.card-actions {
+				flex-direction: column;
+				gap: 8px;
+			}
+
+			.btn-edit, .btn-delete, .btn-screens, .btn-location {
+				width: 100%;
+				min-width: auto;
+				padding: 10px 12px;
+				font-size: 0.8rem;
+			}
+
+			.empty-state {
+				padding: 60px 20px;
+			}
+
+			.empty-state-icon {
+				font-size: 3rem;
+			}
+
+			.toastify {
+				min-width: 250px;
+				padding: 10px 12px;
+				font-size: 0.8rem;
+			}
+		}
+	</style>
 </head>
+
 <body>
-<div align="center">
-<!-- TOASTIFY -->
+
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-expand-lg">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/">📽️ BookMyTicket</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/manage-users">Manage Users</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- TOASTS -->
 	<div class="toastify-container">
 		<div th:if="${pass}" class="toastify success">
 			<span th:text="${pass}"></span>
@@ -15,41 +528,80 @@
 			<span th:text="${fail}"></span>
 		</div>
 	</div>
-	
-	<div th:if="${theaters.isEmpty()}">
-		<h1>No Theaters Present</h1>
+
+	<!-- MAIN CONTENT -->
+	<div class="admin-container">
+		<div class="admin-header">
+			<h1>🏛️ Manage Theaters</h1>
+			<a href="/add-theater" class="add-btn">+ Add Theater</a>
+		</div>
+
+		<!-- EMPTY STATE -->
+		<div th:if="${theaters.isEmpty()}" class="empty-state">
+			<div class="empty-state-icon">🎭</div>
+			<div class="empty-state-title">No Theaters Yet</div>
+			<p class="empty-state-text">Start by adding your first theater to begin managing screens and shows.</p>
+			<a href="/add-theater" class="add-btn">+ Add Your First Theater</a>
+		</div>
+
+		<!-- THEATERS GRID -->
+		<div th:if="${!theaters.isEmpty()}" class="theaters-grid">
+			<div th:each="theater : ${theaters}" class="theater-card">
+				<img th:src="${theater.imageLocation}" alt="Theater" class="theater-image">
+
+				<div class="theater-content">
+					<h3 class="theater-name" th:text="${theater.name}"></h3>
+
+					<div class="info-item">
+						<span class="info-icon">📍</span>
+						<span class="info-text" th:text="${theater.address}"></span>
+					</div>
+
+					<span class="screen-count" th:text="'Screens: '+${theater.screenCount}"></span>
+
+					<div class="card-actions">
+						<a th:href="'/edit-theater/'+${theater.id}" class="btn-edit">✏️ Edit</a>
+						<a target="_blank" th:href="${theater.locationLink}" class="btn-location">📍 Location</a>
+						<a th:href="'/manage-screens/'+${theater.id}" class="btn-screens">🎬 Screens</a>
+						<a th:href="'/delete-theater/'+${theater.id}" class="btn-delete" onclick="return confirm('Are you sure?');">🗑️ Delete</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
-	<div th:if="${!theaters.isEmpty()}">
-		<table border="1">
-			<tr>
-				<th>Name</th>
-				<th>Image</th>
-				<th>Address</th>
-				<th>Address Link</th>
-				<th>Number of Screens</th>
-				<th>Action</th>
-			</tr>
-			
-			<tr th:each="theater:${theaters}">
-				<th th:text="${theater.name}"></th>
-				<th> <img alt="" height="100px" width="100px" th:src="${theater.imageLocation}"> </th>
-				<th th:text="${theater.address}"></th>
-				<th><a target="_blank" th:href="${theater.locationLink}"><button>Click</button></a></th>
-				<th th:text="${theater.screenCount}"></th>
-				<th>
-					<a th:href="'/edit-theater/'+${theater.id}"><button>Edit</button></a>
-					<a th:href="'/delete-theater/'+${theater.id}"><button>Delete</button></a>
-					<a th:href="'/manage-screens/'+${theater.id}"><button>Manage Screens</button></a>
-				</th>
-			</tr>
-			
-		</table>
-	</div>
-	
-	<div>
-		<a href="/add-theater"><button>Add Theater</button></a>
-	</div>
-	
-</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const toasts = document.querySelectorAll('.toastify');
+			toasts.forEach(toastElement => {
+				const closeBtn = document.createElement('button');
+				closeBtn.className = 'toastify-close';
+				closeBtn.innerHTML = '×';
+				closeBtn.type = 'button';
+
+				const spanElement = toastElement.querySelector('span');
+				if (spanElement) {
+					toastElement.insertBefore(closeBtn, spanElement.nextSibling);
+				}
+
+				closeBtn.addEventListener('click', () => {
+					toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+					setTimeout(() => toastElement.remove(), 400);
+				});
+
+				const timeout = setTimeout(() => {
+					toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+					setTimeout(() => toastElement.remove(), 400);
+				}, 3500);
+
+				closeBtn.addEventListener('click', () => clearTimeout(timeout));
+			});
+		});
+	</script>
+
 </body>
 </html>
