@@ -174,4 +174,14 @@ public class UserController {
 			RedirectAttributes attributes, HttpSession session) {
 		return userService.updateScreen(screenDto, id, result, session, attributes, map);
 	}
+
+	@GetMapping("/manage-seats/{id}")
+	public String manageSeats(@PathVariable Long id, HttpSession session, ModelMap map, RedirectAttributes attributes) {
+		return userService.manageSeats(id, session, map, attributes);
+	}
+	
+	@GetMapping("/add-seats/{id}")
+	public String addSeats(@PathVariable Long id, HttpSession session, ModelMap map, RedirectAttributes attributes) {
+		return userService.addSeats(id, session, map, attributes);
+	}
 }

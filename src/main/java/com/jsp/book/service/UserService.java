@@ -62,4 +62,8 @@ public interface UserService {
 
 	String updateScreen(@Valid ScreenDto screenDto, Long id, BindingResult result, HttpSession session,
 			RedirectAttributes attributes, ModelMap map);
+
+	String manageSeats(Long id, HttpSession session, ModelMap map, RedirectAttributes attributes);
+
+	String addSeats(Long id, HttpSession session, ModelMap map, RedirectAttributes attributes);
 }

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage Seats</title>
+</head>
+<body>
+	<div th:if="${!seats.isEmpty()}">
+		<div>Seats</div>
+		<a><button>Edit Seat Layout</button></a>
+	</div>
+	<div th:if="${seats.isEmpty()}">
+		<a th:href="'/add-seats/'+${id}"><button>Add Seat Layout</button></a>
+	</div>
+</body>
+</html>
