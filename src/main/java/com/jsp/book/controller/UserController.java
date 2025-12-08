@@ -158,4 +158,20 @@ public class UserController {
 			RedirectAttributes attributes) {
 		return userService.addScreen(screenDto, result, session, attributes);
 	}
+
+	@GetMapping("/delete-screen/{id}")
+	public String deleteScreen(@PathVariable Long id, HttpSession session, RedirectAttributes attributes) {
+		return userService.deleteScreen(id, session, attributes);
+	}
+
+	@GetMapping("/edit-screen/{id}")
+	public String edditScreen(@PathVariable Long id, HttpSession session, RedirectAttributes attributes, ModelMap map) {
+		return userService.editScreen(id, session, attributes, map);
+	}
+
+	@PostMapping("/update-screen")
+	public String updateScreen(@Valid ScreenDto screenDto, BindingResult result, @RequestParam Long id, ModelMap map,
+			RedirectAttributes attributes, HttpSession session) {
+		return userService.updateScreen(screenDto, id, result, session, attributes, map);
+	}
 }

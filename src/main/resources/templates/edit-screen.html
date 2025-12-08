@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Edit Screen</title>
+</head>
+<body>
+
+	<form action="/update-screen" method="post" th:object="${screenDto}">
+		<input type="hidden" th:field="*{theaterId}">
+		<input type="hidden" name="id" th:value="${id}"> <span
+			th:errors="*{theaterId}"></span> Name: <input type="text"
+			th:field="*{name}"> <span th:errors="*{name}"></span> Type: <input
+			type="text" th:field="*{type}"> <span th:errors="*{type}"></span>
+		<button>Update Screen</button>
+	</form>
+</body>
+</html>
