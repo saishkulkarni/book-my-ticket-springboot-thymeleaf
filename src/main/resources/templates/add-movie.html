@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add Movie</title>
+</head>
+<body>
+<div align="center">
+	<h1>Add Movie</h1>
+	
+	<form action="/add-movie" method="post" th:object="${movieDto}" enctype="multipart/form-data">
+		Name: <input type="text" th:field="*{name}">
+		<span th:errors="*{name}"></span>
+		<br><br>
+		Genre: <input type="text" th:field="*{genre}">
+		<span th:errors="*{genre}"></span>
+		<br><br>
+		Languages: <input type="text" th:field="*{languages}">
+		<span th:errors="*{languages}"></span>
+		<br><br>
+		Duration: <input type="time" th:field="*{duration}">
+		<span th:errors="*{duration}"></span>
+		<br><br>
+		Image: <input type="file" th:field="*{image}">
+		<span th:errors="*{image}"></span>
+		<br><br>
+		Trailer Link: <input type="text" th:field="*{trailerLink}">
+		<span th:errors="*{trailerLink}"></span>
+		<br><br>
+		Description: <input type="text" th:field="*{description}">
+		<span th:errors="*{description}"></span>
+		<br><br>
+		Release Date: <input type="date" th:field="*{releaseDate}">
+		<span th:errors="*{releaseDate}"></span>
+		<br><br>
+		Cast: <input type="text" th:field="*{cast}">
+		<span th:errors="*{cast}"></span>
+		<br><br>
+		<button>Add Movie</button>
+	</form>
+</div>
+</body>
+</html>

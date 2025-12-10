@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage Movies</title>
+</head>
+<body>
+	<div align="center">
+		<div th:if="${!movies.isEmpty()}">
+			<h1>Movies</h1>
+			<table border="1">
+				<tr>
+					<th>Name</th>
+					<th>Image</th>
+					<th>Trailer</th>
+					<th>Cast</th>
+					<th>Genre</th>
+					<th>Description</th>
+					<th>Duration</th>
+					<th>Languages</th>
+					<th>ReleaseDate</th>
+					<th>Actions</th>
+				</tr>
+				<tr th:each="movie:${movies}">
+					<td th:text="${movie.name}"></td>
+					<td> <img th:alt="${movie.name}" height="100px" width="100px" th:src="${movie.imageLink}"> </td>
+					<td> <iframe th:src="${movie.trailerLink}"></iframe> </td>
+					<td th:text="${movie.cast}"></td>
+					<td th:text="${movie.genre}"></td>
+					<td th:text="${movie.description}"></td>
+					<td th:text="${movie.duration}"></td>
+					<td th:text="${movie.languages}"></td>
+					<td th:text="${movie.releaseDate}"></td>
+					<td>
+						<button>Edit</button>
+						<button>Delete</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div th:if="${movies.isEmpty()}">
+			<h1>No Movies Present</h1>
+		</div>
+		<a href="/add-movie"><button>Add Movie</button></a>
+	</div>
+</body>
+</html>
