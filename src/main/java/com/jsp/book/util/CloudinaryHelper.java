@@ -16,10 +16,24 @@ public class CloudinaryHelper {
 	@Value("${cloudinary.url}")
 	private String url;
 
+	@SuppressWarnings("unchecked")
 	public String generateImageLink(MultipartFile file) {
 		Cloudinary cloudinary = new Cloudinary(url);
 
-		Map params = ObjectUtils.asMap("folder", "BMT-Movies", "use_filename", true);
+		Map<String, Object> params = ObjectUtils.asMap("folder", "BMT-Movies", "use_filename", true);
+		try {
+			return (String) cloudinary.uploader().upload(file.getBytes(), params).get("url");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "https://placehold.co/600x400/EEE/31343C";
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public String getTheaterImageLink(MultipartFile file) {
+		Cloudinary cloudinary = new Cloudinary(url);
+
+		Map<String, Object> params = ObjectUtils.asMap("folder", "BMT-Theater", "use_filename", true);
 		try {
 			return (String) cloudinary.uploader().upload(file.getBytes(), params).get("url");
 		} catch (IOException e) {
