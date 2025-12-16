@@ -1,43 +1,474 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Add Movie</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Add Movie - BookMyTicket Admin</title>
+
+	<!-- Favicon -->
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		html {
+			scroll-behavior: smooth;
+		}
+
+		body {
+			font-family: "Poppins", sans-serif;
+			background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: #1a2332;
+			padding: 20px;
+		}
+
+		/* ========== FORM CONTAINER ========== */
+		.form-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			min-height: 100vh;
+			padding: 20px;
+			width: 100%;
+		}
+
+		/* ========== FORM BOX ========== */
+		.form-box {
+			width: 100%;
+			max-width: 520px;
+			padding: 50px;
+			background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
+			border-radius: 20px;
+			border: 1.5px solid rgba(100, 150, 255, 0.2);
+			box-shadow: 0 20px 50px rgba(100, 150, 255, 0.1);
+			backdrop-filter: blur(10px);
+			animation: fadeInUp 0.8s ease-out;
+		}
+
+		/* ========== HEADING ========== */
+		h1 {
+			text-align: center;
+			margin-bottom: 30px;
+			font-weight: 700;
+			color: #1a2332;
+			font-size: 1.8rem;
+		}
+
+		/* ========== FORM GROUP ========== */
+		.form-group {
+			margin-bottom: 25px;
+		}
+
+		label {
+			display: block;
+			margin-bottom: 8px;
+			font-weight: 600;
+			color: #1a2332;
+			font-size: 0.95rem;
+		}
+
+		/* ========== FORM CONTROL ========== */
+		.form-control,
+		.form-file {
+			background: rgba(255, 255, 255, 0.7);
+			border: 1.5px solid rgba(100, 150, 255, 0.15);
+			border-radius: 10px;
+			padding: 12px 16px;
+			font-size: 0.95rem;
+			color: #1a2332;
+			font-weight: 500;
+			transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+			font-family: "Poppins", sans-serif;
+			width: 100%;
+		}
+
+		.form-control:focus,
+		.form-file:focus {
+			background: rgba(255, 255, 255, 0.85);
+			border-color: #6496ff;
+			box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.15);
+			color: #1a2332;
+			outline: none;
+		}
+
+		.form-control::placeholder {
+			color: #5a6b7d;
+		}
+
+		/* ========== FILE INPUT ========== */
+		.form-file {
+			padding: 10px 16px;
+		}
+
+		.form-file::file-selector-button {
+			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+			color: white;
+			border: none;
+			padding: 8px 16px;
+			border-radius: 6px;
+			font-weight: 600;
+			cursor: pointer;
+			margin-right: 10px;
+			transition: all 0.3s ease;
+		}
+
+		.form-file::file-selector-button:hover {
+			box-shadow: 0 4px 12px rgba(100, 150, 255, 0.3);
+			transform: translateY(-2px);
+		}
+
+		/* ========== ERROR TEXT ========== */
+		.error-text {
+			color: #ff4081;
+			font-size: 0.85rem;
+			margin-top: 5px;
+			font-weight: 600;
+			display: block;
+		}
+
+		/* ========== BUTTON GROUP ========== */
+		.button-group {
+			display: flex;
+			gap: 15px;
+			justify-content: center;
+			margin-top: 30px;
+		}
+
+		/* ========== SUBMIT BUTTON ========== */
+		.btn-submit {
+			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
+			border: none;
+			color: white;
+			font-weight: 600;
+			padding: 12px 32px;
+			border-radius: 10px;
+			cursor: pointer;
+			transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+			font-family: "Poppins", sans-serif;
+			font-size: 1rem;
+		}
+
+		.btn-submit:hover {
+			box-shadow: 0 6px 20px rgba(100, 150, 255, 0.4);
+			transform: translateY(-2px);
+		}
+
+		.btn-submit:active {
+			transform: translateY(0);
+		}
+
+		/* ========== CANCEL BUTTON ========== */
+		.btn-cancel {
+			background: rgba(100, 150, 255, 0.1);
+			border: 1.5px solid rgba(100, 150, 255, 0.3);
+			color: #6496ff;
+			font-weight: 600;
+			padding: 12px 32px;
+			border-radius: 10px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			text-decoration: none;
+			display: inline-block;
+			font-family: "Poppins", sans-serif;
+			font-size: 1rem;
+		}
+
+		.btn-cancel:hover {
+			background: rgba(100, 150, 255, 0.2);
+			border-color: #6496ff;
+			color: #6496ff;
+		}
+
+		/* ========== TOAST NOTIFICATIONS ========== */
+		.toastify-container {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			z-index: 9999;
+			pointer-events: none;
+		}
+
+		.toastify {
+			min-width: 300px;
+			max-width: 400px;
+			border-radius: 10px;
+			padding: 16px 20px;
+			color: white;
+			font-weight: 500;
+			font-size: 0.95rem;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+			margin-bottom: 12px;
+			pointer-events: auto;
+			animation: toastSlideIn 0.35s ease forwards;
+			border: none;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.toastify.success {
+			background: #27ae60;
+		}
+
+		.toastify.error {
+			background: #e74c3c;
+		}
+
+		.toastify span {
+			flex: 1;
+			line-height: 1.4;
+		}
+
+		.toastify-close {
+			width: 24px;
+			height: 24px;
+			border-radius: 50%;
+			background: rgba(255, 255, 255, 0.2);
+			border: none;
+			color: white;
+			font-size: 1.1rem;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.25s ease;
+			flex-shrink: 0;
+			font-weight: 700;
+		}
+
+		.toastify-close:hover {
+			background: rgba(255, 255, 255, 0.35);
+		}
+
+		@keyframes toastSlideIn {
+			from {
+				opacity: 0;
+				transform: translateX(450px);
+			}
+			to {
+				opacity: 1;
+				transform: translateX(0);
+			}
+		}
+
+		@keyframes fadeInUp {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		/* ========== RESPONSIVE DESIGN ========== */
+		@media (max-width: 768px) {
+			.form-box {
+				padding: 30px;
+				max-width: 100%;
+			}
+
+			h1 {
+				font-size: 1.5rem;
+				margin-bottom: 20px;
+			}
+
+			label {
+				font-size: 0.9rem;
+			}
+
+			.form-control,
+			.form-file {
+				padding: 10px 12px;
+				font-size: 0.9rem;
+			}
+
+			.button-group {
+				flex-direction: column;
+			}
+
+			.btn-submit,
+			.btn-cancel {
+				width: 100%;
+			}
+
+			.toastify {
+				min-width: 280px;
+				max-width: 85vw;
+				font-size: 0.9rem;
+				padding: 12px 16px;
+			}
+		}
+
+		@media (max-width: 480px) {
+			.form-box {
+				padding: 20px;
+			}
+
+			h1 {
+				font-size: 1.3rem;
+			}
+
+			.form-group {
+				margin-bottom: 18px;
+			}
+
+			label {
+				font-size: 0.85rem;
+			}
+		}
+	</style>
 </head>
+
 <body>
-<div align="center">
-	<h1>Add Movie</h1>
-	
-	<form action="/add-movie" method="post" th:object="${movieDto}" enctype="multipart/form-data">
-		Name: <input type="text" th:field="*{name}">
-		<span th:errors="*{name}"></span>
-		<br><br>
-		Genre: <input type="text" th:field="*{genre}">
-		<span th:errors="*{genre}"></span>
-		<br><br>
-		Languages: <input type="text" th:field="*{languages}">
-		<span th:errors="*{languages}"></span>
-		<br><br>
-		Duration: <input type="time" th:field="*{duration}">
-		<span th:errors="*{duration}"></span>
-		<br><br>
-		Image: <input type="file" th:field="*{image}">
-		<span th:errors="*{image}"></span>
-		<br><br>
-		Trailer Link: <input type="text" th:field="*{trailerLink}">
-		<span th:errors="*{trailerLink}"></span>
-		<br><br>
-		Description: <input type="text" th:field="*{description}">
-		<span th:errors="*{description}"></span>
-		<br><br>
-		Release Date: <input type="date" th:field="*{releaseDate}">
-		<span th:errors="*{releaseDate}"></span>
-		<br><br>
-		Cast: <input type="text" th:field="*{cast}">
-		<span th:errors="*{cast}"></span>
-		<br><br>
-		<button>Add Movie</button>
-	</form>
-</div>
+
+	<!-- TOAST NOTIFICATIONS -->
+	<div class="toastify-container">
+		<div th:if="${pass}" class="toastify success">
+			<span th:text="${pass}"></span>
+		</div>
+		<div th:if="${fail}" class="toastify error">
+			<span th:text="${fail}"></span>
+		</div>
+	</div>
+
+	<!-- FORM CONTAINER -->
+	<div class="form-container">
+		<div class="form-box">
+			<h1>🎬 Add Movie</h1>
+
+			<form action="/add-movie" method="post" th:object="${movieDto}" enctype="multipart/form-data">
+
+				<!-- Movie Name -->
+				<div class="form-group">
+					<label for="name">Movie Name <span style="color: #ff4081;">*</span></label>
+					<input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Enter movie name">
+					<span class="error-text" th:errors="*{name}"></span>
+				</div>
+
+				<!-- Genre -->
+				<div class="form-group">
+					<label for="genre">Genre <span style="color: #ff4081;">*</span></label>
+					<input type="text" id="genre" class="form-control" th:field="*{genre}" placeholder="e.g., Action, Drama">
+					<span class="error-text" th:errors="*{genre}"></span>
+				</div>
+
+				<!-- Languages -->
+				<div class="form-group">
+					<label for="languages">Languages <span style="color: #ff4081;">*</span></label>
+					<input type="text" id="languages" class="form-control" th:field="*{languages}" placeholder="e.g., English, Hindi">
+					<span class="error-text" th:errors="*{languages}"></span>
+				</div>
+
+				<!-- Duration -->
+				<div class="form-group">
+					<label for="duration">Duration (HH:MM) <span style="color: #ff4081;">*</span></label>
+					<input type="time" id="duration" class="form-control" th:field="*{duration}" placeholder="Duration">
+					<span class="error-text" th:errors="*{duration}"></span>
+				</div>
+
+				<!-- Image -->
+				<div class="form-group">
+					<label for="image">Movie Poster <span style="color: #ff4081;">*</span></label>
+					<input type="file" id="image" class="form-file" th:field="*{image}" accept="image/*">
+					<span class="error-text" th:errors="*{image}"></span>
+				</div>
+
+				<!-- Trailer Link -->
+				<div class="form-group">
+					<label for="trailerLink">Trailer Link</label>
+					<input type="text" id="trailerLink" class="form-control" th:field="*{trailerLink}" placeholder="https://youtube.com/...">
+					<span class="error-text" th:errors="*{trailerLink}"></span>
+				</div>
+
+				<!-- Description -->
+				<div class="form-group">
+					<label for="description">Description <span style="color: #ff4081;">*</span></label>
+					<textarea id="description" class="form-control" th:field="*{description}" placeholder="Enter movie description" rows="3"></textarea>
+					<span class="error-text" th:errors="*{description}"></span>
+				</div>
+
+				<!-- Release Date -->
+				<div class="form-group">
+					<label for="releaseDate">Release Date <span style="color: #ff4081;">*</span></label>
+					<input type="date" id="releaseDate" class="form-control" th:field="*{releaseDate}">
+					<span class="error-text" th:errors="*{releaseDate}"></span>
+				</div>
+
+				<!-- Cast -->
+				<div class="form-group">
+					<label for="cast">Cast <span style="color: #ff4081;">*</span></label>
+					<input type="text" id="cast" class="form-control" th:field="*{cast}" placeholder="e.g., Actor 1, Actor 2">
+					<span class="error-text" th:errors="*{cast}"></span>
+				</div>
+
+				<!-- Button Group -->
+				<div class="button-group">
+					<button type="submit" class="btn-submit">Add Movie</button>
+					<a href="/manage-movies" class="btn-cancel">Cancel</a>
+				</div>
+
+			</form>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const toasts = document.querySelectorAll('.toastify');
+
+			toasts.forEach(toastElement => {
+				// Create close button
+				const closeBtn = document.createElement('button');
+				closeBtn.className = 'toastify-close';
+				closeBtn.innerHTML = '×';
+				closeBtn.type = 'button';
+
+				// Insert close button before span
+				const spanElement = toastElement.querySelector('span');
+				if (spanElement) {
+					toastElement.insertBefore(closeBtn, spanElement.nextSibling);
+				}
+
+				// Close button click handler
+				closeBtn.addEventListener('click', () => {
+					toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+					setTimeout(() => toastElement.remove(), 400);
+				});
+
+				// Auto remove after 3.5 seconds
+				const timeout = setTimeout(() => {
+					if (document.body.contains(toastElement)) {
+						toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+						setTimeout(() => toastElement.remove(), 400);
+					}
+				}, 3500);
+
+				// Clear timeout if closed manually
+				closeBtn.addEventListener('click', () => clearTimeout(timeout));
+			});
+		});
+	</script>
+
 </body>
+
 </html>

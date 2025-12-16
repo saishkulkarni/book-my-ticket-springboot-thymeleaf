@@ -1,201 +1,127 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Manage Seats - BookMyTicket Admin</title>
+<meta charset="UTF-8">
+<title>Manage Seats</title>
 
-	<!-- Bootstrap -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+	rel="stylesheet">
 
-	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+body {
+	font-family: "Poppins", sans-serif;
+	background: #f4f6f9;
+}
 
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
+.container {
+	max-width: 1100px;
+	margin-top: 40px;
+}
 
-		body {
-			font-family: "Poppins", sans-serif;
-			background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
-			min-height: 100vh;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: #1a2332;
-		}
+.screen-label {
+	text-align: center;
+	font-weight: 700;
+	margin-bottom: 30px;
+	padding: 12px;
+	background: linear-gradient(135deg, #6496ff, #ff4081);
+	color: white;
+	border-radius: 10px;
+	letter-spacing: 2px;
+}
 
-		/* Main Container */
-		.container-center {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			min-height: 100vh;
-			padding: 20px;
-		}
+.row-wrapper {
+	display: flex;
+	align-items: center;
+	margin-bottom: 12px;
+}
 
-		/* Message Box */
-		.message-box {
-			width: 100%;
-			max-width: 480px;
-			padding: 60px 40px;
-			background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
-			border-radius: 20px;
-			border: 1.5px solid rgba(100, 150, 255, 0.2);
-			box-shadow: 0 20px 50px rgba(100, 150, 255, 0.1);
-			text-align: center;
-			animation: fadeInUp 0.8s ease-out;
-		}
+.row-name {
+	width: 70px;
+	font-weight: 700;
+}
 
-		.icon {
-			font-size: 3.5rem;
-			margin-bottom: 20px;
-		}
+.seat {
+	width: 36px;
+	height: 36px;
+	border-radius: 6px;
+	margin: 3px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.75rem;
+	font-weight: 600;
+}
 
-		h2 {
-			font-weight: 700;
-			color: #1a2332;
-			font-size: 1.8rem;
-			margin-bottom: 15px;
-		}
+.STANDARD {
+	background: #e3f2fd;
+	border: 1px solid #64b5f6;
+}
 
-		p {
-			color: #5a6b7d;
-			font-size: 1rem;
-			margin-bottom: 30px;
-			line-height: 1.6;
-		}
+.PREMIUM {
+	background: #fff3cd;
+	border: 1px solid #ffca28;
+}
 
-		/* Button */
-		.btn-action {
-			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
-			color: white !important;
-			text-decoration: none;
-			padding: 12px 32px;
-			border-radius: 10px;
-			font-weight: 600;
-			font-size: 0.95rem;
-			transition: all 0.3s ease;
-			display: inline-block;
-			border: none;
-			cursor: pointer;
-		}
+.VIP {
+	background: #f8d7da;
+	border: 1px solid #f44336;
+}
 
-		.btn-action:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 4px 15px rgba(100, 150, 255, 0.25);
-			color: white;
-		}
-
-		/* Animations */
-		@keyframes fadeInUp {
-			from {
-				opacity: 0;
-				transform: translateY(30px);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		/* Responsive Design */
-		@media (max-width: 992px) {
-			.message-box {
-				padding: 50px 30px;
-			}
-
-			h2 {
-				font-size: 1.6rem;
-			}
-		}
-
-		@media (max-width: 768px) {
-			.container-center {
-				padding: 15px;
-			}
-
-			.message-box {
-				padding: 40px 25px;
-			}
-
-			h2 {
-				font-size: 1.4rem;
-				margin-bottom: 12px;
-			}
-
-			p {
-				font-size: 0.95rem;
-				margin-bottom: 25px;
-			}
-
-			.icon {
-				font-size: 3rem;
-				margin-bottom: 15px;
-			}
-
-			.btn-action {
-				padding: 10px 24px;
-				font-size: 0.9rem;
-			}
-		}
-
-		@media (max-width: 480px) {
-			.message-box {
-				padding: 35px 20px;
-			}
-
-			h2 {
-				font-size: 1.3rem;
-				margin-bottom: 10px;
-			}
-
-			p {
-				font-size: 0.9rem;
-				margin-bottom: 20px;
-			}
-
-			.icon {
-				font-size: 2.5rem;
-				margin-bottom: 12px;
-			}
-
-			.btn-action {
-				padding: 10px 20px;
-				font-size: 0.85rem;
-			}
-		}
-	</style>
+.actions {
+	margin-top: 30px;
+	text-align: end;
+}
+</style>
 </head>
 
 <body>
 
-	<!-- CONTAINER -->
-	<div class="container-center">
+	<div class="container">
 
-		<!-- IF SEATS EXISTS -->
-		<div th:if="${!seats.isEmpty()}" class="message-box">
-			<div class="icon">🪑</div>
-			<h2>Seat Layout Configured</h2>
-			<p>This screen already has a seat layout configured.</p>
-			<a href="/manage-theaters" class="btn-action">← Back to Theaters</a>
+		<!-- ================= NO SEATS ================= -->
+		<div th:if="${#maps.isEmpty(seatsByRow)}" class="text-center mt-5">
+			<h3>No Seat Layout Found</h3>
+			<p class="text-muted">This screen does not have a seat layout
+				yet.</p>
+
+			<a th:href="@{/add-seats/{id}(id=${screenId})}"
+				class="btn btn-primary mt-3"> + Create Seat Layout </a>
 		</div>
 
-		<!-- IF NO SEATS -->
-		<div th:if="${seats.isEmpty()}" class="message-box">
-			<div class="icon">✏️</div>
-			<h2>Create Seat Layout</h2>
-			<p>Define the seat arrangement for this screen. Add rows and seats to complete the layout.</p>
-			<a th:href="'/add-seats/'+${id}" class="btn-action">+ Create Seat Layout</a>
+		<!-- ================= SEATS EXIST ================= -->
+		<div th:if="${!#maps.isEmpty(seatsByRow)}">
+
+			<div class="screen-label">🎬 SCREEN THIS SIDE 🎬</div>
+
+			<!-- GROUP BY ROW -->
+			<div th:each="rowEntry : ${seatsByRow}">
+
+				<div class="row-wrapper">
+					<div class="row-name" th:text="${rowEntry.key}"></div>
+
+					<div class="d-flex flex-wrap">
+						<div th:each="seat : ${rowEntry.value}" class="seat"
+							th:classappend="${seat.category}" th:text="${seat.seatColumn}">
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- ACTIONS -->
+			<div class="actions">
+
+				<a href="/manage-theaters" class="btn btn-secondary ms-2"> ←
+					Back </a>
+			</div>
+
 		</div>
 
 	</div>
-
-	<!-- Bootstrap JS -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

@@ -2,7 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Book My Ticket - Register</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - BookMyTicket</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
 <!-- Bootstrap CSS -->
 <link
@@ -11,7 +15,7 @@
 
 <!-- Google Font -->
 <link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
 	rel="stylesheet">
 
 <style>
@@ -28,117 +32,100 @@ html {
 
 body {
 	font-family: 'Poppins', sans-serif;
-	background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
-	color: #1a2332;
+	background: #f8f9fa;
+	color: #2c3e50;
 	overflow-x: hidden;
 	min-height: 100vh;
 }
 
 /* ========== NAVBAR ========== */
 .navbar {
-	background: rgba(255, 255, 255, 0.96) !important;
-	backdrop-filter: blur(20px);
-	padding: 0.8rem 2rem;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-	border-bottom: 1px solid rgba(100, 150, 255, 0.15);
+	background: #fff !important;
+	padding: 1rem 2rem;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 	position: sticky;
 	top: 0;
 	z-index: 1000;
+	border-bottom: 1px solid #e8e8e8;
 }
 
 .navbar-brand {
-	font-weight: 900;
-	font-size: 1.6rem;
-	letter-spacing: 1px;
-	background: linear-gradient(135deg, #6496ff 0%, #ff4081 50%, #00bcd4 100%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
-	font-style: italic;
+	font-weight: 800;
+	font-size: 1.5rem;
+	letter-spacing: 0.5px;
+	color: #e74c3c !important;
 }
 
-.navbar-toggler {
-	border-color: rgba(100, 150, 255, 0.5) !important;
+.nav-link {
+	color: #555 !important;
+	font-weight: 500;
+	transition: color 0.3s ease;
 }
 
-.navbar-toggler-icon {
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28100, 150, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+.nav-link:hover {
+	color: #e74c3c !important;
 }
 
-/* ========== REGISTER SECTION ========== */
+/* ========== REGISTER CONTAINER ========== */
 .register-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	min-height: calc(100vh - 80px);
-	padding: 20px;
-	animation: fadeInUp 0.8s ease;
+	padding: 40px 20px;
 }
 
 .register-box {
 	width: 100%;
 	max-width: 480px;
 	padding: 40px;
-	background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
-	backdrop-filter: blur(10px);
-	border-radius: 16px;
-	border: 1px solid rgba(100, 150, 255, 0.2);
-	box-shadow: 0 12px 40px rgba(100, 150, 255, 0.15);
-	color: #1a2332;
-	position: relative;
-}
-
-.register-box::before {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(135deg, rgba(100, 200, 255, 0.05) 0%, transparent 100%);
-	border-radius: 16px;
-	pointer-events: none;
+	background: #fff;
+	border-radius: 12px;
+	border: 1px solid #e8e8e8;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+	color: #2c3e50;
 }
 
 .register-box h3 {
-	color: #2d5bff;
-	font-weight: 900;
+	color: #1a252f;
+	font-weight: 800;
 	margin-bottom: 1.5rem;
 	font-size: 1.8rem;
-	letter-spacing: 0.5px;
 }
 
-/* ========== FORM INPUTS ========== */
+/* ========== FORM STYLES ========== */
 .form-label {
-	color: #1a2332;
-	font-weight: 700;
-	margin-bottom: 0.7rem;
+	color: #2c3e50;
+	font-weight: 600;
+	margin-bottom: 0.6rem;
 	font-size: 0.95rem;
-	letter-spacing: 0.3px;
 }
 
 .form-control {
-	background: rgba(255, 255, 255, 0.7);
-	border: 1.5px solid rgba(100, 150, 255, 0.2);
-	color: #1a2332;
-	border-radius: 10px;
-	padding: 0.8rem 1.2rem;
+	background: #f8f9fa;
+	border: 1px solid #e8e8e8;
+	color: #2c3e50;
+	border-radius: 8px;
+	padding: 0.75rem 1rem;
 	font-weight: 500;
 	transition: all 0.3s ease;
 }
 
-.form-control::placeholder {
-	color: rgba(26, 35, 50, 0.5);
+.form-control:focus {
+	background: #fff;
+	border-color: #e74c3c;
+	box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+	color: #2c3e50;
 }
 
-.form-control:focus {
-	background: rgba(255, 255, 255, 0.9);
-	border-color: #6496ff;
-	box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.15);
-	color: #1a2332;
+.form-control::placeholder {
+	color: #999;
 }
 
 /* ========== ERROR TEXT ========== */
 .error-text {
 	font-size: 0.85rem;
-	color: #ff4081;
+	color: #e74c3c;
 	font-weight: 600;
 	margin-top: 0.3rem;
 	display: block;
@@ -146,113 +133,103 @@ body {
 
 /* ========== CHECKBOX ========== */
 .form-check-label {
-	color: #5a6b7d;
-	font-weight: 600;
-	margin-left: 0.5rem;
+	color: #555;
+	font-weight: 500;
+	font-size: 0.95rem;
 }
 
 .form-check-input {
-	border-color: rgba(100, 150, 255, 0.3) !important;
-	background-color: rgba(255, 255, 255, 0.8);
-}
-
-.form-check-input:checked {
-	background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
-	border-color: #6496ff !important;
+	border-color: #ddd;
+	accent-color: #e74c3c;
 }
 
 .form-check-input:focus {
-	box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.15) !important;
-	border-color: #6496ff !important;
+	border-color: #e74c3c;
+	box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);
 }
 
-/* ========== BUTTON ========== */
+/* ========== BUTTONS ========== */
 .btn {
-	font-weight: 700;
-	border-radius: 10px;
+	font-weight: 600;
+	border-radius: 8px;
 	transition: all 0.3s ease;
 	text-transform: uppercase;
-	letter-spacing: 0.5px;
-	font-size: 0.9rem;
-	padding: 0.7rem 1.5rem;
-	position: relative;
-	overflow: hidden;
-}
-
-.btn::after {
-	content: "";
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
-	opacity: 0;
-	transition: opacity 0.3s ease;
-	z-index: 1;
-}
-
-.btn:hover::after {
-	opacity: 1;
+	letter-spacing: 0.3px;
+	font-size: 0.85rem;
+	padding: 0.75rem 1.8rem;
+	border: none;
 }
 
 .btn-primary {
-	background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
-	border: none;
+	background: #e74c3c;
 	color: #fff;
-	box-shadow: 0 4px 15px rgba(100, 150, 255, 0.3);
-	position: relative;
-	z-index: 0;
-	width: 100%;
-	padding: 0.8rem;
-	margin-top: 1.2rem;
+	box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
 }
 
 .btn-primary:hover {
-	box-shadow: 0 8px 25px rgba(100, 150, 255, 0.4);
+	background: #c0392b;
+	box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 	transform: translateY(-2px);
 	color: #fff;
 }
 
 .btn-outline-light {
-	color: #2d5bff;
-	border: 2px solid rgba(100, 150, 255, 0.4);
-	background: rgba(255, 255, 255, 0.8);
-	font-weight: 700;
+	color: #e74c3c;
+	border: 2px solid #e74c3c;
+	background: transparent;
+	font-weight: 600;
 }
 
 .btn-outline-light:hover {
-	background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
-	border-color: #6496ff;
+	background: #e74c3c;
 	color: #fff;
 }
 
-.btn-warning {
-	background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
-	border: none;
-	color: #1a2332;
-	font-weight: 700;
-	box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
-}
-
 /* ========== LINKS ========== */
-.register-box a {
-	color: #6496ff;
+a {
+	color: #e74c3c;
 	text-decoration: none;
 	font-weight: 600;
-	transition: all 0.3s ease;
+	transition: color 0.3s ease;
 }
 
-.register-box a:hover {
-	color: #ff4081;
+a:hover {
+	color: #c0392b;
 }
 
 /* ========== ANIMATIONS ========== */
-@keyframes fadeInUp {
+@keyframes slideDown {
 	from {
 		opacity: 0;
-		transform: translateY(30px);
+		transform: translateY(-10px);
 	}
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+
+.register-box {
+	animation: slideDown 0.4s ease;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+	.navbar {
+		padding: 0.75rem 1.5rem;
+	}
+
+	.navbar-brand {
+		font-size: 1.3rem;
+	}
+
+	.register-box {
+		padding: 30px;
+	}
+
+	.register-box h3 {
+		font-size: 1.5rem;
+		margin-bottom: 1.2rem;
 	}
 }
 
@@ -449,30 +426,22 @@ body {
 <body>
 
 	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg navbar-dark shadow-sm px-4">
-		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
-
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-			data-bs-target="#navMenu">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
-
-			<!-- NOT LOGGED IN -->
-			<div th:if="${session.user == null}">
-				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
-					href="/register" class="btn btn-warning">Register</a>
+	<nav class="navbar navbar-expand-lg navbar-light bg-white">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="/">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/login">Login</a>
+					</li>
+				</ul>
 			</div>
-
-			<!-- LOGGED IN -->
-			<div th:if="${session.user != null}"
-				class="d-flex align-items-center">
-				<span class="text-white me-3"
-					th:text="'Hello, ' + ${session.user.name}"></span> <a
-					href="/logout" class="btn btn-danger">Logout</a>
-			</div>
-
 		</div>
 	</nav>
 
