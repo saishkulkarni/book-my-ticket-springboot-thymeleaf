@@ -1,0 +1,115 @@
+Resume: 
+----------------------------------------------------------------------------------------------------------------------
+Project: Book My Ticket – Online Movie Ticket Booking System
+
+Description:
+Developed a full-stack web application for online movie ticket booking with separate Admin and User modules. 
+The system allows users to browse movies, select shows and seats, make online payments, and receive QR-coded tickets, 
+while admins manage movies, theaters, screens, seat layouts, and users.
+
+Technologies Used:
+Java, Spring Boot, Spring MVC, Spring Data JPA, Hibernate, Thymeleaf, HTML, CSS, Bootstrap, MySQL, Spring Security
+
+Key Features:
+Role-based authentication for Admin and User
+OTP-based email verification using JavaMailSender
+Movie and theater image upload using Cloudinary
+Online ticket booking with Razorpay payment gateway
+Real-time seat selection and booking
+QR code generation for ticket confirmation
+Admin user management (block/unblock users)
+
+Integrations:
+Razorpay, Cloudinary, JavaMailSender, QR Code Generator
+
+------------------------------------------------------------------------------------------------------------------------
+
+Short Explanation:
+Book My Ticket is an online movie ticket booking application developed using Spring Boot and Thymeleaf. 
+It has two modules: Admin and User.
+Admins can manage movies, theaters, screens, seat layouts, and users, while users can register using OTP-based email verification,
+view available shows, book seats, make payments using Razorpay, and receive QR-coded tickets. Cloudinary is used for image storage,
+and MySQL is used for database management.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Detailed Explanation:
+This project is a full-stack Spring Boot application with Thymeleaf as the frontend.
+It has two roles: Admin and User.
+The Admin module allows admins to log in securely and manage movies, theaters, screens, seat layouts, and show timings. 
+Admins can also view registered users and block or unblock them.
+The User module allows users to register and verify their email using OTP sent via JavaMailSender. 
+After login, users can browse movies, select shows, choose seats, and proceed with booking.
+
+For payments, Razorpay is integrated to handle secure online transactions. Once payment is successful, 
+a booking is created and a QR code is generated for the ticket, which can be used for entry validation.
+
+Images of movies and theaters are stored in Cloudinary to reduce server load. MySQL is used for storing user,
+ booking, show, and payment data using JPA and Hibernate.
+
+Architecture Explanation:
+
+Controller Layer → Handles requests
+Service Layer → Business logic
+Repository Layer → Database operations using JPA
+Frontend → Thymeleaf templates
+Database → MySQL, Redis 
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+Q1: Why did you choose Spring Boot?
+
+Answer:
+Spring Boot reduces boilerplate code, provides auto-configuration, and makes application development faster and easier.
+
+Q2: Why Thymeleaf instead of React?
+
+Answer:
+Thymeleaf integrates easily with Spring Boot, supports server-side rendering, and is suitable for monolithic applications.
+
+
+Q3: How is OTP verification implemented?
+
+Answer:
+OTP is generated during registration and sent via JavaMailSender to the user’s email. The user must verify it to activate the account.
+
+🔸 Payment & Booking
+Q4: How does Razorpay payment flow work?
+
+Answer:
+An order is created on the server, payment is completed on Razorpay, and the payment signature is verified before confirming the booking.
+
+Q5: How do you prevent double booking of seats?
+
+Answer:
+Seat availability is checked before booking and seats are marked as booked after successful payment.
+
+🔸 Cloudinary & QR Code
+Q6: Why Cloudinary?
+
+Answer:
+To store images securely in the cloud and reduce server storage and load.
+
+Q7: Why QR code in tickets?
+
+Answer:
+QR codes help in quick ticket verification and reduce fraud.
+
+🔸 Database & JPA
+Q8: What entities are used?
+
+Answer:
+User, Movie, Theater, Screen, Seat, Show, Booking, Payment.
+
+
+🔸 Advanced / Tricky Questions
+Q9: What improvements can be made?
+
+Answer:
+JWT authentication, REST APIs, React frontend, seat locking, ticket cancellation, refunds, and deployment on AWS.
+
+Q10: How would you scale this application?
+
+Answer:
+Use microservices, caching (Redis), load balancing, and cloud deployment.
