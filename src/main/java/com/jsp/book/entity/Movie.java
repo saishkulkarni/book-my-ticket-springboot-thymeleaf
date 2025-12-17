@@ -1,6 +1,7 @@
 package com.jsp.book.entity;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,7 +27,7 @@ public class Movie {
 	@Column(nullable = false)
 	private String genre;
 	@Column(nullable = false)
-	private String duration;
+	private LocalTime duration;
 	@Column(nullable = false)
 	private String imageLink;
 	@Column(nullable = false)

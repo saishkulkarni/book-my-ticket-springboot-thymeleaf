@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add Show</title>
+</head>
+<body>
+	<div align="center">
+		<h1>Add Show</h1>
+		<form action="/add-show" method="post" th:object="${showDto}">
+			<input type="hidden" th:field="*{screenId}"> Select Show
+			Date: <input type="date" th:field="*{showDate}"> <span
+				th:errors="*{showDate}"></span> <br>
+			<br> Select Show Start Time: <input type="time"
+				th:field="*{startTime}"> <span th:errors="*{startTime}"></span>
+			<br>
+			<br> Select Movie: <select th:field="*{movieId}">
+				<option th:each="movie:${movies}" th:value="${movie.id}"
+					th:text="${movie.name}"></option>
+			</select> <span th:errors="*{movieId}"></span> <br>
+			<br> Select Show Price : <input type="number"
+				th:field="*{ticketPrice}"> <span th:errors="*{ticketPrice}"></span>
+			<br>
+			<br>
+			<button>Add Show</button>
+		</form>
+	</div>
+</body>
+</html>

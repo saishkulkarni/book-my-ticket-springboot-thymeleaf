@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage Shows</title>
+</head>
+<body>
+<div align="center">
+	<div th:if="${!shows.isEmpty()}">
+		<h1 th:text="${shows}"></h1>
+	</div>
+	
+	<a th:href="'/add-show/'+${id}"><button>Add Show</button></a>
+	
+</div>
+</body>
+</html>
