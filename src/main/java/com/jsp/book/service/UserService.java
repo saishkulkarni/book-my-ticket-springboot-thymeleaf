@@ -82,5 +82,5 @@ public interface UserService {
 
 	String addShow(Long id, ModelMap map, RedirectAttributes attributes, HttpSession session);
 
-	String addShow(ShowDto showDto, BindingResult result, RedirectAttributes attributes, HttpSession session);
+	String addShow(ShowDto showDto, BindingResult result, RedirectAttributes attributes, HttpSession session, ModelMap map);
 }

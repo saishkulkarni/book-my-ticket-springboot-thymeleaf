@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.jsp.book.BookMyTicketApplication;
 import com.jsp.book.dto.LoginDto;
 import com.jsp.book.dto.MovieDto;
 import com.jsp.book.dto.PasswordDto;
@@ -48,6 +49,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
+	private final BookMyTicketApplication bookMyTicketApplication;
 
 	private final UserRepository userRepository;
 	private final SecureRandom random;
@@ -652,18 +655,27 @@ public class UserServiceImpl implements UserService {
 			attributes.addFlashAttribute("fail", "Invalid Session");
 			return "redirect:/login";
 		} else {
+
 			Screen screen = screenRepository.findById(id).orElseThrow();
+			List<Seat> seats = seatRepository.findByScreenOrderBySeatRowAscSeatColumnAsc(screen);
+
 			List<Movie> movies = movieRepository.findAll();
-			map.put("movies", movies);
-			ShowDto showDto = new ShowDto();
-			showDto.setScreenId(screen.getId());
-			map.put("showDto", showDto);
-			return "add-show";
+			if (!seats.isEmpty() && !movies.isEmpty()) {
+				map.put("movies", movies);
+				ShowDto showDto = new ShowDto();
+				showDto.setScreenId(screen.getId());
+				map.put("showDto", showDto);
+				return "add-show";
+			} else {
+				attributes.addFlashAttribute("fail", "First Add Movie and Add Seat Layout to continue");
+				return "redirect:/manage-screens/" + screen.getTheater().getId();
+			}
 		}
 	}
 
 	@Override
-	public String addShow(ShowDto showDto, BindingResult result, RedirectAttributes attributes, HttpSession session) {
+	public String addShow(ShowDto showDto, BindingResult result, RedirectAttributes attributes, HttpSession session,
+			ModelMap map) {
 		User user = getUserFromSession(session);
 		if (user == null || !user.getRole().equals("ADMIN")) {
 			attributes.addFlashAttribute("fail", "Invalid Session");
@@ -678,7 +690,8 @@ public class UserServiceImpl implements UserService {
 			if (!shows.isEmpty()) {
 				boolean flag = false;
 				for (Show show : shows) {
-					if (showDto.getStartTime().isBefore(show.getEndTime())) {
+					if (show.getShowDate().isEqual(showDto.getShowDate())
+							&& showDto.getStartTime().isBefore(show.getEndTime())) {
 						flag = true;
 						break;
 					}
@@ -688,6 +701,8 @@ public class UserServiceImpl implements UserService {
 			}
 
 			if (result.hasErrors()) {
+				List<Movie> movies = movieRepository.findAll();
+				map.put("movies", movies);
 				return "add-show";
 			} else {
 				Show show = new Show();
@@ -706,6 +721,7 @@ public class UserServiceImpl implements UserService {
 					ShowSeat showSeat = new ShowSeat();
 					showSeat.setBooked(false);
 					showSeat.setSeat(seat);
+					seats.add(showSeat);
 				}
 
 				show.setSeats(seats);

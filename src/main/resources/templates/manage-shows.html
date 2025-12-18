@@ -7,9 +7,40 @@
 <body>
 <div align="center">
 	<div th:if="${!shows.isEmpty()}">
-		<h1 th:text="${shows}"></h1>
-	</div>
-	
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Show Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Movie</th>
+                <th>Ticket Price</th>
+                <th>Total Seats</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="show : ${shows}">
+
+                <td th:text="${show.showDate}"></td>
+
+                <td th:text="${show.startTime}"></td>
+
+                <td th:text="${show.endTime}"></td>
+
+                <td th:text="${show.movie.name}"></td>
+
+                <td th:text="${show.ticketPrice}"></td>
+
+                <td th:text="${#lists.size(show.seats)}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:if="${shows.isEmpty()}">
+    <p>No shows available.</p>
+</div>
+
 	<a th:href="'/add-show/'+${id}"><button>Add Show</button></a>
 	
 </div>
