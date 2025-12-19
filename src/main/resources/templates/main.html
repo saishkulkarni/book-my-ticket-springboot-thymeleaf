@@ -523,55 +523,18 @@
 
 
 	<!-- MOVIES -->
-	<section class="container" id="movies">
+	<section class="container" id="movies" th:if="${!movies.isEmpty()}">
 		<h2 class="text-center fw-bold mb-5">Now Showing</h2>
 
 		<div class="row g-4">
 
-			<!-- Avengers -->
-			<div class="col-lg-3 col-md-4 col-sm-6">
+			<div class="col-lg-3 col-md-4 col-sm-6" th:each="movie:${movies}">
 				<div class="movie-card">
-					<img src="https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg">
+					<img th:src="${movie.imageLink}">
 					<div class="card-body">
-						<h5 class="fw-semibold">Avengers: Endgame</h5>
-						<p class="text-muted small">Action • 3h 1m</p>
-						<a href="/movie/1" class="btn btn-primary w-100">Book Now</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- Interstellar -->
-			<div class="col-lg-3 col-md-4 col-sm-6">
-				<div class="movie-card">
-					<img src="https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg">
-					<div class="card-body">
-						<h5 class="fw-semibold">Interstellar</h5>
-						<p class="text-muted small">Sci-Fi • 2h 49m</p>
-						<a href="/movie/2" class="btn btn-primary w-100">Book Now</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- Inception -->
-			<div class="col-lg-3 col-md-4 col-sm-6">
-				<div class="movie-card">
-					<img src="https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg">
-					<div class="card-body">
-						<h5 class="fw-semibold">Inception</h5>
-						<p class="text-muted small">Thriller • 2h 28m</p>
-						<a href="/movie/3" class="btn btn-primary w-100">Book Now</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- Joker -->
-			<div class="col-lg-3 col-md-4 col-sm-6">
-				<div class="movie-card">
-					<img src="https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg">
-					<div class="card-body">
-						<h5 class="fw-semibold">Joker</h5>
-						<p class="text-muted small">Drama • 2h 2m</p>
-						<a href="/movie/4" class="btn btn-primary w-100">Book Now</a>
+						<h5 class="fw-semibold" th:text="${movie.name}"></h5>
+						<p class="text-muted small"><span th:text="${movie.genre}"></span> • <span th:text="${movie.duration}"></span> hours </p>
+						<a href="" class="btn btn-primary w-100">Book Now</a>
 					</div>
 				</div>
 			</div>

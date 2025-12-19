@@ -32,8 +32,8 @@ public class UserController {
 	private final UserService userService;
 
 	@GetMapping({ "/", "/main" })
-	public String loadMain() {
-		return "main.html";
+	public String loadMain(ModelMap map) {
+		return userService.loadMain(map);
 	}
 
 	@GetMapping("/register")
