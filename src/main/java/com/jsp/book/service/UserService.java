@@ -85,4 +85,6 @@ public interface UserService {
 	String addShow(ShowDto showDto, BindingResult result, RedirectAttributes attributes, HttpSession session, ModelMap map);
 
 	String loadMain(ModelMap map);
+
+	String bookMovie(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map);
 }

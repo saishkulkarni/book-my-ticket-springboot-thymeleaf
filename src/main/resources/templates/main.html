@@ -488,8 +488,7 @@
 			<div th:if="${session.user != null}" class="d-flex align-items-center">
 				<span class="text-white me-3 fw-semibold" th:text="'Hello, ' + ${session.user.name}"></span> <a
 					th:if="${session.user.role=='USER'}" href="/bookings" class="btn btn-outline-light me-2">My
-					Bookings</a> <a th:if="${session.user.role=='USER'}" href="/movies"
-					class="btn btn-outline-light me-2">Movies</a> <a th:if="${session.user.role=='ADMIN'}"
+					Bookings</a> <a th:if="${session.user.role=='ADMIN'}"
 					href="/manage-movies" class="btn btn-danger me-2">Manage Movies</a> <a
 					th:if="${session.user.role=='ADMIN'}" href="/manage-theaters" class="btn btn-danger me-2">Manage
 					Theaters</a> <a th:if="${session.user.role=='ADMIN'}" href="/manage-users"
@@ -534,7 +533,7 @@
 					<div class="card-body">
 						<h5 class="fw-semibold" th:text="${movie.name}"></h5>
 						<p class="text-muted small"><span th:text="${movie.genre}"></span> • <span th:text="${movie.duration}"></span> hours </p>
-						<a href="" class="btn btn-primary w-100">Book Now</a>
+						<a th:href="'/book/movie/'+${movie.id}" class="btn btn-primary w-100">Book Now</a>
 					</div>
 				</div>
 			</div>

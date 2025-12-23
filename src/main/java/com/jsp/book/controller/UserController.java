@@ -222,7 +222,12 @@ public class UserController {
 
 	@PostMapping("/add-show")
 	public String addShow(@Valid ShowDto showDto, BindingResult result, RedirectAttributes attributes,
-			HttpSession session,ModelMap map) {
-		return userService.addShow(showDto, result, attributes, session,map);
+			HttpSession session, ModelMap map) {
+		return userService.addShow(showDto, result, attributes, session, map);
+	}
+
+	@GetMapping("/book/movie/{id}")
+	public String bookMovie(@PathVariable Long id, HttpSession session, RedirectAttributes attributes, ModelMap map) {
+		return userService.bookMovie(id, session, attributes, map);
 	}
 }

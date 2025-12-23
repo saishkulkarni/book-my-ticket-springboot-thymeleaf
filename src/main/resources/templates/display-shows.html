@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Show Date | BookMyTicket</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+
+<style>
+body {
+	font-family: 'Poppins', sans-serif;
+	background: #f8f9fa;
+	min-height: 100vh;
+}
+
+.movie-card {
+	background: white;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.movie-poster {
+	width: 100%;
+	height: 420px;
+	object-fit: cover;
+}
+
+.movie-title {
+	font-size: 1.8rem;
+	font-weight: 700;
+	color: #1a252f;
+}
+
+.badge {
+	background: #e74c3c;
+}
+
+.date-btn {
+	border: 2px solid #e74c3c;
+	background: white;
+	color: #e74c3c;
+	font-weight: 600;
+	border-radius: 8px;
+	padding: 12px 18px;
+	transition: all 0.25s ease;
+}
+
+.date-btn:hover {
+	background: #e74c3c;
+	color: white;
+	transform: translateY(-2px);
+}
+
+.date-btn.active {
+	background: #e74c3c;
+	color: white;
+}
+
+.back-btn {
+	color: #555;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+.back-btn:hover {
+	color: #e74c3c;
+}
+</style>
+</head>
+
+<body>
+
+	<div class="container py-5">
+
+		<!-- Back -->
+		<a href="/" class="back-btn mb-4 d-inline-block">← Back to Movies</a>
+
+		<!-- Movie Info -->
+		<div class="row g-4 mb-5" th:if="${movie != null}">
+			<div class="col-md-4">
+				<div class="movie-card">
+					<img th:src="${movie.imageLink}" class="movie-poster">
+				</div>
+			</div>
+
+			<div class="col-md-8">
+				<h1 class="movie-title" th:text="${movie.name}"></h1>
+
+				<div class="mb-3">
+					<span class="badge me-2" th:text="${movie.genre}"></span> <span
+						class="badge" th:text="${movie.languages}"></span>
+				</div>
+
+				<p class="text-muted mb-2">
+					<strong>Duration:</strong> <span th:text="${movie.duration}"></span>
+					hours
+				</p>
+
+				<p class="text-muted mb-3">
+					<strong>Release:</strong> <span
+						th:text="${#temporals.format(movie.releaseDate,'dd MMM yyyy')}"></span>
+				</p>
+
+				<p class="text-secondary" th:text="${movie.description}"></p>
+			</div>
+		</div>
+
+		<!-- No Shows -->
+		<div class="alert alert-warning text-center"
+			th:if="${showDate == null or showDate.size() == 0}">No shows
+			available for this movie.</div>
+
+		<!-- Date Selection -->
+		<div th:if="${showDate != null and showDate.size() > 0}">
+			<h3 class="fw-bold mb-4 text-center">Select Show Date</h3>
+
+			<div class="d-flex flex-wrap gap-3 justify-content-center"
+				id="datePicker"></div>
+		</div>
+
+	</div>
+
+	<script th:inline="javascript">
+	const showDates = /*[[${showDate}]]*/ [];
+	const movieId = /*[[${movie != null ? movie.id : 0}]]*/ 0;
+
+	function formatDate(dateStr) {
+		const date = new Date(dateStr);
+		return date.toLocaleDateString('en-IN', {
+			weekday: 'short',
+			day: 'numeric',
+			month: 'short'
+		});
+	}
+
+	function loadDates() {
+		const container = document.getElementById('datePicker');
+		if (!container || showDates.length === 0) return;
+
+		showDates
+			.sort((a, b) => new Date(a) - new Date(b))
+			.forEach((date, index) => {
+				const btn = document.createElement('button');
+				btn.className = 'date-btn' + (index === 0 ? ' active' : '');
+				btn.textContent = formatDate(date);
+
+				btn.onclick = () => {
+					document.querySelectorAll('.date-btn')
+						.forEach(b => b.classList.remove('active'));
+					btn.classList.add('active');
+
+					window.location.href =
+						`/selectShows?movieId=${movieId}&date=${date}`;
+				};
+
+				container.appendChild(btn);
+			});
+	}
+
+	document.addEventListener('DOMContentLoaded', loadDates);
+</script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

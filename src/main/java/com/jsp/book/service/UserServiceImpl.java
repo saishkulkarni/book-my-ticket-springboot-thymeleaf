@@ -3,11 +3,12 @@ package com.jsp.book.service;
 import java.io.File;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -733,13 +734,27 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String loadMain(ModelMap map) {
-		List<Show> shows=showRepository.findAll();
-		HashSet<Movie> movies=new HashSet<Movie>();
-		for(Show show:shows) {
-			movies.add(show.getMovie());
-		}
+		Set<Movie> movies = showRepository.findByShowDateAfter(LocalDate.now().minusDays(1)).stream()
+				.map(Show::getMovie).collect(Collectors.toSet());
+
 		map.put("movies", movies);
-		return "main.html";
+		return "main";
+	}
+
+	@Override
+	public String bookMovie(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map) {
+		Movie movie = movieRepository.findById(id).orElseThrow(() -> new RuntimeException("Movie not found"));
+
+		List<String> showDates = showRepository.findByMovieAndShowDateAfter(movie, LocalDate.now().minusDays(1))
+				.stream().map(Show::getShowDate) // LocalDate
+				.distinct() // remove duplicates
+				.sorted() // sort ascending
+				.map(LocalDate::toString) // JS-safe string
+				.toList();
+		map.put("movie", movie);
+		map.put("showDate", showDates);
+
+		return "display-shows";
 	}
 
 }

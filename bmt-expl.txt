@@ -8,7 +8,7 @@ The system allows users to browse movies, select shows and seats, make online pa
 while admins manage movies, theaters, screens, seat layouts, and users.
 
 Technologies Used:
-Java, Spring Boot, Spring MVC, Spring Data JPA, Hibernate, Thymeleaf, HTML, CSS, Bootstrap, MySQL, Spring Security
+Java, Spring Boot, Spring MVC, Spring Data JPA, Hibernate, Thymeleaf, HTML, CSS, Bootstrap, MySQL
 
 Key Features:
 Role-based authentication for Admin and User
