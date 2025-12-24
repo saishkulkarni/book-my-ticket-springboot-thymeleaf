@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div align="center" th:each="theater:${theaters.keySet()}">
+	<h1 th:text="${theater.Name}"></h1>
+	<span>shows:</span>
+	<div th:each="show:${theaters.get(theater)}">
+		<a th:href="'/show-seats/'+${show.id}"><span th:text="${show.startTime}"></span></a>
+	</div>
+</div>
+</body>
+</html>

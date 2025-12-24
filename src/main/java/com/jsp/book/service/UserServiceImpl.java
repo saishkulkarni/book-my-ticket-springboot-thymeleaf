@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -337,13 +338,14 @@ public class UserServiceImpl implements UserService {
 			return "redirect:/login";
 		} else {
 			Theater theater = theaterRepository.findById(id).orElseThrow();
-			if (theater.getScreenCount() > 0) {
-				List<Screen> screens = screenRepository.findByTheater(theater);
-				screenRepository.deleteAll(screens);
+			if (theater.getScreenCount() != 0) {
+				attributes.addFlashAttribute("fail", "First Remove The Screens to Remove Theater");
+				return "redirect:/manage-theaters";
+			} else {
+				theaterRepository.deleteById(id);
+				attributes.addFlashAttribute("pass", "Theater Removed Success");
+				return "redirect:/manage-theaters";
 			}
-			theaterRepository.deleteById(id);
-			attributes.addFlashAttribute("pass", "Theater Removed Success");
-			return "redirect:/manage-theaters";
 		}
 	}
 
@@ -470,11 +472,19 @@ public class UserServiceImpl implements UserService {
 		} else {
 			Screen screen = screenRepository.findById(id).orElseThrow();
 			Theater theater = screen.getTheater();
-			theater.setScreenCount(theater.getScreenCount() - 1);
-			theaterRepository.save(theater);
-			screenRepository.deleteById(id);
-			attributes.addFlashAttribute("pass", "Screen Removed Success");
-			return "redirect:/manage-screens/" + theater.getId();
+
+			if (showRepository.existsByScreen(screen)) {
+				attributes.addFlashAttribute("fail", "There are Shows Runing You can not Delete");
+				return "redirect:/manage-screens/" + theater.getId();
+			} else {
+				theater.setScreenCount(theater.getScreenCount() - 1);
+				theaterRepository.save(theater);
+				List<Seat> seats = seatRepository.findByScreenOrderBySeatRowAscSeatColumnAsc(screen);
+				seatRepository.deleteAll(seats);
+				screenRepository.deleteById(id);
+				attributes.addFlashAttribute("pass", "Screen Removed Success");
+				return "redirect:/manage-screens/" + theater.getId();
+			}
 		}
 	}
 
@@ -755,6 +765,58 @@ public class UserServiceImpl implements UserService {
 		map.put("showDate", showDates);
 
 		return "display-shows";
+	}
+
+	@Override
+	public String deleteShow(Long id, HttpSession session, RedirectAttributes attributes) {
+		User user = getUserFromSession(session);
+		if (user == null || !user.getRole().equals("ADMIN")) {
+			attributes.addFlashAttribute("fail", "Invalid Session");
+			return "redirect:/login";
+		} else {
+			Long screenId = showRepository.findById(id).orElseThrow().getScreen().getId();
+			showRepository.deleteById(id);
+			attributes.addFlashAttribute("pass", "Show Removed Success");
+			return "redirect:/manage-shows/" + screenId;
+		}
+	}
+
+	@Override
+	public String deleteMovie(Long id, HttpSession session, RedirectAttributes attributes) {
+		User user = getUserFromSession(session);
+		if (user == null || !user.getRole().equals("ADMIN")) {
+			attributes.addFlashAttribute("fail", "Invalid Session");
+			return "redirect:/login";
+		} else {
+			Movie movie = movieRepository.findById(id).orElseThrow();
+			if (showRepository.existsByMovie(movie)) {
+				attributes.addFlashAttribute("fail", "There are Shwos Running So can not Delete");
+				return "redirect:/manage-movies";
+			} else {
+				movieRepository.deleteById(id);
+				attributes.addFlashAttribute("pass", "Movie Removed Success");
+				return "redirect:/manage-movies";
+			}
+		}
+	}
+
+	@Override
+	public String displayShowsOnDate(LocalDate date, Long movieId, RedirectAttributes attributes, ModelMap map) {
+		Movie movie = movieRepository.findById(movieId).orElseThrow();
+		List<Show> shows = showRepository.findByShowDateAndMovie(date, movie);
+		Map<Theater, List<Show>> theaters = new HashMap<Theater, List<Show>>();
+		for (Show show : shows) {
+			List<Show> sh;
+			if (theaters.containsKey(show.getScreen().getTheater())) {
+				sh = theaters.get(show.getScreen().getTheater());
+			} else {
+				sh = new ArrayList<Show>();
+			}
+			sh.add(show);
+			theaters.put(show.getScreen().getTheater(), sh);
+		}
+		map.put("theaters", theaters);
+		return "display-theaters.html";
 	}
 
 }
