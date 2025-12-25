@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -817,6 +819,56 @@ public class UserServiceImpl implements UserService {
 		}
 		map.put("theaters", theaters);
 		return "display-theaters.html";
+	}
+
+	@Override
+	public String showSeats(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map) {
+
+		User user = getUserFromSession(session);
+		if (user == null || !user.getRole().equals("USER")) {
+			attributes.addFlashAttribute("fail", "Login to Continue Booking");
+			return "redirect:/login";
+		}
+
+		Show show = showRepository.findById(id).orElseThrow();
+
+		Map<String, List<ShowSeat>> seatsByRow = show.getSeats().stream()
+				.collect(Collectors.groupingBy(s -> s.getSeat().getSeatRow(), LinkedHashMap::new, Collectors.toList()));
+
+		map.put("seatsByRow", seatsByRow);
+		map.put("showId", id);
+
+		return "select-seats";
+	}
+
+	@Override
+	public String confirmBooking(Long showId, Long[] seatIds, HttpSession session, ModelMap map,
+			RedirectAttributes attributes) {
+		User user = getUserFromSession(session);
+		if (user == null || !user.getRole().equals("USER")) {
+			attributes.addFlashAttribute("fail", "Login to Continue Booking");
+			return "redirect:/login";
+		}
+		if (seatIds == null || seatIds.length == 0) {
+			attributes.addFlashAttribute("fail", "Please select at least one seat");
+			return "redirect:/show-seats/" + showId;
+		}
+
+		Show show = showRepository.findById(showId).orElseThrow();
+		
+		Set<Long> selectedSeatIds = new HashSet<>(Arrays.asList(seatIds));
+
+		List<ShowSeat> showSeats = new ArrayList<>();
+		for (ShowSeat seat : show.getSeats()) {
+			if (selectedSeatIds.contains(seat.getId())) {
+				showSeats.add(seat);
+			}
+		}
+		
+		map.put("show", show);
+		map.put("showSeats", showSeats);
+		
+		return "confirm-ticket";
 	}
 
 }

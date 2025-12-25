@@ -94,4 +94,9 @@ public interface UserService {
 	String deleteMovie(Long id, HttpSession session, RedirectAttributes attributes);
 
 	String displayShowsOnDate(LocalDate date, Long movieId, RedirectAttributes attributes, ModelMap map);
+
+	String showSeats(Long id,HttpSession session ,RedirectAttributes attributes, ModelMap map);
+
+	String confirmBooking(Long showId, Long[] seatIds, HttpSession session, ModelMap map,
+			RedirectAttributes attributes);
 }

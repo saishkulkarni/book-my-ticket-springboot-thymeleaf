@@ -241,8 +241,21 @@ public class UserController {
 	public String deleteShow(@PathVariable Long id, RedirectAttributes attributes, HttpSession session) {
 		return userService.deleteShow(id, session, attributes);
 	}
+
 	@GetMapping("/selectShows")
-	public String displayShows(@RequestParam Long movieId,@RequestParam LocalDate date,RedirectAttributes attributes,ModelMap map) {
-		return userService.displayShowsOnDate(date,movieId,attributes,map);
+	public String displayShows(@RequestParam Long movieId, @RequestParam LocalDate date, RedirectAttributes attributes,
+			ModelMap map) {
+		return userService.displayShowsOnDate(date, movieId, attributes, map);
+	}
+
+	@GetMapping("/show-seats/{id}")
+	public String showSeats(@PathVariable Long id, HttpSession session, RedirectAttributes attributes, ModelMap map) {
+		return userService.showSeats(id, session, attributes, map);
+	}
+
+	@PostMapping("/confirm-booking")
+	public String confirmBooking(@RequestParam Long showId, @RequestParam Long[] seatIds, HttpSession session,
+			ModelMap map, RedirectAttributes attributes) {
+		return userService.confirmBooking(showId, seatIds, session, map, attributes);
 	}
 }
