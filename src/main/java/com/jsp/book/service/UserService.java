@@ -7,6 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.zxing.WriterException;
 import com.jsp.book.dto.LoginDto;
 import com.jsp.book.dto.MovieDto;
 import com.jsp.book.dto.PasswordDto;
@@ -15,6 +16,7 @@ import com.jsp.book.dto.SeatLayoutForm;
 import com.jsp.book.dto.ShowDto;
 import com.jsp.book.dto.TheaterDto;
 import com.jsp.book.dto.UserDto;
+import com.razorpay.RazorpayException;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -98,5 +100,8 @@ public interface UserService {
 	String showSeats(Long id,HttpSession session ,RedirectAttributes attributes, ModelMap map);
 
 	String confirmBooking(Long showId, Long[] seatIds, HttpSession session, ModelMap map,
-			RedirectAttributes attributes);
+			RedirectAttributes attributes) throws RazorpayException;
+
+	String confirmTicket(HttpSession session, ModelMap map, RedirectAttributes attributes, String razorpay_order_id,
+			String razorpay_payment_id) throws IOException, WriterException;
 }

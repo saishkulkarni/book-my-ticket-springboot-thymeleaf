@@ -41,4 +41,16 @@ public class CloudinaryHelper {
 			return "https://placehold.co/600x400/EEE/31343C";
 		}
 	}
+
+	public String saveTicketQr(byte[] qr) {
+		Cloudinary cloudinary = new Cloudinary(url);
+
+		Map<String, Object> params = ObjectUtils.asMap("folder", "BMT-Theater-QR", "use_filename", true);
+		try {
+			return (String) cloudinary.uploader().upload(qr, params).get("url");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "https://placehold.co/600x400/EEE/31343C";
+		}
+	}
 }

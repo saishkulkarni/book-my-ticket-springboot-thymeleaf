@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.zxing.WriterException;
 import com.jsp.book.dto.LoginDto;
 import com.jsp.book.dto.MovieDto;
 import com.jsp.book.dto.PasswordDto;
@@ -21,6 +22,7 @@ import com.jsp.book.dto.ShowDto;
 import com.jsp.book.dto.TheaterDto;
 import com.jsp.book.dto.UserDto;
 import com.jsp.book.service.UserService;
+import com.razorpay.RazorpayException;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -255,7 +257,13 @@ public class UserController {
 
 	@PostMapping("/confirm-booking")
 	public String confirmBooking(@RequestParam Long showId, @RequestParam Long[] seatIds, HttpSession session,
-			ModelMap map, RedirectAttributes attributes) {
+			ModelMap map, RedirectAttributes attributes) throws RazorpayException {
 		return userService.confirmBooking(showId, seatIds, session, map, attributes);
+	}
+
+	@PostMapping("/confirm-ticket")
+	public String confirmTicket(HttpSession session, ModelMap map, RedirectAttributes attributes,
+			@RequestParam String razorpay_payment_id, @RequestParam String razorpay_order_id) throws IOException, WriterException {
+		return userService.confirmTicket(session, map, attributes, razorpay_order_id, razorpay_payment_id);
 	}
 }

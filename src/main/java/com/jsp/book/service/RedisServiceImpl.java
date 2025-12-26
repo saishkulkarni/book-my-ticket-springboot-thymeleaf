@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.jsp.book.dto.UserDto;
+import com.jsp.book.entity.BookedTicket;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,6 +41,16 @@ public class RedisServiceImpl implements RedisService {
 			return 0;
 		else
 			return (int) otp;
+	}
+
+	@Override
+	public void saveTicket(String id, BookedTicket ticket) {
+		redisTemplate.opsForValue().set(id, ticket, Duration.ofMinutes(15));
+	}
+
+	@Override
+	public BookedTicket getTicket(String razorpay_order_id) {
+		return (BookedTicket) redisTemplate.opsForValue().get(razorpay_order_id);
 	}
 
 }
