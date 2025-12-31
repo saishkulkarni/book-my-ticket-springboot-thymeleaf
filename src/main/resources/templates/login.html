@@ -1,327 +1,223 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Login - BookMyTicket</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | BookMyTicket</title>
 
-	<!-- Favicon -->
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+	rel="stylesheet">
 
-	<!-- Bootstrap CSS -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+:root {
+	--bg-main: #0f172a;
+	--bg-card: #111827;
+	--border-soft: #1f2937;
+	--text-main: #e5e7eb;
+	--text-muted: #9ca3af;
+	--accent: #6496ff;
+	--accent-pink: #ff4081;
+}
 
-	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+/* ===== GLOBAL ===== */
+body {
+	font-family: "Poppins", sans-serif;
+	background: radial-gradient(circle at top, #1e293b, var(--bg-main));
+	min-height: 100vh;
+	color: var(--text-main);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+}
 
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
+/* ===== LOGIN CARD ===== */
+.login-box {
+	width: 100%;
+	max-width: 420px;
+	padding: 40px;
+	background: linear-gradient(180deg, #111827, #0b1220);
+	border-radius: 18px;
+	border: 1px solid var(--border-soft);
+	box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+	animation: fadeInUp 0.6s ease;
+	text-align: center;
+}
 
-		html {
-			scroll-behavior: smooth;
-		}
+/* ===== TITLE ===== */
+.login-box h3 {
+	font-weight: 900;
+	font-size: 1.8rem;
+	margin-bottom: 10px;
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
 
-		body {
-			font-family: 'Poppins', sans-serif;
-			background: #f8f9fa;
-			color: #2c3e50;
-			overflow-x: hidden;
-			min-height: 100vh;
-		}
+.login-box p {
+	color: var(--text-muted);
+	font-size: 0.95rem;
+	margin-bottom: 26px;
+}
 
-		/* ========== NAVBAR ========== */
-		.navbar {
-			background: #fff !important;
-			padding: 1rem 2rem;
-			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-			position: sticky;
-			top: 0;
-			z-index: 1000;
-			border-bottom: 1px solid #e8e8e8;
-		}
+/* ===== INPUTS ===== */
+.form-control {
+	background: #020617;
+	border: 1.5px solid var(--border-soft);
+	border-radius: 12px;
+	padding: 12px 16px;
+	color: var(--text-main);
+	font-weight: 500;
+	transition: all 0.25s ease;
+}
 
-		.navbar-brand {
-			font-weight: 800;
-			font-size: 1.5rem;
-			letter-spacing: 0.5px;
-			color: #e74c3c !important;
-		}
+.form-control::placeholder {
+	color: #64748b;
+}
 
-		.nav-link {
-			color: #555 !important;
-			font-weight: 500;
-			transition: color 0.3s ease;
-		}
+.form-control:focus {
+	background: #020617;
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.25);
+	color: var(--text-main);
+}
 
-		.nav-link:hover {
-			color: #e74c3c !important;
-		}
+/* ===== CHECKBOX ===== */
+.form-check-label {
+	color: var(--text-muted);
+	font-weight: 500;
+}
 
-		/* ========== LOGIN CONTAINER ========== */
-		.login-container {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			min-height: calc(100vh - 80px);
-			padding: 40px 20px;
-		}
+.form-check-input {
+	accent-color: var(--accent-pink);
+}
 
-		.login-box {
-			width: 100%;
-			max-width: 420px;
-			padding: 40px;
-			background: #fff;
-			border-radius: 12px;
-			border: 1px solid #e8e8e8;
-			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-			color: #2c3e50;
-		}
+/* ===== BUTTON ===== */
+.btn-primary {
+	width: 100%;
+	padding: 12px;
+	border-radius: 12px;
+	border: none;
+	font-weight: 700;
+	font-size: 0.95rem;
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	box-shadow: 0 15px 35px rgba(100, 150, 255, 0.35);
+	transition: all 0.3s ease;
+}
 
-		.login-box h3 {
-			color: #1a252f;
-			font-weight: 800;
-			margin-bottom: 1.5rem;
-			font-size: 1.8rem;
-		}
+.btn-primary:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 20px 45px rgba(100, 150, 255, 0.5);
+}
 
-		/* ========== FORM STYLES ========== */
-		.form-label {
-			color: #2c3e50;
-			font-weight: 600;
-			margin-bottom: 0.6rem;
-			font-size: 0.95rem;
-		}
+/* ===== LINKS ===== */
+a {
+	color: var(--accent);
+	font-weight: 600;
+	text-decoration: none;
+}
 
-		.form-control {
-			background: #f8f9fa;
-			border: 1px solid #e8e8e8;
-			color: #2c3e50;
-			border-radius: 8px;
-			padding: 0.75rem 1rem;
-			font-weight: 500;
-			transition: all 0.3s ease;
-		}
+a:hover {
+	color: var(--accent-pink);
+}
 
-		.form-control::placeholder {
-			color: #999;
-		}
+/* ===== TOASTS ===== */
+.toastify-container {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 9999;
+}
 
-		.form-control:focus {
-			background: #fff;
-			border-color: #e74c3c;
-			box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
-			color: #2c3e50;
-		}
+.toastify {
+	min-width: 300px;
+	max-width: 420px;
+	border-radius: 12px;
+	padding: 14px 18px;
+	color: white;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+	animation: toastSlideIn 0.4s ease forwards;
+}
 
-		/* ========== ERROR TEXT ========== */
-		.error-text {
-			font-size: 0.85rem;
-			color: #e74c3c;
-			font-weight: 600;
-			margin-top: 0.3rem;
-			display: block;
-		}
+.toastify.success {
+	background: linear-gradient(135deg, #22c55e, #16a34a);
+}
 
-		/* ========== CHECKBOX ========== */
-		.form-check-label {
-			color: #555;
-			font-weight: 500;
-			font-size: 0.95rem;
-		}
+.toastify.error {
+	background: linear-gradient(135deg, #ff4081, #ff6a6a);
+}
 
-		.form-check-input {
-			border-color: #ddd;
-			accent-color: #e74c3c;
-		}
+.toastify span {
+	flex: 1;
+}
 
-		.form-check-input:focus {
-			border-color: #e74c3c;
-			box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);
-		}
+.toastify-close {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.25);
+	border: none;
+	color: white;
+	font-size: 1.1rem;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
-		/* ========== BUTTONS ========== */
-		.btn {
-			font-weight: 600;
-			border-radius: 8px;
-			transition: all 0.3s ease;
-			text-transform: uppercase;
-			letter-spacing: 0.3px;
-			font-size: 0.85rem;
-			padding: 0.75rem 1.8rem;
-			border: none;
-		}
+@
+keyframes toastSlideIn {from { opacity:0;
+	transform: translateX(400px);
+}
 
-		.btn-primary {
-			background: #e74c3c;
-			color: #fff;
-			box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
-		}
+to {
+	opacity: 1;
+	transform: translateX(0);
+}
 
-		.btn-primary:hover {
-			background: #c0392b;
-			box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-			transform: translateY(-2px);
-			color: #fff;
-		}
+}
+@
+keyframes toastSlideOut {from { opacity:1;
+	transform: translateX(0);
+}
 
-		.btn-outline-light {
-			color: #e74c3c;
-			border: 2px solid #e74c3c;
-			background: transparent;
-			font-weight: 600;
-		}
+to {
+	opacity: 0;
+	transform: translateX(400px);
+}
 
-		.btn-outline-light:hover {
-			background: #e74c3c;
-			color: #fff;
-			box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
-		}
+}
+@
+keyframes fadeInUp {from { opacity:0;
+	transform: translateY(20px);
+}
 
-		/* ========== LINKS ========== */
-		a {
-			color: #e74c3c;
-			text-decoration: none;
-			font-weight: 600;
-			transition: color 0.3s ease;
-		}
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
 
-		a:hover {
-			color: #c0392b;
-		}
-
-		/* ========== TOAST NOTIFICATIONS ========== */
-		.toastify-container {
-			position: fixed;
-			top: 80px;
-			right: 20px;
-			z-index: 999;
-			pointer-events: none;
-		}
-
-		.toastify {
-			min-width: 300px;
-			max-width: 400px;
-			border-radius: 8px;
-			padding: 14px 18px;
-			color: white;
-			font-weight: 500;
-			font-size: 0.95rem;
-			display: flex;
-			align-items: center;
-			gap: 12px;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-			margin-bottom: 10px;
-			pointer-events: auto;
-			animation: toastSlideIn 0.35s ease forwards;
-			border: none;
-			position: relative;
-			overflow: hidden;
-		}
-
-		.toastify.success {
-			background: #27ae60;
-		}
-
-		.toastify.error {
-			background: #e74c3c;
-		}
-
-		.toastify span {
-			flex: 1;
-			line-height: 1.4;
-		}
-
-		.toastify-close {
-			width: 24px;
-			height: 24px;
-			border-radius: 50%;
-			background: rgba(255, 255, 255, 0.2);
-			border: none;
-			color: white;
-			font-size: 1rem;
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: all 0.25s ease;
-			flex-shrink: 0;
-			font-weight: 700;
-		}
-
-		.toastify-close:hover {
-			background: rgba(255, 255, 255, 0.35);
-		}
-
-		@keyframes toastSlideIn {
-			from {
-				opacity: 0;
-				transform: translateX(450px);
-			}
-			to {
-				opacity: 1;
-				transform: translateX(0);
-			}
-		}
-
-		@keyframes toastSlideOut {
-			from {
-				opacity: 1;
-				transform: translateX(0);
-			}
-			to {
-				opacity: 0;
-				transform: translateX(450px);
-			}
-		}
-
-		/* ========== RESPONSIVE DESIGN ========== */
-		@media (max-width: 768px) {
-			.navbar {
-				padding: 0.75rem 1.5rem;
-			}
-
-			.navbar-brand {
-				font-size: 1.3rem;
-			}
-
-			.login-box {
-				padding: 30px;
-			}
-
-			.login-box h3 {
-				font-size: 1.5rem;
-				margin-bottom: 1.2rem;
-			}
-		}
-	</style>
+}
+@media ( max-width : 480px) {
+	.login-box {
+		padding: 30px;
+	}
+}
+</style>
 </head>
 
 <body>
-	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-white">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item">
-						<a class="nav-link" href="/">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/register">Register</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
 
-	<!-- TOASTIFY NOTIFICATIONS -->
+	<!-- TOASTS -->
 	<div class="toastify-container">
 		<div th:if="${pass}" class="toastify success">
 			<span th:text="${pass}"></span>
@@ -331,80 +227,62 @@
 		</div>
 	</div>
 
-	<!-- LOGIN CONTAINER -->
-	<div class="login-container">
-		<div class="login-box">
-			<h3>Welcome Back</h3>
+	<!-- LOGIN CARD -->
+	<div class="login-box">
+		<h3>Welcome Back</h3>
+		<p>Sign in to continue booking</p>
 
-			<!-- Login Form -->
-			<form action="/login" method="post" >
+		<form action="/login" method="post">
+			<div class="mb-3">
+				<input type="email" name="email" class="form-control"
+					placeholder="📧 Email address" required>
+			</div>
 
-				<div class="mb-3">
-					<label for="email" class="form-label">Email Address</label>
-					<input type="email" id="email" name="email" class="form-control" placeholder="Enter your email" required>
-					</div>
+			<div class="mb-3">
+				<input type="password" name="password" class="form-control"
+					placeholder="🔒 Password" required>
+			</div>
 
-				<div class="mb-3">
-					<label for="password" class="form-label">Password</label>
-					<input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
-				</div>
+			<div class="mb-3 form-check text-start">
+				<input type="checkbox" class="form-check-input" id="remember">
+				<label class="form-check-label" for="remember">Remember me</label>
+			</div>
 
-				<div class="mb-3 form-check">
-					<input type="checkbox" id="remember" class="form-check-input">
-					<label for="remember" class="form-check-label">Remember me</label>
-				</div>
+			<button class="btn btn-primary">Sign In</button>
+		</form>
 
-				<button type="submit" class="btn btn-primary w-100">Sign In</button>
-
-				<div class="text-center mt-4" style="color: #666; font-size: 0.9rem;">
-					<a href="/forgot-password">Forgot Password?</a>
-					<br>
-					Don't have an account? <a href="/register">Register here</a>
-				</div>
-			</form>
+		<div class="mt-4">
+			<a href="/forgot-password">Forgot Password?</a><br> <span
+				class="text-muted">New here?</span> <a href="/register">Create
+				account</a>
 		</div>
 	</div>
 
-	<!-- Bootstrap JS -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 	<script>
-		document.addEventListener("DOMContentLoaded", () => {
-			const toasts = document.querySelectorAll('.toastify');
+document.addEventListener("DOMContentLoaded", () => {
+	document.querySelectorAll('.toastify').forEach(t => {
+		const btn = document.createElement('button');
+		btn.className = 'toastify-close';
+		btn.innerHTML = '×';
+		t.appendChild(btn);
 
-			toasts.forEach(toastElement => {
-				// Create close button
-				const closeBtn = document.createElement('button');
-				closeBtn.className = 'toastify-close';
-				closeBtn.innerHTML = '×';
-				closeBtn.type = 'button';
+		btn.onclick = () => {
+			t.style.animation = 'toastSlideOut 0.3s ease forwards';
+			setTimeout(() => t.remove(), 300);
+		};
 
-				// Insert close button before span
-				const spanElement = toastElement.querySelector('span');
-				if (spanElement) {
-					toastElement.insertBefore(closeBtn, spanElement.nextSibling);
-				}
-
-				// Close button click handler
-				closeBtn.addEventListener('click', () => {
-					toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-					setTimeout(() => toastElement.remove(), 400);
-				});
-
-				// Auto remove after 3.5 seconds
-				const timeout = setTimeout(() => {
-					if (document.body.contains(toastElement)) {
-						toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-						setTimeout(() => toastElement.remove(), 400);
-					}
-				}, 3500);
-
-				// Clear timeout if closed manually
-				closeBtn.addEventListener('click', () => clearTimeout(timeout));
-			});
-		});
-	</script>
+		setTimeout(() => {
+			if (document.body.contains(t)) {
+				t.style.animation = 'toastSlideOut 0.3s ease forwards';
+				setTimeout(() => t.remove(), 300);
+			}
+		}, 3500);
+	});
+});
+</script>
 
 </body>
-
 </html>

@@ -1,505 +1,284 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Book My Ticket</title>
-
-	<!-- Favicon -->
-	<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-
-	<!-- Bootstrap -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-		rel="stylesheet">
-
-	<style>
-		/* ========== GLOBAL STYLES ========== */
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-
-		html {
-			scroll-behavior: smooth;
-		}
-
-		body {
-			font-family: 'Poppins', sans-serif;
-			background: #f8f9fa;
-			color: #2c3e50;
-			overflow-x: hidden;
-			min-height: 100vh;
-		}
-
-		/* ========== NAVBAR ========== */
-		.navbar {
-			background: #fff !important;
-			padding: 1rem 2rem;
-			box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-			position: sticky;
-			top: 0;
-			z-index: 1000;
-			border-bottom: 1px solid #e8e8e8;
-		}
-
-		.navbar-brand {
-			font-weight: 800;
-			font-size: 1.5rem;
-			letter-spacing: 0.5px;
-			color: #e74c3c !important;
-		}
-
-		.navbar-toggler {
-			border-color: #ddd !important;
-		}
-
-		.nav-link {
-			color: #555 !important;
-			font-weight: 500;
-			transition: color 0.3s ease;
-		}
-
-		.nav-link:hover {
-			color: #e74c3c !important;
-		}
-
-		/* ========== HERO SECTION ========== */
-		.hero {
-			background: linear-gradient(135deg, #fff 0%, #f8fafb 100%);
-			padding: 80px 0;
-			text-align: center;
-			color: #2c3e50;
-			border-bottom: 1px solid #e8e8e8;
-			position: relative;
-		}
-
-		.hero .content {
-			animation: slideDown 0.8s ease;
-		}
-
-		.hero h1 {
-			font-size: 3.2rem;
-			font-weight: 800;
-			margin-bottom: 1rem;
-			color: #1a252f;
-			letter-spacing: -1px;
-		}
-
-		.hero p {
-			font-size: 1.15rem;
-			color: #666;
-			margin-bottom: 2rem;
-			font-weight: 500;
-			letter-spacing: 0.5px;
-		}
-
-		/* ========== MOVIES SECTION ========== */
-		#movies {
-			padding: 80px 0;
-			background: #fff;
-		}
-
-		#movies h2 {
-			color: #1a252f;
-			margin-bottom: 3rem;
-			font-size: 2.5rem;
-			font-weight: 800;
-			position: relative;
-			display: inline-block;
-			width: 100%;
-			letter-spacing: -0.5px;
-		}
-
-		#movies h2::after {
-			content: "";
-			position: absolute;
-			bottom: -15px;
-			left: 50%;
-			transform: translateX(-50%);
-			width: 60px;
-			height: 4px;
-			background: #e74c3c;
-			border-radius: 2px;
-		}
-
-		/* ========== MOVIE CARDS ========== */
-		.movie-card {
-			border-radius: 12px;
-			overflow: hidden;
-			background: #fff;
-			transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-			border: 1px solid #e8e8e8;
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-		}
-
-		.movie-card:hover {
-			transform: translateY(-8px);
-			box-shadow: 0 12px 24px rgba(231, 76, 60, 0.12);
-			border-color: #e74c3c;
-		}
-
-		.movie-card img {
-			height: 280px;
-			object-fit: cover;
-			transition: transform 0.4s ease;
-		}
-
-		.movie-card:hover img {
-			transform: scale(1.05);
-		}
-
-		.movie-card .card-body {
-			padding: 1.5rem;
-			flex-grow: 1;
-			display: flex;
-			flex-direction: column;
-		}
-
-		.movie-card h5 {
-			color: #1a252f;
-			margin-bottom: 0.6rem;
-			font-weight: 700;
-			font-size: 1.1rem;
-			line-height: 1.4;
-		}
-
-		.movie-card .text-muted {
-			color: #888 !important;
-			font-size: 0.9rem;
-			margin-bottom: 1.2rem;
-			font-weight: 500;
-		}
-
-		.movie-card .btn {
-			margin-top: auto;
-		}
-
-		/* ========== BUTTONS ========== */
-		.btn {
-			font-weight: 600;
-			border-radius: 8px;
-			transition: all 0.3s ease;
-			text-transform: uppercase;
-			letter-spacing: 0.3px;
-			font-size: 0.85rem;
-			padding: 0.65rem 1.8rem;
-			border: none;
-		}
-
-		.btn-primary {
-			background: #e74c3c;
-			color: #fff;
-			box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
-		}
-
-		.btn-primary:hover {
-			background: #c0392b;
-			box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-			transform: translateY(-2px);
-			color: #fff;
-		}
-
-		.btn-outline-light {
-			color: #e74c3c;
-			border: 2px solid #e74c3c;
-			background: transparent;
-			font-weight: 600;
-		}
-
-		.btn-outline-light:hover {
-			background: #e74c3c;
-			color: #fff;
-			box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
-		}
-
-		.btn-warning {
-			background: #f39c12;
-			color: #fff;
-			box-shadow: 0 2px 8px rgba(243, 156, 18, 0.2);
-		}
-
-		.btn-warning:hover {
-			background: #d68910;
-			box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
-			transform: translateY(-2px);
-		}
-
-		.btn-danger {
-			background: #e74c3c;
-			color: #fff;
-			box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
-		}
-
-		.btn-danger:hover {
-			background: #c0392b;
-			box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-			transform: translateY(-2px);
-		}
-
-		/* ========== FOOTER ========== */
-		footer {
-			background: #2c3e50;
-			padding: 2rem 0 1.5rem;
-			color: #ecf0f1;
-			text-align: center;
-			margin-top: 4rem;
-		}
-
-		footer p {
-			margin: 0;
-			font-weight: 500;
-			font-size: 0.95rem;
-		}
-
-		/* ========== ANIMATIONS ========== */
-		@keyframes slideDown {
-			from {
-				opacity: 0;
-				transform: translateY(-20px);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		/* ========== TOAST NOTIFICATIONS ========== */
-		.toastify-container {
-			position: fixed;
-			top: 80px;
-			right: 20px;
-			z-index: 999;
-			pointer-events: none;
-		}
-
-		.toastify {
-			min-width: 300px;
-			max-width: 400px;
-			border-radius: 8px;
-			padding: 14px 18px;
-			color: white;
-			font-weight: 500;
-			font-size: 0.95rem;
-			display: flex;
-			align-items: center;
-			gap: 12px;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-			margin-bottom: 10px;
-			pointer-events: auto;
-			animation: toastSlideIn 0.35s ease forwards;
-			border: none;
-			backdrop-filter: none;
-			position: relative;
-			overflow: hidden;
-		}
-
-		.toastify::before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			height: 0;
-		}
-
-		.toastify.success {
-			background: #27ae60;
-		}
-
-		.toastify.error {
-			background: #e74c3c;
-		}
-
-		.toastify span {
-			flex: 1;
-			line-height: 1.4;
-		}
-
-		.toastify-close {
-			width: 24px;
-			height: 24px;
-			border-radius: 50%;
-			background: rgba(255, 255, 255, 0.2);
-			border: none;
-			color: white;
-			font-size: 1rem;
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: all 0.25s ease;
-			flex-shrink: 0;
-			font-weight: 700;
-		}
-
-		.toastify-close:hover {
-			background: rgba(255, 255, 255, 0.35);
-		}
-
-		@keyframes toastSlideIn {
-			from {
-				opacity: 0;
-				transform: translateX(450px);
-			}
-			to {
-				opacity: 1;
-				transform: translateX(0);
-			}
-		}
-
-		@keyframes toastSlideOut {
-			from {
-				opacity: 1;
-				transform: translateX(0);
-			}
-			to {
-				opacity: 0;
-				transform: translateX(450px);
-			}
-		}
-
-		/* ========== RESPONSIVE DESIGN ========== */
-		@media (max-width: 992px) {
-			.hero h1 {
-				font-size: 2.5rem;
-			}
-
-			#movies h2 {
-				font-size: 2rem;
-			}
-
-			.movie-card img {
-				height: 240px;
-			}
-		}
-
-		@media (max-width: 768px) {
-			.navbar {
-				padding: 0.75rem 1.5rem;
-			}
-
-			.navbar-brand {
-				font-size: 1.3rem;
-			}
-
-			.hero {
-				padding: 60px 0;
-			}
-
-			.hero h1 {
-				font-size: 2rem;
-				margin-bottom: 0.8rem;
-			}
-
-			.hero p {
-				font-size: 1rem;
-				margin-bottom: 1.5rem;
-			}
-
-			#movies {
-				padding: 60px 0;
-			}
-
-			#movies h2 {
-				font-size: 1.7rem;
-				margin-bottom: 2rem;
-			}
-
-			.movie-card img {
-				height: 220px;
-			}
-
-			.movie-card .card-body {
-				padding: 1.2rem;
-			}
-
-			.btn {
-				font-size: 0.8rem;
-				padding: 0.6rem 1.4rem;
-			}
-
-			.toastify {
-				min-width: 280px;
-				max-width: 85vw;
-				font-size: 0.9rem;
-				padding: 0.9rem;
-			}
-
-			footer {
-				padding: 1.5rem 0 1rem;
-			}
-		}
-
-		@media (max-width: 480px) {
-			.hero {
-				padding: 50px 0;
-			}
-
-			.hero h1 {
-				font-size: 1.8rem;
-			}
-
-			.hero p {
-				font-size: 0.95rem;
-			}
-
-			#movies h2 {
-				font-size: 1.5rem;
-				margin-bottom: 1.5rem;
-			}
-
-			.movie-card img {
-				height: 200px;
-			}
-
-			.navbar-brand {
-				font-size: 1.2rem;
-			}
-		}
-	</style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookMyTicket</title>
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+	rel="stylesheet">
+
+<style>
+:root {
+	--bg-main: #0f172a;
+	--bg-card: #111827;
+	--border: #1f2937;
+	--text-main: #e5e7eb;
+	--text-muted: #9ca3af;
+	--accent: #6496ff;
+	--accent-pink: #ff4081;
+}
+
+/* ===== GLOBAL ===== */
+body {
+	font-family: "Poppins", sans-serif;
+	background: radial-gradient(circle at top, #1e293b, var(--bg-main));
+	color: var(--text-main);
+	min-height: 100vh;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+	background: rgba(17, 24, 39, .85) !important;
+	backdrop-filter: blur(14px);
+	border-bottom: 1px solid var(--border);
+	padding: .9rem 2rem;
+}
+
+.navbar-brand {
+	font-weight: 900;
+	font-size: 1.5rem;
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.nav-link {
+	color: var(--text-muted) !important;
+	font-weight: 600;
+}
+
+.nav-link:hover {
+	color: var(--accent-pink) !important
+}
+
+/* ===== HERO ===== */
+.hero {
+	padding: 100px 20px;
+	text-align: center;
+	position: relative;
+}
+
+.hero h1 {
+	font-size: 3.2rem;
+	font-weight: 900;
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.hero p {
+	color: var(--text-muted);
+	font-size: 1.15rem;
+	margin-top: 10px;
+}
+
+.hero .btn {
+	margin-top: 25px;
+	padding: 14px 36px;
+	font-weight: 700;
+	border-radius: 14px;
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	border: none;
+	box-shadow: 0 15px 35px rgba(100, 150, 255, .45);
+}
+
+.hero .btn:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 25px 55px rgba(100, 150, 255, .6);
+}
+
+/* ===== MOVIES ===== */
+#movies {
+	padding: 90px 0;
+}
+
+#movies h2 {
+	text-align: center;
+	font-weight: 900;
+	margin-bottom: 60px;
+}
+
+/* ===== MOVIE CARD ===== */
+.movie-card {
+	background: linear-gradient(180deg, #111827, #0b1220);
+	border: 1px solid var(--border);
+	border-radius: 18px;
+	overflow: hidden;
+	box-shadow: 0 20px 45px rgba(0, 0, 0, .6);
+	transition: .4s ease;
+	height: 100%;
+}
+
+.movie-card:hover {
+	transform: translateY(-10px) scale(1.02);
+	box-shadow: 0 35px 80px rgba(0, 0, 0, .8);
+	border-color: var(--accent);
+}
+
+.movie-card img {
+	height: 280px;
+	object-fit: cover;
+}
+
+.movie-card .card-body {
+	padding: 22px;
+	display: flex;
+	flex-direction: column;
+}
+
+.movie-card h5 {
+	font-weight: 700;
+	margin-bottom: 6px;
+}
+
+.movie-card .text-muted {
+	color: var(--text-muted) !important;
+	font-size: .9rem;
+}
+
+.movie-card .btn {
+	margin-top: auto;
+	border-radius: 12px;
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	border: none;
+	font-weight: 700;
+}
+
+/* ===== BUTTONS ===== */
+.btn-outline-light {
+	border: 2px solid var(--accent);
+	color: var(--accent);
+	font-weight: 700;
+}
+
+.btn-outline-light:hover {
+	background: var(--accent);
+	color: #fff;
+}
+
+.btn-danger {
+	background: linear-gradient(135deg, #ff4d4d, #ff1e1e);
+	border: none;
+}
+
+.btn-primary {
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	border: none;
+}
+
+/* ===== FOOTER ===== */
+footer {
+	border-top: 1px solid var(--border);
+	text-align: center;
+	padding: 25px;
+	color: var(--text-muted);
+	margin-top: 80px;
+}
+
+/* ===== TOASTS ===== */
+.toastify-container {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 9999;
+}
+
+.toastify {
+	min-width: 300px;
+	padding: 14px 18px;
+	border-radius: 12px;
+	display: flex;
+	gap: 12px;
+	color: #fff;
+	font-weight: 600;
+	box-shadow: 0 20px 45px rgba(0, 0, 0, .7);
+	animation: slideIn .4s ease;
+}
+
+.toastify.success {
+	background: linear-gradient(135deg, #22c55e, #16a34a)
+}
+
+.toastify.error {
+	background: linear-gradient(135deg, #ff4081, #ff6a6a)
+}
+
+.toastify-close {
+	background: rgba(255, 255, 255, .25);
+	border: none;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	color: #fff;
+	font-weight: 700;
+}
+
+@
+keyframes slideIn {
+	from {transform: translateX(400px);
+	opacity: 0
+}
+
+to {
+	transform: translateX(0);
+	opacity: 1
+}
+
+}
+@media ( max-width :768px) {
+	.hero h1 {
+		font-size: 2.2rem
+	}
+	.movie-card img {
+		height: 230px
+	}
+}
+</style>
 </head>
 
 <body>
 
 	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+	<nav class="navbar navbar-expand-lg">
 		<a class="navbar-brand" href="/">🎬 BookMyTicket</a>
 
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navMenu">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
 		<div id="navMenu" class="collapse navbar-collapse justify-content-end">
 
 			<div th:if="${session.user == null}">
-				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a href="/register"
-					class="btn btn-warning">Register</a>
+				<a href="/login" class="btn btn-outline-light me-2">Login</a> <a
+					href="/register" class="btn btn-primary">Register</a>
 			</div>
 
-			<div th:if="${session.user != null}" class="d-flex align-items-center">
-				<span class="text-white me-3 fw-semibold" th:text="'Hello, ' + ${session.user.name}"></span> <a
-					th:if="${session.user.role=='USER'}" href="/bookings" class="btn btn-outline-light me-2">My
-					Bookings</a> <a th:if="${session.user.role=='ADMIN'}"
-					href="/manage-movies" class="btn btn-danger me-2">Manage Movies</a> <a
-					th:if="${session.user.role=='ADMIN'}" href="/manage-theaters" class="btn btn-danger me-2">Manage
-					Theaters</a> <a th:if="${session.user.role=='ADMIN'}" href="/manage-users"
-					class="btn btn-danger me-2">Manage Users</a> <a href="/logout" class="btn btn-primary">Logout</a>
+			<div th:if="${session.user != null}"
+				class="d-flex align-items-center">
+				<span class="me-3 fw-semibold"
+					th:text="'Hello, ' + ${session.user.name}"></span> <a
+					th:if="${session.user.role=='USER'}" href="/bookings"
+					class="btn btn-outline-light me-2">My Bookings</a> <a
+					th:if="${session.user.role=='ADMIN'}" href="/manage-movies"
+					class="btn btn-danger me-2">Manage Movies</a> <a
+					th:if="${session.user.role=='ADMIN'}" href="/manage-theaters"
+					class="btn btn-danger me-2">Manage Theaters</a> <a
+					th:if="${session.user.role=='ADMIN'}" href="/manage-users"
+					class="btn btn-danger me-2">Manage Users</a> <a href="/logout"
+					class="btn btn-primary">Logout</a>
 			</div>
 
 		</div>
 	</nav>
 
-
-	<!-- TOASTIFY -->
+	<!-- TOASTS -->
 	<div class="toastify-container">
 		<div th:if="${pass}" class="toastify success">
 			<span th:text="${pass}"></span>
@@ -509,85 +288,40 @@
 		</div>
 	</div>
 
-
 	<!-- HERO -->
 	<section class="hero">
-		<div class="content">
-			<h1>Book Your Favorite Movies</h1>
-			<p>Instant • Simple • Secure</p>
-			<a href="#movies" class="btn btn-warning btn-lg px-4 mt-3">Browse
-				Movies</a>
-		</div>
+		<h1>Book Your Favorite Movies</h1>
+		<p>Fast • Secure • Premium Experience</p>
+		<a href="#movies" class="btn">Browse Movies</a>
 	</section>
-
 
 	<!-- MOVIES -->
 	<section class="container" id="movies" th:if="${!movies.isEmpty()}">
-		<h2 class="text-center fw-bold mb-5">Now Showing</h2>
+		<h2>Now Showing</h2>
 
 		<div class="row g-4">
-
 			<div class="col-lg-3 col-md-4 col-sm-6" th:each="movie:${movies}">
 				<div class="movie-card">
 					<img th:src="${movie.imageLink}">
 					<div class="card-body">
-						<h5 class="fw-semibold" th:text="${movie.name}"></h5>
-						<p class="text-muted small"><span th:text="${movie.genre}"></span> • <span th:text="${movie.duration}"></span> hours </p>
-						<a th:href="'/book/movie/'+${movie.id}" class="btn btn-primary w-100">Book Now</a>
+						<h5 th:text="${movie.name}"></h5>
+						<p class="text-muted">
+							<span th:text="${movie.genre}"></span> • <span
+								th:text="${movie.duration}"></span> hrs
+						</p>
+						<a th:href="'/book/movie/'+${movie.id}"
+							class="btn btn-primary w-100">Book Now</a>
 					</div>
 				</div>
 			</div>
-
 		</div>
 	</section>
 
-
-	<!-- FOOTER -->
 	<footer>
 		<p>© 2025 BookMyTicket — All Rights Reserved</p>
 	</footer>
 
-
-	<!-- Bootstrap JS -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-	<script>
-		document.addEventListener("DOMContentLoaded", () => {
-			const toasts = document.querySelectorAll('.toastify');
-
-			toasts.forEach(toastElement => {
-				// Create close button
-				const closeBtn = document.createElement('button');
-				closeBtn.className = 'toastify-close';
-				closeBtn.innerHTML = '×';
-				closeBtn.type = 'button';
-
-				// Insert close button before span
-				const spanElement = toastElement.querySelector('span');
-				if (spanElement) {
-					toastElement.insertBefore(closeBtn, spanElement.nextSibling);
-				}
-
-				// Close button click handler
-				closeBtn.addEventListener('click', () => {
-					toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-					setTimeout(() => toastElement.remove(), 400);
-				});
-
-				// Auto remove after 3.5 seconds
-				const timeout = setTimeout(() => {
-					if (document.body.contains(toastElement)) {
-						toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
-						setTimeout(() => toastElement.remove(), 400);
-					}
-				}, 3500);
-
-				// Clear timeout if closed manually
-				closeBtn.addEventListener('click', () => clearTimeout(timeout));
-			});
-		});
-	</script>
-
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

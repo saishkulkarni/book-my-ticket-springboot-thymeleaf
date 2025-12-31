@@ -2,46 +2,207 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Add Seats</title>
+<title>Add Seats - BookMyTicket Admin</title>
 
-<!-- Bootstrap -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap"
+	rel="stylesheet">
 
 <style>
-body {
-	background: #f4f6f9;
-	font-family: 'Poppins', sans-serif;
+:root {
+	--bg-main: #0f172a;
+	--bg-card: #111827;
+	--border-soft: #1f2937;
+	--text-main: #e5e7eb;
+	--text-muted: #9ca3af;
+	--accent: #e74c3c;
+	--accent-2: #22c55e;
+	--danger: #ef4444;
 }
 
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: "Poppins", sans-serif;
+	background: radial-gradient(circle at top, #1e293b, var(--bg-main));
+	min-height: 100vh;
+	color: var(--text-main);
+	padding: 30px;
+}
+
+/* Container */
 .container {
 	max-width: 900px;
-	margin-top: 40px;
 }
 
+/* Card */
 .card {
-	border-radius: 12px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	background: linear-gradient(180deg, #111827, #0b1220);
+	border-radius: 18px;
+	border: 1px solid var(--border-soft);
+	box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
 }
 
+/* Header */
+.card-header {
+	background: transparent;
+	border-bottom: 1px solid var(--border-soft);
+	padding: 20px 25px;
+}
+
+.card-header h4 {
+	font-weight: 800;
+	font-size: 1.4rem;
+	letter-spacing: 0.4px;
+}
+
+/* Body */
+.card-body {
+	padding: 25px;
+}
+
+/* Alerts */
+.alert {
+	border-radius: 10px;
+	font-weight: 600;
+}
+
+.alert-success {
+	background: rgba(34, 197, 94, 0.15);
+	color: #4ade80;
+	border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.alert-danger {
+	background: rgba(239, 68, 68, 0.15);
+	color: #f87171;
+	border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* Seat Row Block */
 .row-block {
 	display: flex;
-	gap: 10px;
+	gap: 12px;
 	align-items: center;
-	margin-bottom: 12px;
+	margin-bottom: 14px;
+	padding: 12px;
+	border-radius: 12px;
+	background: #020617;
+	border: 1px solid var(--border-soft);
+	animation: fadeIn 0.35s ease;
 }
 
 .row-block input, .row-block select {
-	flex: 1;
+	background: #020617;
+	border: 1px solid var(--border-soft);
+	color: var(--text-main);
+	border-radius: 10px;
+	font-size: 0.9rem;
+	padding: 10px 12px;
 }
 
-.row-block button {
-	white-space: nowrap;
+.row-block input::placeholder {
+	color: var(--text-muted);
 }
 
-.add-row-btn {
+.row-block input:focus, .row-block select:focus {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.25);
+	outline: none;
+}
+
+/* Buttons */
+.btn-add-row {
 	margin-top: 15px;
+	background: transparent;
+	border: 1px dashed var(--accent);
+	color: var(--accent);
+	font-weight: 600;
+	border-radius: 10px;
+	padding: 10px 16px;
+	transition: all 0.25s ease;
+}
+
+.btn-add-row:hover {
+	background: rgba(231, 76, 60, 0.1);
+}
+
+.btn-remove {
+	background: rgba(239, 68, 68, 0.15);
+	border: 1px solid rgba(239, 68, 68, 0.4);
+	color: #f87171;
+	border-radius: 10px;
+	padding: 8px 12px;
+	font-weight: 700;
+}
+
+.btn-remove:hover {
+	background: rgba(239, 68, 68, 0.3);
+}
+
+/* Footer Buttons */
+.footer-actions {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 25px;
+	gap: 15px;
+}
+
+.btn-cancel {
+	background: transparent;
+	border: 1px solid var(--border-soft);
+	color: var(--text-muted);
+	border-radius: 10px;
+	padding: 10px 18px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: all 0.25s ease;
+}
+
+.btn-cancel:hover {
+	color: white;
+	border-color: var(--text-main);
+}
+
+.btn-save {
+	background: linear-gradient(135deg, #22c55e, #16a34a);
+	border: none;
+	color: white;
+	border-radius: 10px;
+	padding: 10px 22px;
+	font-weight: 600;
+	transition: all 0.25s ease;
+}
+
+.btn-save:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 12px 30px rgba(34, 197, 94, 0.45);
+}
+
+@keyframes fadeIn {from { opacity:0;
+	transform: translateY(10px);
+}
+
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+}
+@media ( max-width : 768px) {
+	.row-block {
+		flex-direction: column;
+		align-items: stretch;
+	}
 }
 </style>
 </head>
@@ -51,8 +212,9 @@ body {
 	<div class="container">
 
 		<div class="card">
-			<div class="card-header bg-primary text-white">
-				<h4 class="mb-0">Add Seat Layout</h4>
+
+			<div class="card-header">
+				<h4>🎟️ Add Seat Layout</h4>
 			</div>
 
 			<div class="card-body">
@@ -62,75 +224,61 @@ body {
 					th:text="${success}"></div>
 				<div th:if="${fail}" class="alert alert-danger" th:text="${fail}"></div>
 
-				<!-- Seat Layout Form -->
 				<form th:action="@{/add-seats/{id}(id=${id})}"
 					th:object="${seatLayoutForm}" method="post">
 
 					<div id="rowsContainer"></div>
 
-					<button type="button" class="btn btn-outline-primary add-row-btn"
-						onclick="addRow()">➕ Add Row</button>
+					<button type="button" class="btn btn-add-row" onclick="addRow()">
+						➕ Add Seat Row</button>
 
-					<hr>
-
-					<div class="d-flex justify-content-between">
-						<a th:href="'/manage-seats/'+${id}" class="btn btn-secondary"> Cancel </a>
-
-						<button type="submit" class="btn btn-success">Save Seat
-							Layout</button>
+					<div class="footer-actions">
+						<a th:href="'/manage-seats/'+${id}" class="btn-cancel">Cancel</a>
+						<button type="submit" class="btn-save">Save Seat Layout</button>
 					</div>
 
 				</form>
 
 			</div>
 		</div>
-
 	</div>
 
 	<script>
-    let rowIndex = 0;
+	let rowIndex = 0;
 
-    function addRow() {
-        const container = document.getElementById("rowsContainer");
+	function addRow() {
+		const container = document.getElementById("rowsContainer");
 
-        container.insertAdjacentHTML("beforeend", `
-            <div class="row-block">
-                <input type="text"
-                       class="form-control"
-                       name="rows[${rowIndex}].rowName"
-                       placeholder="Row Name (A, B, VIP)"
-                       required>
+		container.insertAdjacentHTML("beforeend", `
+			<div class="row-block">
+				<input type="text"
+					   name="rows[${rowIndex}].rowName"
+					   placeholder="Row Name (A, B, VIP)"
+					   required>
 
-                <input type="number"
-                       class="form-control"
-                       name="rows[${rowIndex}].totalSeats"
-                       placeholder="Seats"
-                       min="1"
-                       required>
+				<input type="number"
+					   name="rows[${rowIndex}].totalSeats"
+					   placeholder="Total Seats"
+					   min="1"
+					   required>
 
-                <select class="form-select"
-                        name="rows[${rowIndex}].category"
-                        required>
-                    <option value="">Category</option>
-                    <option value="STANDARD">Standard</option>
-                    <option value="PREMIUM">Premium</option>
-                    <option value="VIP">VIP</option>
-                </select>
+				<select name="rows[${rowIndex}].category" required>
+					<option value="">Category</option>
+					<option value="STANDARD">Standard</option>
+					<option value="PREMIUM">Premium</option>
+					<option value="VIP">VIP</option>
+				</select>
 
-                <button type="button"
-                        class="btn btn-danger"
-                        onclick="removeRow(this)">
-                    ❌
-                </button>
-            </div>
-        `);
+				<button type="button" class="btn-remove" onclick="removeRow(this)">✕</button>
+			</div>
+		`);
 
-        rowIndex++;
-    }
+		rowIndex++;
+	}
 
-    function removeRow(button) {
-        button.parentElement.remove();
-    }
+	function removeRow(btn) {
+		btn.parentElement.remove();
+	}
 </script>
 
 </body>

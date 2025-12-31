@@ -1,398 +1,230 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Edit Theater - BookMyTicket Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Theater | BookMyTicket Admin</title>
 
-	<!-- Bootstrap -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+	rel="stylesheet">
 
-	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+	--bg-main: #0f172a;
+	--bg-card: #111827;
+	--border-soft: #1f2937;
+	--text-main: #e5e7eb;
+	--text-muted: #9ca3af;
+	--accent: #6496ff;
+	--accent-pink: #ff4081;
+}
 
-	<style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
+body {
+	font-family: "Poppins", sans-serif;
+	background: radial-gradient(circle at top, #1e293b, var(--bg-main));
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--text-main);
+	padding: 20px;
+}
 
-		body {
-			font-family: "Poppins", sans-serif;
-			background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
-			min-height: 100vh;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: #1a2332;
-		}
+/* Container */
+.form-container {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
 
-		/* Main Container */
-		.form-container {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			min-height: 100vh;
-			padding: 20px;
-		}
+/* Card */
+.form-box {
+	width: 100%;
+	max-width: 500px;
+	padding: 40px;
+	background: linear-gradient(180deg, #111827, #0b1220);
+	border-radius: 18px;
+	border: 1px solid var(--border-soft);
+	box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+	animation: fadeInUp 0.6s ease;
+}
 
-		/* Form Box */
-		.form-box {
-			width: 100%;
-			max-width: 480px;
-			padding: 50px;
-			background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
-			border-radius: 20px;
-			border: 1.5px solid rgba(100, 150, 255, 0.2);
-			box-shadow: 0 20px 50px rgba(100, 150, 255, 0.1);
-			backdrop-filter: blur(10px);
-			animation: fadeInUp 0.8s ease-out;
-		}
+/* Heading */
+h2 {
+	text-align: center;
+	margin-bottom: 28px;
+	font-weight: 900;
+	font-size: 1.6rem;
+}
 
-		h2 {
-			text-align: center;
-			margin-bottom: 30px;
-			font-weight: 700;
-			color: #1a2332;
-			font-size: 1.8rem;
-		}
+/* Form Group */
+.form-group {
+	margin-bottom: 22px;
+}
 
-		/* Form Group */
-		.form-group {
-			margin-bottom: 25px;
-		}
+label {
+	margin-bottom: 8px;
+	font-weight: 600;
+	color: var(--text-muted);
+	font-size: 0.9rem;
+}
 
-		label {
-			display: block;
-			margin-bottom: 8px;
-			font-weight: 600;
-			color: #1a2332;
-			font-size: 0.95rem;
-		}
+/* Inputs */
+.form-control, .form-file {
+	background: #020617;
+	border: 1.5px solid var(--border-soft);
+	border-radius: 12px;
+	padding: 12px 16px;
+	color: var(--text-main);
+	font-size: 0.95rem;
+	transition: all 0.25s ease;
+	width: 100%;
+}
 
-		/* Form Control */
-		.form-control, .form-file {
-			background: rgba(255, 255, 255, 0.7);
-			border: 1.5px solid rgba(100, 150, 255, 0.15);
-			border-radius: 10px;
-			padding: 12px 16px;
-			font-size: 0.95rem;
-			color: #1a2332;
-			font-weight: 500;
-			transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-			font-family: "Poppins", sans-serif;
-			width: 100%;
-		}
+.form-control::placeholder {
+	color: #64748b;
+}
 
-		.form-control:focus, .form-file:focus {
-			background: rgba(255, 255, 255, 0.85);
-			border-color: #6496ff;
-			box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.15);
-			color: #1a2332;
-			outline: none;
-		}
+.form-control:focus, .form-file:focus {
+	background: #020617;
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.25);
+	color: var(--text-main);
+}
 
-		.form-control::placeholder {
-			color: #5a6b7d;
-		}
+/* File Button */
+.form-file::file-selector-button {
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	color: white;
+	border: none;
+	padding: 8px 14px;
+	border-radius: 8px;
+	font-weight: 600;
+	cursor: pointer;
+	margin-right: 10px;
+}
 
-		/* File Input */
-		.form-file {
-			padding: 10px 16px;
-		}
+/* Error */
+.error-text {
+	color: var(--accent-pink);
+	font-size: 0.8rem;
+	margin-top: 4px;
+	font-weight: 600;
+}
 
-		.form-file::file-selector-button {
-			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
-			color: white;
-			border: none;
-			padding: 8px 16px;
-			border-radius: 6px;
-			font-weight: 600;
-			cursor: pointer;
-			margin-right: 10px;
-		}
+/* Image Preview */
+.image-preview {
+	text-align: center;
+	margin-bottom: 20px;
+}
 
-		/* Error Text */
-		.error-text {
-			color: #ff4081;
-			font-size: 0.85rem;
-			margin-top: 5px;
-			font-weight: 600;
-		}
+.image-preview img {
+	max-width: 100%;
+	max-height: 200px;
+	border-radius: 14px;
+	border: 2px solid var(--border-soft);
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
 
-		/* Image Preview */
-		.image-preview {
-			margin-bottom: 20px;
-			text-align: center;
-		}
+.image-note {
+	font-size: 0.8rem;
+	color: var(--text-muted);
+	margin-top: 8px;
+	font-style: italic;
+}
 
-		.image-preview img {
-			border-radius: 12px;
-			max-width: 100%;
-			max-height: 200px;
-			border: 2px solid rgba(100, 150, 255, 0.2);
-		}
+/* Button */
+.btn-submit {
+	width: 100%;
+	margin-top: 10px;
+	padding: 12px;
+	border-radius: 12px;
+	border: none;
+	font-weight: 700;
+	font-size: 0.95rem;
+	color: white;
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	transition: all 0.3s ease;
+}
 
-		.image-note {
-			font-size: 0.85rem;
-			color: #5a6b7d;
-			margin-top: 10px;
-			font-style: italic;
-		}
+.btn-submit:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 15px 35px rgba(100, 150, 255, 0.45);
+}
 
-		/* Submit Button */
-		.btn-submit {
-			background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
-			border: none;
-			color: white;
-			font-weight: 600;
-			padding: 12px 24px;
-			border-radius: 10px;
-			transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-			box-shadow: 0 4px 15px rgba(100, 150, 255, 0.25);
-			width: 100%;
-			cursor: pointer;
-			font-size: 0.95rem;
-		}
+/* Back Link */
+.back-link {
+	text-align: center;
+	margin-top: 20px;
+}
 
-		.btn-submit:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 8px 25px rgba(100, 150, 255, 0.35);
-			background: linear-gradient(135deg, #5280ff 0%, #ff2563 100%);
-		}
+.back-link a {
+	color: var(--text-muted);
+	font-weight: 600;
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
 
-		.btn-submit:active {
-			transform: translateY(0);
-			box-shadow: 0 2px 8px rgba(100, 150, 255, 0.2);
-		}
+.back-link a:hover {
+	color: var(--accent-pink);
+}
 
-		/* Back Link */
-		.back-link {
-			text-align: center;
-			margin-top: 20px;
-		}
+/* Animation */
+@
+keyframes fadeInUp {from { opacity:0;
+	transform: translateY(20px);
+}
 
-		.back-link a {
-			color: #6496ff;
-			font-weight: 600;
-			text-decoration: none;
-			transition: all 0.3s ease;
-		}
+to {
+	opacity: 1;
+	transform: translateY(0);
+}
 
-		.back-link a:hover {
-			color: #ff4081;
-		}
-
-		/* Animations */
-		@keyframes fadeInUp {
-			from {
-				opacity: 0;
-				transform: translateY(30px);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		/* Responsive Design */
-		@media (max-width: 992px) {
-			.form-box {
-				padding: 40px;
-			}
-
-			h2 {
-				font-size: 1.6rem;
-			}
-		}
-
-		@media (max-width: 768px) {
-			.form-container {
-				padding: 15px;
-			}
-
-			.form-box {
-				padding: 30px;
-				max-width: 100%;
-			}
-
-			h2 {
-				font-size: 1.4rem;
-				margin-bottom: 20px;
-			}
-
-			.form-group {
-				margin-bottom: 18px;
-			}
-
-			label {
-				font-size: 0.9rem;
-				margin-bottom: 6px;
-			}
-
-			.form-control, .form-file {
-				padding: 10px 14px;
-				font-size: 0.9rem;
-			}
-
-			.btn-submit {
-				padding: 10px 18px;
-				font-size: 0.9rem;
-			}
-
-			.image-preview img {
-				max-height: 150px;
-			}
-		}
-
-		@media (max-width: 480px) {
-			.form-box {
-				padding: 25px;
-			}
-
-			h2 {
-				font-size: 1.3rem;
-				margin-bottom: 18px;
-			}
-
-			.form-group {
-				margin-bottom: 15px;
-			}
-
-			label {
-				font-size: 0.85rem;
-			}
-
-			.form-control, .form-file {
-				padding: 10px 12px;
-				font-size: 0.85rem;
-			}
-
-			.btn-submit {
-				padding: 10px 16px;
-				font-size: 0.85rem;
-			}
-
-			.image-preview img {
-				max-height: 120px;
-			}
-		}
-
-		/* ========== TOAST NOTIFICATIONS ========== */
-		.toastify-container {
-			position: fixed;
-			top: 80px;
-			right: 20px;
-			z-index: 999;
-			pointer-events: none;
-		}
-
-		.toastify {
-			min-width: 300px;
-			max-width: 400px;
-			border-radius: 8px;
-			padding: 14px 18px;
-			color: white;
-			font-weight: 500;
-			font-size: 0.95rem;
-			display: flex;
-			align-items: center;
-			gap: 12px;
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-			margin-bottom: 10px;
-			pointer-events: auto;
-			animation: toastSlideIn 0.35s ease forwards;
-			border: none;
-			position: relative;
-			overflow: hidden;
-		}
-
-		.toastify.success {
-			background: #27ae60;
-		}
-
-		.toastify.error {
-			background: #e74c3c;
-		}
-
-		.toastify span {
-			flex: 1;
-			line-height: 1.4;
-		}
-
-		.toastify-close {
-			width: 24px;
-			height: 24px;
-			border-radius: 50%;
-			background: rgba(255, 255, 255, 0.2);
-			border: none;
-			color: white;
-			font-size: 1rem;
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: all 0.25s ease;
-			flex-shrink: 0;
-			font-weight: 700;
-		}
-
-		.toastify-close:hover {
-			background: rgba(255, 255, 255, 0.35);
-		}
-
-		@keyframes toastSlideIn {
-			from {
-				opacity: 0;
-				transform: translateX(450px);
-			}
-			to {
-				opacity: 1;
-				transform: translateX(0);
-			}
-		}
-
-		@keyframes toastSlideOut {
-			from {
-				opacity: 1;
-				transform: translateX(0);
-			}
-			to {
-				opacity: 0;
-				transform: translateX(450px);
-			}
-		}
-	</style>
+}
+@media ( max-width : 480px) {
+	.form-box {
+		padding: 30px;
+	}
+	h2 {
+		font-size: 1.4rem;
+	}
+}
+</style>
 </head>
 
 <body>
 
-	<!-- FORM CONTAINER -->
 	<div class="form-container">
 		<div class="form-box">
 
 			<h2>✏️ Edit Theater</h2>
 
-			<form action="/update-theater" method="post" enctype="multipart/form-data" th:object="${theaterDto}">
+			<form action="/update-theater" method="post"
+				enctype="multipart/form-data" th:object="${theaterDto}">
 
 				<input type="hidden" name="id" th:value="${id}">
 
 				<div class="form-group">
-					<label for="name">Theater Name</label>
-					<input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter theater name" required>
+					<label>Theater Name</label> <input type="text" th:field="*{name}"
+						class="form-control" placeholder="Enter theater name">
 					<div class="error-text" th:errors="*{name}"></div>
 				</div>
 
 				<div class="form-group">
-					<label for="address">Address</label>
-					<input type="text" id="address" th:field="*{address}" class="form-control" placeholder="Enter theater address" required>
+					<label>Address</label> <input type="text" th:field="*{address}"
+						class="form-control" placeholder="Enter theater address">
 					<div class="error-text" th:errors="*{address}"></div>
 				</div>
 
 				<div class="form-group">
-					<label for="locationLink">Location Link</label>
-					<input type="text" id="locationLink" th:field="*{locationLink}" class="form-control" placeholder="Enter Google Maps link" required>
+					<label>Location Link</label> <input type="text"
+						th:field="*{locationLink}" class="form-control"
+						placeholder="Google Maps link">
 					<div class="error-text" th:errors="*{locationLink}"></div>
 				</div>
 
@@ -402,8 +234,8 @@
 				</div>
 
 				<div class="form-group">
-					<label for="image">Update Image (Optional)</label>
-					<input type="file" id="image" th:field="*{image}" class="form-file" accept="image/*">
+					<label>Update Image (Optional)</label> <input type="file"
+						th:field="*{image}" class="form-file" accept="image/*">
 					<p class="image-note">Leave empty to keep current image</p>
 					<div class="error-text" th:errors="*{image}"></div>
 				</div>
@@ -419,8 +251,7 @@
 		</div>
 	</div>
 
-	<!-- Bootstrap JS -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

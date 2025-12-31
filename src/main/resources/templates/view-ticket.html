@@ -1,123 +1,273 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Ticket Details</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Seats | BookMyTicket</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+	rel="stylesheet">
+
 <style>
+:root {
+	--bg-main: #0f172a;
+	--bg-card: #111827;
+	--border: #1f2937;
+	--text-main: #e5e7eb;
+	--text-muted: #9ca3af;
+	--accent: #6496ff;
+	--accent-pink: #ff4081;
+	--success: #22c55e;
+}
+
+/* ===== GLOBAL ===== */
 body {
-	font-family: Arial, sans-serif;
-	background-color: #f9f9f9;
-	margin: 0;
-	padding: 0;
+	font-family: 'Poppins', sans-serif;
+	background: radial-gradient(circle at top, #1e293b, var(--bg-main));
+	min-height: 100vh;
+	color: var(--text-main);
+	padding: 30px 10px;
 }
 
 .container {
-	width: 80%;
-	margin: 30px auto;
-	padding: 20px;
-	background-color: #fff;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	max-width: 1100px;
 }
 
-.ticket-header {
-	text-align: center;
-	margin-bottom: 20px;
-}
-
-.ticket-header h1 {
-	font-size: 2rem;
-	color: #333;
-}
-
-.ticket-details {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 20px;
-}
-
-.ticket-details div {
-	width: 45%;
-}
-
-.ticket-details h3 {
-	color: #333;
-}
-
-.ticket-details p {
-	color: #666;
-}
-
-.qr-code {
-	text-align: center;
-	margin-top: 20px;
-}
-
-.qr-code img {
-	max-width: 150px;
-	height: auto;
-}
-
-.btn-back {
-	display: inline-block;
-	padding: 10px 20px;
-	margin-top: 20px;
-	background-color: #4CAF50;
+/* ===== SCREEN ===== */
+.screen {
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
 	color: white;
-	text-decoration: none;
+	text-align: center;
+	padding: 14px;
+	border-radius: 14px;
+	font-weight: 900;
+	letter-spacing: 3px;
+	margin-bottom: 45px;
+	box-shadow: 0 15px 35px rgba(100, 150, 255, .45);
+}
+
+/* ===== ROW ===== */
+.row-wrapper {
+	display: flex;
+	align-items: center;
+	margin-bottom: 16px;
+}
+
+.row-name {
+	width: 55px;
+	font-weight: 800;
+	color: #cbd5f5;
+}
+
+/* ===== SEAT ===== */
+.seat {
+	width: 36px;
+	height: 36px;
+	margin: 4px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: .75rem;
+	font-weight: 700;
+	cursor: pointer;
+	user-select: none;
+	transition: .2s ease;
+}
+
+/* ===== CATEGORIES ===== */
+.STANDARD {
+	background: #0b1f3a;
+	border: 1.5px solid #3b82f6;
+	color: #93c5fd;
+}
+
+.PREMIUM {
+	background: #2a1f0b;
+	border: 1.5px solid #facc15;
+	color: #fde68a;
+}
+
+.VIP {
+	background: #2a0b15;
+	border: 1.5px solid #fb7185;
+	color: #fecdd3;
+}
+
+/* ===== STATES ===== */
+.booked {
+	background: #374151 !important;
+	border: none;
+	cursor: not-allowed;
+	color: #9ca3af;
+}
+
+.selected {
+	background: var(--success) !important;
+	border: none;
+	color: #022c22;
+	box-shadow: 0 0 0 3px rgba(34, 197, 94, .35);
+	transform: scale(1.05);
+}
+
+/* ===== HOVER ===== */
+.seat:not(.booked):hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 14px rgba(0, 0, 0, .4);
+}
+
+/* ===== LEGEND ===== */
+.legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 18px;
+	justify-content: center;
+	margin-top: 35px;
+	font-weight: 600;
+	color: var(--text-muted);
+}
+
+.legend span {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.legend-box {
+	width: 18px;
+	height: 18px;
 	border-radius: 5px;
 }
 
-.btn-back:hover {
-	background-color: #45a049;
+/* ===== ACTIONS ===== */
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 12px;
+	margin-top: 40px;
+}
+
+.btn-secondary {
+	background: #1f2937;
+	border: 1.5px solid #334155;
+	color: #cbd5f5;
+	font-weight: 700;
+	padding: 10px 22px;
+	border-radius: 10px;
+}
+
+.btn-secondary:hover {
+	background: #334155;
+	color: white;
+}
+
+.btn-success {
+	background: linear-gradient(135deg, #22c55e, #16a34a);
+	border: none;
+	font-weight: 800;
+	padding: 10px 26px;
+	border-radius: 10px;
+	box-shadow: 0 12px 30px rgba(34, 197, 94, .4);
+}
+
+.btn-success:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 18px 45px rgba(34, 197, 94, .6);
+}
+
+/* ===== RESPONSIVE ===== */
+@media ( max-width :768px) {
+	.row-name {
+		width: 40px
+	}
+	.seat {
+		width: 32px;
+		height: 32px
+	}
+}
+
+@media ( max-width :480px) {
+	.screen {
+		font-size: .85rem
+	}
+	.legend {
+		font-size: .8rem
+	}
 }
 </style>
 </head>
+
 <body>
 
 	<div class="container">
-		<div class="ticket-header">
-			<h1>Your Ticket Details</h1>
-			<p>Thank you for booking with us! Here are your ticket details:</p>
-		</div>
 
-		<div class="ticket-details">
-			<div>
-				<h3>Movie Name</h3>
-				<p th:text="${ticket.movieName}">Movie Name</p>
+		<div class="screen">🎬 SCREEN THIS SIDE 🎬</div>
 
-				<h3>Theater</h3>
-				<p th:text="${ticket.theaterName}">Theater Name</p>
+		<form action="/confirm-booking" method="post"
+			onsubmit="return prepareSeats()">
 
-				<h3>Show Date & Time</h3>
-				<p
-					th:text="${ticket.showDate}+' at '+${ticket.showTiming}">Show
-					Date and Time</p>
+			<input type="hidden" name="seatIds" id="seatIds"> <input
+				type="hidden" name="showId" th:value="${showId}">
+
+			<!-- ROW LOOP -->
+			<div th:each="rowEntry : ${seatsByRow}">
+				<div class="row-wrapper">
+
+					<div class="row-name" th:text="${rowEntry.key}"></div>
+
+					<div class="d-flex flex-wrap">
+						<div th:each="showSeat : ${rowEntry.value}" class="seat"
+							th:classappend="
+							${showSeat.seat.category}
+							+ (${showSeat.booked} ? ' booked' : '')
+						 "
+							th:text="${showSeat.seat.seatColumn}" th:data-id="${showSeat.id}"
+							onclick="toggleSeat(this)"></div>
+					</div>
+
+				</div>
 			</div>
 
-			<div>
-				<h3>Seat Numbers</h3>
-				<p th:text="${#strings.arrayJoin(ticket.seatNumber, ', ')}">Seat
-					Numbers</p>
-
-				<h3>Ticket Price</h3>
-				<p th:text="${ticket.ticketPrice}">Ticket Price</p>
-
-				<h3>Ticket Count</h3>
-				<p th:text="${ticket.ticketCount}">Ticket Count</p>
+			<!-- LEGEND -->
+			<div class="legend">
+				<span><div class="legend-box STANDARD"></div>Standard</span> <span><div
+						class="legend-box PREMIUM"></div>Premium</span> <span><div
+						class="legend-box VIP"></div>VIP</span> <span><div
+						class="legend-box" style="background: #374151"></div>Booked</span> <span><div
+						class="legend-box" style="background: #22c55e"></div>Selected</span>
 			</div>
-		</div>
 
-		<div class="qr-code">
-			<h3>Your QR Code</h3>
-			<img th:src="@{${ticket.qrUrl}}" alt="QR Code">
-		</div>
+			<!-- ACTIONS -->
+			<div class="actions">
+				<a href="/" class="btn btn-secondary">Back</a>
+				<button type="submit" class="btn btn-success">Proceed</button>
+			</div>
 
-		<div class="back-button">
-			<a href="/" class="btn-back">Back to Home</a>
-		</div>
+		</form>
+
 	</div>
+
+	<script>
+function toggleSeat(el){
+	if(el.classList.contains('booked')) return;
+	el.classList.toggle('selected');
+}
+
+function prepareSeats(){
+	const selected=document.querySelectorAll('.seat.selected');
+	if(selected.length===0){
+		alert("Please select at least one seat");
+		return false;
+	}
+	document.getElementById("seatIds").value =
+		Array.from(selected).map(s=>s.dataset.id).join(',');
+	return true;
+}
+</script>
 
 </body>
 </html>

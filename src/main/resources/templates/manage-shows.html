@@ -1,51 +1,205 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Manage Shows</title>
+<title>Manage Shows | BookMyTicket</title>
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap"
+	rel="stylesheet">
+
+<style>
+:root {
+	--bg-main: #0f172a;
+	--bg-card: #111827;
+	--border: #1f2937;
+	--text-main: #e5e7eb;
+	--text-muted: #9ca3af;
+	--accent: #6496ff;
+	--danger: #ff4d6d;
+}
+
+/* ===== GLOBAL ===== */
+body {
+	font-family: "Poppins", sans-serif;
+	background: radial-gradient(circle at top, #1e293b, var(--bg-main));
+	color: var(--text-main);
+	min-height: 100vh;
+}
+
+.container {
+	max-width: 1300px;
+	margin-top: 50px;
+}
+
+/* ===== HEADER ===== */
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 30px;
+	flex-wrap: wrap;
+	gap: 15px;
+}
+
+.header h1 {
+	font-weight: 900;
+	font-size: 1.8rem;
+}
+
+/* ===== BUTTONS ===== */
+.btn-add {
+	background: linear-gradient(135deg, #6496ff, #ff4081);
+	color: #fff;
+	font-weight: 700;
+	padding: .7rem 1.8rem;
+	border-radius: 14px;
+	border: none;
+	box-shadow: 0 15px 35px rgba(100, 150, 255, .45);
+}
+
+.btn-add:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 25px 55px rgba(100, 150, 255, .6);
+	color: #fff;
+}
+
+.btn-delete {
+	background: rgba(255, 77, 109, .15);
+	border: 1px solid var(--danger);
+	color: var(--danger);
+	font-weight: 700;
+	padding: .45rem 1rem;
+	border-radius: 10px;
+}
+
+.btn-delete:hover {
+	background: var(--danger);
+	color: #fff;
+	box-shadow: 0 10px 25px rgba(255, 77, 109, .45);
+}
+
+/* ===== TABLE ===== */
+.table-wrapper {
+	background: linear-gradient(180deg, #111827, #0b1220);
+	border: 1px solid var(--border);
+	border-radius: 18px;
+	overflow: hidden;
+	box-shadow: 0 30px 70px rgba(0, 0, 0, .7);
+}
+
+.table {
+	margin: 0;
+	color: var(--text-main);
+}
+
+.table thead th {
+	background: #020617;
+	color: #c7d2fe;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: .5px;
+	font-size: .8rem;
+	border: none;
+	padding: 16px;
+}
+
+.table tbody td {
+	padding: 14px 16px;
+	border-color: var(--border);
+	font-weight: 500;
+	font-size: .9rem;
+}
+
+.table tbody tr:hover {
+	background: rgba(100, 150, 255, .06);
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+	text-align: center;
+	padding: 90px 30px;
+	background: linear-gradient(180deg, #111827, #0b1220);
+	border-radius: 20px;
+	border: 1px solid var(--border);
+	box-shadow: 0 30px 70px rgba(0, 0, 0, .7);
+}
+
+.empty-state h3 {
+	font-weight: 900;
+	margin-bottom: 10px;
+}
+
+.empty-state p {
+	color: var(--text-muted);
+	margin-bottom: 25px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media ( max-width :768px) {
+	.header h1 {
+		font-size: 1.4rem
+	}
+	.table {
+		font-size: .8rem
+	}
+}
+</style>
 </head>
+
 <body>
-<div align="center">
-	<div th:if="${!shows.isEmpty()}">
-    <table border="1" cellpadding="8" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Show Date</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Movie</th>
-                <th>Ticket Price</th>
-                <th>Total Seats</th>
-                <th>Delete Show</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="show : ${shows}">
 
-                <td th:text="${show.showDate}"></td>
+	<div class="container">
 
-                <td th:text="${show.startTime}"></td>
+		<!-- HEADER -->
+		<div class="header">
+			<h1>🎥 Manage Shows</h1>
+			<a th:href="'/add-show/'+${id}" class="btn btn-add">+ Add Show</a>
+		</div>
 
-                <td th:text="${show.endTime}"></td>
+		<!-- TABLE -->
+		<div th:if="${!shows.isEmpty()}" class="table-wrapper">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Start</th>
+						<th>End</th>
+						<th>Movie</th>
+						<th>Price</th>
+						<th>Total Seats</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="show : ${shows}">
+						<td th:text="${show.showDate}"></td>
+						<td th:text="${show.startTime}"></td>
+						<td th:text="${show.endTime}"></td>
+						<td th:text="${show.movie.name}"></td>
+						<td>₹ <span th:text="${show.ticketPrice}"></span></td>
+						<td th:text="${#lists.size(show.seats)}"></td>
+						<td><a th:href="'/delete-show/'+${show.id}"
+							class="btn btn-delete"
+							onclick="return confirm('Delete this show?');"> Delete </a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
-                <td th:text="${show.movie.name}"></td>
+		<!-- EMPTY STATE -->
+		<div th:if="${shows.isEmpty()}" class="empty-state">
+			<h3>🎭 No Shows Available</h3>
+			<p>Create your first show to start bookings.</p>
+			<a th:href="'/add-show/'+${id}" class="btn btn-add">+ Add First
+				Show</a>
+		</div>
 
-                <td th:text="${show.ticketPrice}"></td>
+	</div>
 
-                <td th:text="${#lists.size(show.seats)}"></td>
-                
-                <td> <a th:href="'/delete-show/'+${show.id}"><button>Delete</button> </a></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div th:if="${shows.isEmpty()}">
-    <p>No shows available.</p>
-</div>
-
-	<a th:href="'/add-show/'+${id}"><button>Add Show</button></a>
-	
-</div>
 </body>
 </html>

@@ -2,362 +2,220 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Verify OTP - BookMyTicket</title>
+<title>Verify OTP | BookMyTicket</title>
 
-<!-- Bootstrap -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-
-<!-- Google Font -->
 <link
-	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap"
 	rel="stylesheet">
 
 <style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+:root {
+	--bg-main: #0f172a;
+	--bg-card: #111827;
+	--border: #1f2937;
+	--text-main: #e5e7eb;
+	--text-muted: #9ca3af;
+	--accent: #6496ff;
+	--accent-pink: #ff4081;
 }
 
+/* ===== GLOBAL ===== */
 body {
 	font-family: "Poppins", sans-serif;
-	background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f7 50%, #f0f4f8 100%);
+	background: radial-gradient(circle at top, #1e293b, var(--bg-main));
 	min-height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	color: var(--text-main);
 }
 
-/* Main Container */
-.otp-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	padding: 20px;
-}
-
-/* OTP Box */
+/* ===== CARD ===== */
 .otp-box {
 	width: 100%;
 	max-width: 420px;
-	padding: 50px;
-	background: linear-gradient(135deg, rgba(100, 150, 255, 0.08) 0%, rgba(255, 64, 129, 0.04) 100%);
+	padding: 45px;
+	background: linear-gradient(180deg, #111827, #0b1220);
 	border-radius: 20px;
-	border: 1.5px solid rgba(100, 150, 255, 0.2);
-	box-shadow: 0 20px 50px rgba(100, 150, 255, 0.1);
-	backdrop-filter: blur(10px);
-	animation: fadeInUp 0.8s ease-out;
+	border: 1px solid var(--border);
+	box-shadow: 0 35px 80px rgba(0, 0, 0, .7);
+	text-align: center;
+	animation: fadeInUp .6s ease;
 }
 
-h3 {
-	text-align: center;
-	margin-bottom: 15px;
-	font-weight: 700;
-	color: #1a2332;
+/* ===== TITLE ===== */
+.otp-box h3 {
+	font-weight: 900;
 	font-size: 1.8rem;
+	margin-bottom: 10px;
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
-p {
-	text-align: center;
-	color: #5a6b7d;
-	font-size: 0.95rem;
-	margin-bottom: 35px;
-	line-height: 1.5;
+.otp-box p {
+	color: var(--text-muted);
+	font-size: .95rem;
+	margin-bottom: 28px;
 }
 
-/* Form Group */
-.mb-3 {
-	margin-bottom: 25px;
-}
-
-/* Form Control */
+/* ===== INPUT ===== */
 .form-control {
-	background: rgba(255, 255, 255, 0.7);
-	border: 1.5px solid rgba(100, 150, 255, 0.15);
-	border-radius: 10px;
-	padding: 12px 16px;
-	font-size: 0.95rem;
-	color: #1a2332;
-	font-weight: 500;
-	transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.form-control:focus {
-	background: rgba(255, 255, 255, 0.85);
-	border-color: #6496ff;
-	box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.15);
-	color: #1a2332;
-	outline: none;
+	background: #020617;
+	border: 1.5px solid var(--border);
+	border-radius: 12px;
+	padding: 14px 16px;
+	color: var(--text-main);
+	font-weight: 600;
+	font-size: .95rem;
+	text-align: center;
+	letter-spacing: 3px;
+	transition: .25s;
 }
 
 .form-control::placeholder {
-	color: #5a6b7d;
+	color: #64748b;
+	letter-spacing: normal;
 }
 
-/* Buttons */
+.form-control:focus {
+	background: #020617;
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px rgba(100, 150, 255, .25);
+	color: var(--text-main);
+}
+
+/* ===== BUTTON ===== */
 .btn-primary {
-	background: linear-gradient(135deg, #6496ff 0%, #ff4081 100%);
-	border: none;
-	color: white;
-	font-weight: 600;
-	padding: 12px 24px;
-	border-radius: 10px;
-	transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-	box-shadow: 0 4px 15px rgba(100, 150, 255, 0.25);
 	width: 100%;
-	cursor: pointer;
-	font-size: 0.95rem;
+	padding: 12px;
+	border-radius: 12px;
+	border: none;
+	font-weight: 800;
+	font-size: .9rem;
+	background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+	box-shadow: 0 15px 35px rgba(100, 150, 255, .45);
+	transition: .3s;
 }
 
 .btn-primary:hover {
 	transform: translateY(-2px);
-	box-shadow: 0 8px 25px rgba(100, 150, 255, 0.35);
-	background: linear-gradient(135deg, #5280ff 0%, #ff2563 100%);
+	box-shadow: 0 22px 50px rgba(100, 150, 255, .6);
 }
 
-.btn-primary:active {
-	transform: translateY(0);
-	box-shadow: 0 2px 8px rgba(100, 150, 255, 0.2);
-}
-
-/* Resend Link */
+/* ===== RESEND ===== */
 .resend-section {
-	text-align: center;
-	margin-top: 25px;
+	margin-top: 22px;
 }
 
 .resend-link {
-	color: #6496ff;
+	color: var(--text-muted);
 	font-weight: 600;
+	font-size: .9rem;
 	text-decoration: none;
-	font-size: 0.9rem;
-	transition: all 0.3s ease;
-	position: relative;
-	display: inline-block;
-}
-
-.resend-link::after {
-	content: '';
-	position: absolute;
-	bottom: -2px;
-	left: 0;
-	width: 0;
-	height: 2px;
-	background: linear-gradient(90deg, #6496ff, #ff4081);
-	transition: width 0.3s ease;
+	transition: .2s;
 }
 
 .resend-link:hover {
-	color: #ff4081;
+	color: var(--accent-pink);
 }
 
-.resend-link:hover::after {
-	width: 100%;
-}
-
-/* Toast Container */
+/* ===== TOASTS ===== */
 .toastify-container {
 	position: fixed;
-	top: 25px;
-	right: 25px;
+	top: 20px;
+	right: 20px;
 	z-index: 9999;
-	pointer-events: none;
 }
 
-/* Toast */
 .toastify {
-	position: relative;
 	min-width: 300px;
-	padding: 16px 20px;
-	margin-bottom: 12px;
 	border-radius: 12px;
+	padding: 14px 18px;
 	color: white;
 	font-weight: 600;
-	font-size: 0.95rem;
 	display: flex;
 	align-items: center;
-	gap: 10px;
-	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-	animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-	pointer-events: auto;
-	overflow: hidden;
+	gap: 12px;
+	box-shadow: 0 15px 40px rgba(0, 0, 0, .6);
+	animation: toastIn .4s ease forwards;
 }
 
 .toastify.success {
-	background: linear-gradient(135deg, #26c281 0%, #27ae60 100%);
+	background: linear-gradient(135deg, #22c55e, #16a34a);
 }
 
 .toastify.error {
-	background: linear-gradient(135deg, #ff4081 0%, #ff6a6a 100%);
+	background: linear-gradient(135deg, #ff4081, #ff6a6a);
 }
 
-/* Toast Close Button */
 .toastify-close {
-	position: absolute;
-	right: 8px;
-	top: 8px;
-	width: 28px;
-	height: 28px;
-	background: rgba(255, 255, 255, 0.2);
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, .25);
 	border: none;
 	color: white;
-	border-radius: 50%;
-	font-size: 1.3rem;
+	font-size: 1.1rem;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	transition: all 0.3s ease;
-	line-height: 1;
-	padding: 0;
+	transition: .25s;
 }
 
 .toastify-close:hover {
-	background: rgba(255, 255, 255, 0.35);
+	background: rgba(255, 255, 255, .4);
 	transform: rotate(90deg);
 }
 
-/* Progress Bar */
-.toastify::before {
-	content: '';
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	height: 3px;
-	background: rgba(255, 255, 255, 0.4);
-	animation: progressBar 3.5s linear forwards;
+/* ===== ANIMATIONS ===== */
+@
+keyframes toastIn {
+	from {opacity: 0;
+	transform: translateX(400px)
 }
 
-@keyframes fadeInUp {
-	from {
-		opacity: 0;
-		transform: translateY(30px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
+to {
+	opacity: 1;
+	transform: translateX(0)
 }
 
-@keyframes toastSlideIn {
-	from {
-		opacity: 0;
-		transform: translateX(450px);
-	}
-	to {
-		opacity: 1;
-		transform: translateX(0);
-	}
+}
+@
+keyframes toastOut {
+	from {opacity: 1;
+	transform: translateX(0)
 }
 
-@keyframes toastSlideOut {
-	from {
-		opacity: 1;
-		transform: translateX(0);
-	}
-	to {
-		opacity: 0;
-		transform: translateX(450px);
-	}
+to {
+	opacity: 0;
+	transform: translateX(400px)
 }
 
-@keyframes progressBar {
-	from {
-		width: 100%;
-	}
-	to {
-		width: 0%;
-	}
+}
+@
+keyframes fadeInUp {
+	from {opacity: 0;
+	transform: translateY(25px)
 }
 
-/* Responsive Design */
-@media (max-width: 992px) {
+to {
+	opacity: 1;
+	transform: translateY(0)
+}
+
+}
+@media ( max-width :480px) {
 	.otp-box {
-		padding: 40px;
-	}
-
-	h3 {
-		font-size: 1.6rem;
-	}
-}
-
-@media (max-width: 768px) {
-	.otp-container {
-		padding: 15px;
-	}
-
-	.otp-box {
-		padding: 30px;
-		max-width: 100%;
-	}
-
-	h3 {
-		font-size: 1.4rem;
-		margin-bottom: 12px;
-	}
-
-	p {
-		font-size: 0.9rem;
-		margin-bottom: 25px;
-	}
-
-	.btn-primary {
-		padding: 10px 18px;
-		font-size: 0.9rem;
-	}
-
-	.toastify {
-		min-width: 280px;
-		padding: 14px 16px;
-		font-size: 0.9rem;
-	}
-
-	.toastify-container {
-		top: 15px;
-		right: 15px;
-	}
-}
-
-@media (max-width: 480px) {
-	.otp-box {
-		padding: 25px;
-	}
-
-	h3 {
-		font-size: 1.3rem;
-		margin-bottom: 10px;
-	}
-
-	p {
-		font-size: 0.85rem;
-		margin-bottom: 20px;
-	}
-
-	.form-control {
-		padding: 10px 14px;
-		font-size: 0.9rem;
-	}
-
-	.btn-primary {
-		padding: 10px 16px;
-		font-size: 0.85rem;
-	}
-
-	.mb-3 {
-		margin-bottom: 18px;
-	}
-
-	.toastify {
-		min-width: 250px;
-		padding: 12px 14px;
-		font-size: 0.85rem;
+		padding: 35px
 	}
 }
 </style>
-
 </head>
 
 <body>
@@ -367,74 +225,54 @@ p {
 		<div th:if="${pass}" class="toastify success">
 			<span th:text="${pass}"></span>
 		</div>
-
 		<div th:if="${fail}" class="toastify error">
 			<span th:text="${fail}"></span>
 		</div>
 	</div>
 
+	<!-- OTP CARD -->
+	<div class="otp-box">
+		<h3>Verify OTP</h3>
+		<p>Enter the 6-digit OTP sent to your email</p>
 
-	<!-- OTP BOX -->
-	<div class="otp-container">
-		<div class="otp-box">
+		<form action="/otp" method="post">
+			<input type="hidden" name="email" th:value="${email}">
 
-			<h3>Verify OTP</h3>
+			<div class="mb-3">
+				<input type="number" name="otp" class="form-control"
+					placeholder="Enter OTP" required>
+			</div>
 
-			<p>Enter the 6-digit OTP sent to your email</p>
+			<button class="btn btn-primary">Verify OTP</button>
 
-			<form action="/otp" method="post">
-
-				<!-- Email (hidden) -->
-				<input type="hidden" name="email" th:value="${email}">
-
-				<!-- OTP Input -->
-				<div class="mb-3">
-					<input type="number" name="otp" class="form-control"
-						placeholder="Enter OTP" required>
-				</div>
-
-				<button type="submit" class="btn btn-primary">Verify OTP</button>
-
-				<div class="resend-section">
-					<a th:href="'/resend-otp/'+${email}" class="resend-link">Resend OTP</a>
-				</div>
-
-			</form>
-
-		</div>
+			<div class="resend-section">
+				<a th:href="'/resend-otp/'+${email}" class="resend-link">Resend
+					OTP</a>
+			</div>
+		</form>
 	</div>
 
-
-	<!-- Bootstrap JS -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
 	<script>
-document.addEventListener("DOMContentLoaded", () => {
-    const toasts = document.querySelectorAll('.toastify');
-    toasts.forEach(toastElement => {
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'toastify-close';
-        closeBtn.innerHTML = '×';
-        closeBtn.type = 'button';
-        
-        const spanElement = toastElement.querySelector('span');
-        if (spanElement) {
-            toastElement.insertBefore(closeBtn, spanElement.nextSibling);
-        }
-        
-        closeBtn.addEventListener('click', () => {
-            toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            setTimeout(() => toastElement.remove(), 400);
-        });
-        
-        const timeout = setTimeout(() => {
-            toastElement.style.animation = 'toastSlideOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            setTimeout(() => toastElement.remove(), 400);
-        }, 3500);
-        
-        closeBtn.addEventListener('click', () => clearTimeout(timeout));
-    });
+document.addEventListener("DOMContentLoaded",()=>{
+	const toasts=document.querySelectorAll('.toastify');
+	toasts.forEach(t=>{
+		const btn=document.createElement('button');
+		btn.className='toastify-close';
+		btn.innerHTML='×';
+		t.appendChild(btn);
+
+		btn.onclick=()=>{
+			t.style.animation='toastOut .3s ease forwards';
+			setTimeout(()=>t.remove(),300);
+		};
+
+		setTimeout(()=>{
+			if(document.body.contains(t)){
+				t.style.animation='toastOut .3s ease forwards';
+				setTimeout(()=>t.remove(),300);
+			}
+		},3500);
+	});
 });
 </script>
 
