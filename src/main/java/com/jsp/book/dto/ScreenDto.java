@@ -8,10 +8,13 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ScreenDto {
-	@NotBlank
+
+	@NotBlank(message = "* Screen Name is Required")
 	private String name;
-	@NotBlank
+
+	@NotBlank(message = "* Screen Type is Required")
 	private String type;
-	@NotNull
+
+	@NotNull(message = "* Theater is Required")
 	private Long theaterId;
 }

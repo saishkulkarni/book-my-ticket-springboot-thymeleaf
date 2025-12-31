@@ -13,22 +13,25 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Configuration
 @EnableAsync
 public class MyConfig {
+
 	@Bean
-	SecureRandom random() {
+	SecureRandom secureRandom() {
 		return new SecureRandom();
 	}
 
-	@SuppressWarnings("removal")
-	@Bean                                                                               
+	@SuppressWarnings({ "removal", "deprecation" })
+	@Bean
 	RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+
 		RedisTemplate<String, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(connectionFactory);
-		template.setKeySerializer(new StringRedisSerializer());
-		template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-		template.setHashKeySerializer(new StringRedisSerializer());
-		template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+		StringRedisSerializer keySerializer = new StringRedisSerializer();
+		GenericJackson2JsonRedisSerializer valueSerializer = new GenericJackson2JsonRedisSerializer();
+		template.setKeySerializer(keySerializer);
+		template.setValueSerializer(valueSerializer);
+		template.setHashKeySerializer(keySerializer);
+		template.setHashValueSerializer(valueSerializer);
 		template.afterPropertiesSet();
 		return template;
 	}
-
 }

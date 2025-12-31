@@ -11,12 +11,16 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class TheaterDto {
-	@Size(min = 3, max = 50, message = "* Enter between 3~50 charecters")
+
+	@Size(min = 3, max = 50, message = "* Enter between 3 ~ 50 characters")
 	private String name;
-	@Size(min = 3, max = 200, message = "* Enter between 3~200 charecters")
+
+	@Size(min = 3, max = 200, message = "* Enter between 3 ~ 200 characters")
 	private String address;
-	@NotBlank(message = "* It is Required")
+
+	@NotBlank(message = "* Location Link is Required")
 	private String locationLink;
-	@NotNull(message = "* It is Required")
+
+	@NotNull(message = "* Image is Required")
 	private MultipartFile image;
 }

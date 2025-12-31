@@ -11,21 +11,30 @@ import lombok.Data;
 
 @Data
 public class MovieDto {
+
 	@NotBlank(message = "* It is Required")
 	private String name;
+
 	@NotBlank(message = "* It is Required")
 	private String languages;
+
 	@NotBlank(message = "* It is Required")
 	private String genre;
+
 	@NotNull(message = "* It is Required")
 	private LocalTime duration;
+
 	private MultipartFile image;
+
 	@NotBlank(message = "* It is Required")
 	private String trailerLink;
+
 	@NotBlank(message = "* It is Required")
 	private String description;
+
 	@NotNull(message = "* It is Required")
 	private LocalDate releaseDate;
+
 	@NotBlank(message = "* It is Required")
 	private String cast;
 }

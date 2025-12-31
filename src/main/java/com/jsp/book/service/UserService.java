@@ -22,56 +22,77 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 public interface UserService {
-	String register(UserDto userDto, BindingResult result, RedirectAttributes attributes);
+
+	/* ---------- Common ---------- */
+
+	String loadMain(ModelMap map);
 
 	String login(LoginDto dto, RedirectAttributes attributes, HttpSession session);
 
 	String logout(HttpSession session, RedirectAttributes attributes);
 
+	/* ---------- Registration & OTP ---------- */
+
+	String register(UserDto userDto, BindingResult result, RedirectAttributes attributes);
+
 	String submitOtp(int otp, String email, RedirectAttributes attributes);
 
 	String resendOtp(String email, RedirectAttributes attributes);
+
+	/* ---------- Password ---------- */
 
 	String forgotPassword(String email, RedirectAttributes attributes);
 
 	String resetPassword(PasswordDto passwordDto, BindingResult result, RedirectAttributes attributes, ModelMap map);
 
+	/* ---------- Users (Admin) ---------- */
+
 	String manageUsers(HttpSession session, RedirectAttributes attributes, ModelMap map);
 
-	String blockUser(Long id,HttpSession session, RedirectAttributes attributes);
+	String blockUser(Long id, HttpSession session, RedirectAttributes attributes);
 
 	String unBlockUser(Long id, HttpSession session, RedirectAttributes attributes);
 
+	/* ---------- Theater ---------- */
+
 	String manageTheater(ModelMap map, RedirectAttributes attributes, HttpSession session);
 
-	String loadAddTheater(HttpSession session,RedirectAttributes attributes, TheaterDto theaterDto);
+	String loadAddTheater(HttpSession session, RedirectAttributes attributes, TheaterDto theaterDto);
 
 	String addTheater(HttpSession session, RedirectAttributes attributes, @Valid TheaterDto theaterDto,
 			BindingResult result) throws IOException;
-
-	String deleteTheater(Long id, HttpSession session, RedirectAttributes attributes);
 
 	String editTheater(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map);
 
 	String updateTheater(HttpSession session, RedirectAttributes attributes, @Valid TheaterDto theaterDto,
 			BindingResult result, Long id);
 
+	String deleteTheater(Long id, HttpSession session, RedirectAttributes attributes);
+
+	/* ---------- Screen ---------- */
+
 	String manageScreens(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map);
 
 	String addScreen(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map, ScreenDto screenDto);
 
-	String addScreen(ScreenDto screenDto,BindingResult result, HttpSession session, RedirectAttributes attributes);
-
-	String deleteScreen(Long id, HttpSession session, RedirectAttributes attributes);
+	String addScreen(ScreenDto screenDto, BindingResult result, HttpSession session, RedirectAttributes attributes);
 
 	String editScreen(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map);
 
 	String updateScreen(ScreenDto screenDto, Long id, BindingResult result, HttpSession session,
 			RedirectAttributes attributes, ModelMap map);
 
+	String deleteScreen(Long id, HttpSession session, RedirectAttributes attributes);
+
+	/* ---------- Seats ---------- */
+
 	String manageSeats(Long id, HttpSession session, ModelMap map, RedirectAttributes attributes);
 
 	String addSeats(Long id, HttpSession session, ModelMap map, RedirectAttributes attributes);
+
+	String saveSeats(Long id, SeatLayoutForm seatLayoutForm, HttpSession session, RedirectAttributes attributes);
+
+	/* ---------- Movie ---------- */
 
 	String manageMovies(HttpSession session, RedirectAttributes attributes, ModelMap map);
 
@@ -79,28 +100,27 @@ public interface UserService {
 
 	String addMovie(MovieDto movieDto, BindingResult result, RedirectAttributes attributes, HttpSession session);
 
-	String saveSeats(Long id, SeatLayoutForm seatLayoutForm, HttpSession session, RedirectAttributes attributes);
+	String deleteMovie(Long id, HttpSession session, RedirectAttributes attributes);
+
+	/* ---------- Show & Booking ---------- */
 
 	String manageShows(Long id, ModelMap map, RedirectAttributes attributes, HttpSession session);
 
 	String addShow(Long id, ModelMap map, RedirectAttributes attributes, HttpSession session);
 
-	String addShow(ShowDto showDto, BindingResult result, RedirectAttributes attributes, HttpSession session, ModelMap map);
-
-	String loadMain(ModelMap map);
-
-	String bookMovie(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map);
-
-	String deleteShow(Long id, HttpSession session, RedirectAttributes attributes);
-
-	String deleteMovie(Long id, HttpSession session, RedirectAttributes attributes);
+	String addShow(ShowDto showDto, BindingResult result, RedirectAttributes attributes, HttpSession session,
+			ModelMap map);
 
 	String displayShowsOnDate(LocalDate date, Long movieId, RedirectAttributes attributes, ModelMap map);
 
-	String showSeats(Long id,HttpSession session ,RedirectAttributes attributes, ModelMap map);
+	String bookMovie(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map);
 
-	String confirmBooking(Long showId, Long[] seatIds, HttpSession session, ModelMap map,
-			RedirectAttributes attributes) throws RazorpayException;
+	String showSeats(Long id, HttpSession session, RedirectAttributes attributes, ModelMap map);
+
+	String deleteShow(Long id, HttpSession session, RedirectAttributes attributes);
+
+	String confirmBooking(Long showId, Long[] seatIds, HttpSession session, ModelMap map, RedirectAttributes attributes)
+			throws RazorpayException;
 
 	String confirmTicket(HttpSession session, ModelMap map, RedirectAttributes attributes, String razorpay_order_id,
 			String razorpay_payment_id) throws IOException, WriterException;

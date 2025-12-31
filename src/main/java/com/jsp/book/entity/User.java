@@ -11,21 +11,28 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Column(nullable = false)
 	private String name;
+
 	@Column(nullable = false, unique = true)
 	private String email;
+
 	@Column(nullable = false)
 	private Long mobile;
+
 	@Column(nullable = false)
 	private String password;
+
 	@Column(nullable = false)
 	private String role;
+
 	private boolean blocked;
 }

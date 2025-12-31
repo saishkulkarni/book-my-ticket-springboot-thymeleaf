@@ -16,20 +16,24 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminRegistration implements CommandLineRunner {
 
 	@Value("${admin.email}")
-	private String email;
+	private String adminEmail;
+
 	@Value("${admin.password}")
-	private String password;
+	private String adminPassword;
 
 	private final UserRepository userRepository;
 
 	@Override
-	public void run(String... args) throws Exception {
-		if (!userRepository.existsByEmail(email)) {
-			User user = new User(null, "ADMIN", email, 0L, AES.encrypt(password), "ADMIN",false);
-			userRepository.save(user);
-			log.info("Admin Registration Success");
-		} else
-			log.info("Admin Exists");
-	}
+	public void run(String... args) {
 
+		if (userRepository.existsByEmail(adminEmail)) {
+			log.info("Admin already exists");
+			return;
+		}
+
+		User adminUser = new User(null, "ADMIN", adminEmail, 0L, AES.encrypt(adminPassword), "ADMIN", false);
+
+		userRepository.save(adminUser);
+		log.info("Admin registration successful");
+	}
 }

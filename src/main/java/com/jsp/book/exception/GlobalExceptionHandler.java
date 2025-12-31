@@ -7,7 +7,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	@ExceptionHandler(NoResourceFoundException.class)
-	public String handle(NoResourceFoundException exception) {
-		return "404.html";
+	public String handleNoResourceFound(NoResourceFoundException ex) {
+		return "404";
 	}
 }
